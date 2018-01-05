@@ -1,6 +1,8 @@
 # Utseende
 
-Inline Style Sheets. Project for personal use, feel free to use it.
+Super simple light weight inline per-component Style Sheets.
+
+> Project for personal use, feel free to use it.
 
 ```jsx
 import { Sheet } from "/Projects/NPM Packages/Utseende";
