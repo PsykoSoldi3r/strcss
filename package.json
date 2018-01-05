@@ -1,8 +1,9 @@
 {
   "name": "utseende",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utseende",
   "main": "library/Utseende.js",
+  "types": "./types.d.ts",
   "scripts": {
     "compile": "babel --presets env source --out-dir library",
     "test": "echo \"Error: no test specified\" && exit 1"
