@@ -1,0 +1,30 @@
+{
+  "name": "utseende",
+  "version": "0.0.1",
+  "description": "Utseende",
+  "main": "library/Utseende.js",
+  "scripts": {
+    "compile": "babel --presets env source --out-dir library",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffreylanters/utseende.git"
+  },
+  "keywords": [
+    "Styles",
+    "css",
+    "inline"
+  ],
+  "author": "Jeffrey Lanters",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeffreylanters/utseende/issues"
+  },
+  "homepage": "https://github.com/jeffreylanters/utseende#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
+  }
+}
