@@ -1,18 +1,17 @@
 export class Sheet {
-    constructor (componentName, ccs) {
-        this.ccs = ccs;
-        this.componentName = componentName;
-        this.baseName = `___INLINE_${Math.round (Math.random () * 1000000)}-${this.componentName}`;
+    constructor (css) {
+        this.css = css;
+        this.baseName = `___UTSEENDE_${Math.round (Math.random () * 1000000)}_${Math.round (Math.random () * 1000000)}_${Math.round (Math.random () * 1000000)}_${Math.round (Math.random () * 1000000)}___`;
         this.apply ();
     }
     apply () {
         if (typeof window.stylings === 'undefined')
             window.stylings = {};
-        if (typeof window.stylings[this.componentName] === 'undefined') {
+        if (typeof window.stylings[this.baseName] === 'undefined') {
 
             let htmlStyleTag = document.createElement ("style");
-            let cssLines = this.ccs.split ('\n');
-            let output = `/* Styling for component: ${this.componentName} */\n`;
+            let cssLines = this.css.split ('\n');
+            let output = `/* Utseende sheet: ${this.baseName} */\n`;
             let isInScope = false;
 
             cssLines.map (cssLine => {
@@ -29,15 +28,15 @@ export class Sheet {
                     output += `.${this.baseName} ${this.getWhitelessLine (cssLine)} { `;
                 }
             });
+            
             if (isInScope === true) {
                 output += ' }\n'
             }
 
-            console.log (output);
-            
             htmlStyleTag.type = "text/css";
             htmlStyleTag.innerHTML = output;
             document.head.appendChild (htmlStyleTag);
+            window.stylings[this.baseName] = htmlStyleTag;
         }
     }
     lineIsProp (cssLine) {

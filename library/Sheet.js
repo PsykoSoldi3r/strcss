@@ -9,12 +9,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Sheet = exports.Sheet = function () {
-    function Sheet(componentName, ccs) {
+    function Sheet(css) {
         _classCallCheck(this, Sheet);
 
-        this.ccs = ccs;
-        this.componentName = componentName;
-        this.baseName = '___INLINE_' + Math.round(Math.random() * 1000000) + '-' + this.componentName;
+        this.css = css;
+        this.baseName = '___UTSEENDE_' + Math.round(Math.random() * 1000000) + '_' + Math.round(Math.random() * 1000000) + '_' + Math.round(Math.random() * 1000000) + '_' + Math.round(Math.random() * 1000000) + '___';
         this.apply();
     }
 
@@ -24,11 +23,11 @@ var Sheet = exports.Sheet = function () {
             var _this = this;
 
             if (typeof window.stylings === 'undefined') window.stylings = {};
-            if (typeof window.stylings[this.componentName] === 'undefined') {
+            if (typeof window.stylings[this.baseName] === 'undefined') {
 
                 var htmlStyleTag = document.createElement("style");
-                var cssLines = this.ccs.split('\n');
-                var output = '/* Styling for component: ' + this.componentName + ' */\n';
+                var cssLines = this.css.split('\n');
+                var output = '/* Utseende sheet: ' + this.baseName + ' */\n';
                 var isInScope = false;
 
                 cssLines.map(function (cssLine) {
@@ -45,15 +44,15 @@ var Sheet = exports.Sheet = function () {
                         output += '.' + _this.baseName + ' ' + _this.getWhitelessLine(cssLine) + ' { ';
                     }
                 });
+
                 if (isInScope === true) {
                     output += ' }\n';
                 }
 
-                console.log(output);
-
                 htmlStyleTag.type = "text/css";
                 htmlStyleTag.innerHTML = output;
                 document.head.appendChild(htmlStyleTag);
+                window.stylings[this.baseName] = htmlStyleTag;
             }
         }
     }, {
