@@ -5,7 +5,8 @@ Super simple light weight inline per-component Style Sheets.
 > I made this module for my own personal use. But feel free to use it if you like! 😄
 
 ```jsx
-import { Sheet } from "utseende";
+import { Sheet } from 'utseende'
+import { Component } from 'react'
 
 const sheet = new Sheet (`
     user
@@ -17,9 +18,9 @@ const sheet = new Sheet (`
         color blue
     para
         font-size 20px
-`);
+`)
 
-export default class User extends React.Component {
+export class User extends Component {
     render () {
         return (
             <div className={sheet.user}>
@@ -29,4 +30,5 @@ export default class User extends React.Component {
         );
     }
 };
+
 ```
