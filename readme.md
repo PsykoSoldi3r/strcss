@@ -49,7 +49,7 @@ The following shorthands are supported
 'pos absolute'
 // position: absolute;
 
-'z 10'
+'ord 10'
 // z-index: 10;
 
 'gra 20 fff 212121'
