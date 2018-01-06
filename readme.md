@@ -6,23 +6,25 @@ Super simple light weight inline per-component Style Sheets.
 
 ```jsx
 import { Sheet } from "utseende";
-const styles = new Sheet (`
-    .tag
+
+const sheet = new Sheet (`
+    user
+        padding 10px
+    title
         color orange
         cursor pointer
-        padding 10px
-    .tag:hover
+    title:hover
         color blue
-    .test
+    para
         font-size 20px
 `);
 
 export default class User extends React.Component {
     render () {
         return (
-            <div className={styles.baseName}>
-                <div className='tag'>Hello World!</div>
-                <div className='test'>WUT</div>
+            <div className={sheet.user}>
+                <div className={sheet.title}>Hello World!</div>
+                <div className={sheet.para}>Cool!</div>
             </div>
         );
     }
