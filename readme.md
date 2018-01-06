@@ -2,7 +2,7 @@
 
 Super simple light weight inline per-component Style Sheets.
 
-> Project for personal use, feel free to use it.
+> I made this module for my own personal use. But feel free to use it if you like! 😄
 
 ```jsx
 import { Sheet } from "utseende";
