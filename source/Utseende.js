@@ -1,3 +1,14 @@
-import { Sheet } from './Sheet';
+import Sheet from './Sheet'
+import Constants from './Constants'
 
-export { Sheet };
+let constants = {}
+let sheetCache = {}
+let uniques = []
+
+export { 
+    Sheet, 
+    Constants, 
+    constants, 
+    sheetCache,
+    uniques
+}

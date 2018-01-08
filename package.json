@@ -1,12 +1,12 @@
 {
   "name": "utseende",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Utseende",
   "main": "library/Utseende.js",
   "types": "./types.d.ts",
   "scripts": {
     "compile": "babel --presets env source --out-dir library",
-    "test": "node tests.js"
+    "test": "npm run compile && node tests.js"
   },
   "repository": {
     "type": "git",
