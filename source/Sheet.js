@@ -129,8 +129,10 @@ export default class Sheet {
             case 'background-image':
                 this.addNumericEndings (styleKeyValue, 'deg')
                 break
+            case 'depth':
             case 'order':
             case 'z-index':
+            case 'opacity':
                 break
             default:
                 this.addNumericEndings (styleKeyValue, 'px')

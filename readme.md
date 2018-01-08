@@ -34,7 +34,7 @@ export class User extends Component {
 ```
 
 ## Numbers 
-Numbers without px, %, em etc will be turned into px by default. (except for z-index)
+Numbers without px, %, em etc will be turned into px by default.
 
 ## Shorthands
 The following shorthands are supported
