@@ -4,14 +4,13 @@ Utseende brings you super powers with simple, light weight, custom ruled, shorth
 
 > Utseende is Work in progress. Feel free to contribute!
 
-<br/><br/><br/>
-# Installation
+## Installation
+Install using NPM
 ```sh
 npm install utseende --save
 ```
 
-<br/><br/><br/>
-# Usage
+3# Usage
 ```jsx
 import { Sheet, Contants } from 'utseende'
 
@@ -54,8 +53,7 @@ export class User extends Component {
 
 ```
 
-<br/><br/><br/>
-# Properties
+## Properties
 You can use most default CSS property as well. (Some are untested, let me know if one doesnt work!)
 
 | Property | Description | Parametes |
@@ -69,10 +67,8 @@ You can use most default CSS property as well. (Some are untested, let me know i
 | size | The size is used to set the height and width of an element. | height`number` width`number` |
 | text-color | Acts just like color when coloring text. | color`color` |
 
-<br/><br/><br/>
-# Notes
+## Notes
 In order to make Utseende work; target names need 4 spaces indent, properties need 8. Solo numbers will be turned into px.
 
-<br/><br/><br/>
-# Contributing
+## Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change. Before commiting, please compile your code using `npm run compile` and test using `npm test`, then open a pull request. Thank you very much!
