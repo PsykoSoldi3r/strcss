@@ -10,7 +10,7 @@ Install using NPM
 npm install utseende --save
 ```
 
-3# Usage
+## Usage
 ```jsx
 import { Sheet, Contants } from 'utseende'
 
