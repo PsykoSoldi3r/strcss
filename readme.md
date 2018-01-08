@@ -1,17 +1,17 @@
-# Utseende &middot; [![license](https://img.shields.io/badge/license-MIT-red.svg)]() [![npm](https://img.shields.io/npm/v/utseende.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() [![npm](https://img.shields.io/npm/dt/![npm](https://img.shields.io/badge/react-v12%3E-blue.svg)]().svg)]()
+# Utseende &middot; [![license](https://img.shields.io/badge/license-MIT-red.svg)]() [![npm](https://img.shields.io/npm/v/utseende.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() [![npm](https://img.shields.io/npm/dt/utseende.svg)]()
 
 Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You have three wishes 🧞‍
 
 > Utseende is Work in progress. Feel free to contribute!
 
 <br/><br/><br/>
-## Installation
+# Installation
 ```sh
 npm install utseende --save
 ```
 
 <br/><br/><br/>
-## Example usage
+# Usage
 ```jsx
 import { Sheet, Contants } from 'utseende'
 
@@ -55,7 +55,7 @@ export class User extends Component {
 ```
 
 <br/><br/><br/>
-## Properties
+# Properties
 You can use most default CSS property as well. (Some are untested, let me know if one doesnt work!)
 
 | Property | Description | Parametes |
@@ -70,7 +70,7 @@ You can use most default CSS property as well. (Some are untested, let me know i
 | text-color | Acts just like color when coloring text. | color`color` |
 
 <br/><br/><br/>
-## Notes
+# Notes
 In order to make Utseende work; target names need 4 spaces indent, properties need 8. Solo numbers will be turned into px.
 
 <br/><br/><br/>
