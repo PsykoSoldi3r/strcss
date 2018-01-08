@@ -5,27 +5,32 @@ Super simple light weight inline per-component Style Sheets.
 > I made this module for my own personal use. But feel free to use it if you like! 😄
 
 ```jsx
-import { Sheet } from 'utseende'
-import { Component } from 'react'
+import { Sheet, Contants } from 'utseende'
+
+Contants.set ({
+    fontSize: 10
+})
 
 const sheet = new Sheet (`
     user
-        padding 10px
+        padding 10
+        rect stretch
+        shadow 10 20
     title
-        color orange
+        text-color orange
         cursor pointer
     title:hover
-        color blue
+        text-color blue
     para
-        font-size 20px
+        font-size $fontSize
 `)
 
 export class User extends Component {
     render () {
         return (
-            <div className={sheet.user}>
-                <div className={sheet.title}>Hello World!</div>
-                <div className={sheet.para}>Cool!</div>
+            <div className={sheet.map.user}>
+                <div className={sheet.map.title}>Hello World!</div>
+                <div className={sheet.map.para}>Cool!</div>
             </div>
         );
     }
@@ -36,32 +41,18 @@ export class User extends Component {
 ## Numbers 
 Numbers without px, %, em etc will be turned into px by default.
 
-## Shorthands
-The following shorthands are supported
+## Customs
+Custom props
 
 ```js
-'pad 10'
-// padding: 10px;`
+'depth 10'
 
-'mar 10 20'
-// margin: 10px 20px 10px 20px;
+'gradient 20 #fff #212121'
 
-'pos absolute'
-// position: absolute;
+'shadow 10 20'
 
-'ord 10'
-// z-index: 10;
-
-'gra 20 fff 212121'
-// background-image: linear-gradient(20deg, #fff, #212121);
-
-'sha 10 20 .5'
-// box-shadow: 0px 0px 10px 20px rgba(0, 0, 0, 0.5);
-
-'rec 10 20' (params just like margin)
-// top: 10px; right: 20px; bottom: 10px; left: 20px;
-
-'rec stretch'
-// top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;
+'rect stretch'
+'rect fit'
+'rect 10'
 
 ```
