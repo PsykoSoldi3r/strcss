@@ -44,7 +44,7 @@ Numbers will be turned into px.
 
 | Property | Description | Parametes |
 |---|---|---|
-| Rect | Positioning an element. Stretch will fill in the whole parent element. Fit will attach to the edges. | stretch / fit / directions`number` |
+| Rect | Positioning an element. Stretch will fill in the whole parent element. Fit will attach itself to the edges. Or add up to 4 numbers acting the same as margin. | stretch / fit / directions`number` |
 | Depth | Acts just like z-index when ordering layers. | depth`number` |
 | Gradient | Fills the background of an element with a gradient. | degrees`number` from`color` to`color` |
 | Shadow | Drops a show around an element. | blur`number` spread`number` |
