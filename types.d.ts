@@ -5,3 +5,7 @@ export class Sheet {
     private css: String;
     public map: Object;
 }
+
+export class Constants {
+    public static set (newConstants: Object): void;
+}
