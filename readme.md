@@ -1,6 +1,6 @@
 # Utseende &middot; [![license](https://img.shields.io/badge/license-MIT-red.svg)]() [![npm](https://img.shields.io/npm/v/utseende.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() [![npm](https://img.shields.io/npm/dt/utseende.svg)]()
 
-Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You have three wishes 🧞‍
+Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍
 
 > Utseende is Work in progress. Feel free to contribute!
 
