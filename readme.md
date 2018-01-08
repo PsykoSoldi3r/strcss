@@ -70,11 +70,8 @@ You can use most default CSS property as well. (Some are untested, let me know i
 | text-color | Acts just like color when coloring text. | color`color` |
 
 **Types:**
-- `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block.
+- `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block. Single numbers will be turned into px (if posibile).
 - `color` The name of a color or HEX value
-
-## Notes
-In order to make Utseende work; target names need 4 spaces indent, properties need 8. Solo numbers will be turned into px.
 
 ## Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change. Before commiting, please compile your code using `npm run compile` and test using `npm test`, then open a pull request. Thank you very much!
