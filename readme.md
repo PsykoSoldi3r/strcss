@@ -1,6 +1,6 @@
 # Utseende 
 
-Super simple light weight inline per-component Style Sheets. I made this module for my own personal use. But feel free to use it if you like! 🍦
+Super simple light weight inline Sheets with custom rules for styling components. I made this module for my own personal use. But feel free to use it if you like! 🍦
 
 ```jsx
 import { Sheet, Contants } from 'utseende'
