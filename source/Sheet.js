@@ -119,7 +119,7 @@ export default class Sheet {
 
         let htmlStyleTag = document.createElement ("style");
         htmlStyleTag.type = "text/css";
-        htmlStyleTag.innerHTML = output;
+        htmlStyleTag.innerHTML = this.css;
         document.head.appendChild (htmlStyleTag);
     }
 
