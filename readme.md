@@ -19,7 +19,7 @@ const sheet = new Sheet (`
     title
         text-color orange
         cursor pointer
-    title:hover
+    &:hover
         text-color blue
     para
         font-size $fontSize
