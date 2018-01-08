@@ -19,6 +19,12 @@ let sheet = new Sheet(`
         font-size $fontSize
         text-color $textColor
         rect fit
+    back1
+        size 10 50
+        image dog.jpeg
+    back2
+        size 100% 50%
+        wallpaper lol.png
     test
         rect 10
     test2
@@ -27,7 +33,7 @@ let sheet = new Sheet(`
         rect 10 20 30
     test4
         rect 10 20 30 40
-    :hover
+    &:hover
         text-color red
 `);
 

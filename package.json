@@ -1,6 +1,6 @@
 {
   "name": "utseende",
-  "version": "0.0.11",
+  "version": "0.1.4",
   "description": "Utseende",
   "main": "library/Utseende.js",
   "types": "./types.d.ts",

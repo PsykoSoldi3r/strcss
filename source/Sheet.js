@@ -12,9 +12,6 @@ export default class Sheet {
     }
     
     generateCSS () {
-        // if (typeof sheetCache[this.id] === 'undefined') {
-            // TODO!!!!!
-
         let isScoped = false
         this.sheetRules.map (sheetRule => {
             
@@ -150,6 +147,22 @@ export default class Sheet {
                 break
             case 'order':
                 styleKeyValue.key = 'z-index'
+                break
+            case 'text-color':
+                styleKeyValue.key = 'color'
+                break
+            case 'image':
+                styleKeyValue.value = `url(${styleKeyValue.value});\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: contain`
+                styleKeyValue.key = 'background-image'
+                break
+            case 'wallpaper':
+                styleKeyValue.value = `url(${styleKeyValue.value});\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: cover`
+                styleKeyValue.key = 'background-image'
+                break
+            case 'size':
+                let splittedValues = styleKeyValue.value.split (' ')
+                styleKeyValue.value = `${splittedValues[0]};\n\theight: ${splittedValues[1]}`
+                styleKeyValue.key = 'width'
                 break
             case 'rect':
                 styleKeyValue.key = 'top'

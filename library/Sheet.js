@@ -28,9 +28,6 @@ var Sheet = function () {
         value: function generateCSS() {
             var _this = this;
 
-            // if (typeof sheetCache[this.id] === 'undefined') {
-            // TODO!!!!!
-
             var isScoped = false;
             this.sheetRules.map(function (sheetRule) {
 
@@ -145,8 +142,10 @@ var Sheet = function () {
                 case 'background-image':
                     this.addNumericEndings(styleKeyValue, 'deg');
                     break;
+                case 'depth':
                 case 'order':
                 case 'z-index':
+                case 'opacity':
                     break;
                 default:
                     this.addNumericEndings(styleKeyValue, 'px');
@@ -165,6 +164,22 @@ var Sheet = function () {
                 case 'order':
                     styleKeyValue.key = 'z-index';
                     break;
+                case 'text-color':
+                    styleKeyValue.key = 'color';
+                    break;
+                case 'image':
+                    styleKeyValue.value = 'url(' + styleKeyValue.value + ');\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: contain';
+                    styleKeyValue.key = 'background-image';
+                    break;
+                case 'wallpaper':
+                    styleKeyValue.value = 'url(' + styleKeyValue.value + ');\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: cover';
+                    styleKeyValue.key = 'background-image';
+                    break;
+                case 'size':
+                    var splittedValues = styleKeyValue.value.split(' ');
+                    styleKeyValue.value = splittedValues[0] + ';\n\theight: ' + splittedValues[1];
+                    styleKeyValue.key = 'width';
+                    break;
                 case 'rect':
                     styleKeyValue.key = 'top';
                     if (styleKeyValue.value === 'stretch') {
@@ -172,19 +187,19 @@ var Sheet = function () {
                     } else if (styleKeyValue.value === 'fit') {
                         styleKeyValue.value = '0px;\n\tright: 0px;\n\tbottom: 0px;\n\tleft: 0px';
                     } else {
-                        var splittedValues = styleKeyValue.value.split(' ');
-                        switch (splittedValues.length) {
+                        var _splittedValues = styleKeyValue.value.split(' ');
+                        switch (_splittedValues.length) {
                             case 1:
-                                styleKeyValue.value = splittedValues[0] + ';\n\tright: ' + splittedValues[0] + ';\n\tbottom: ' + splittedValues[0] + ';\n\tleft: ' + splittedValues[0];
+                                styleKeyValue.value = _splittedValues[0] + ';\n\tright: ' + _splittedValues[0] + ';\n\tbottom: ' + _splittedValues[0] + ';\n\tleft: ' + _splittedValues[0];
                                 break;
                             case 2:
-                                styleKeyValue.value = splittedValues[0] + ';\n\tright: ' + splittedValues[1] + ';\n\tbottom: ' + splittedValues[0] + ';\n\tleft: ' + splittedValues[1];
+                                styleKeyValue.value = _splittedValues[0] + ';\n\tright: ' + _splittedValues[1] + ';\n\tbottom: ' + _splittedValues[0] + ';\n\tleft: ' + _splittedValues[1];
                                 break;
                             case 3:
-                                styleKeyValue.value = splittedValues[0] + ';\n\tright: ' + splittedValues[1] + ';\n\tbottom: ' + splittedValues[2] + ';\n\tleft: ' + splittedValues[1];
+                                styleKeyValue.value = _splittedValues[0] + ';\n\tright: ' + _splittedValues[1] + ';\n\tbottom: ' + _splittedValues[2] + ';\n\tleft: ' + _splittedValues[1];
                                 break;
                             case 4:
-                                styleKeyValue.value = splittedValues[0] + ';\n\tright: ' + splittedValues[1] + ';\n\tbottom: ' + splittedValues[2] + ';\n\tleft: ' + splittedValues[3];
+                                styleKeyValue.value = _splittedValues[0] + ';\n\tright: ' + _splittedValues[1] + ';\n\tbottom: ' + _splittedValues[2] + ';\n\tleft: ' + _splittedValues[3];
                                 break;
                         }
                     }
