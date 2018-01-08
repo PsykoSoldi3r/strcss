@@ -38,21 +38,34 @@ export class User extends Component {
 
 ```
 
-## Numbers 
-Numbers without px, %, em etc will be turned into px by default.
+## Sheet Rules
+You can use other default CSS rules as well. Numbers will be turned into px.
 
-## All tested values
-Other default css values will work as well but are not tested!
+### Rect
+Positioning an element. Stretch will fill in the whole parent element. Fit will attach to the edges.
+```
+rect stretch
+rect fit
+rect {all directions: int}
+rect {top bottom directions: int} {right left directions: int}
+rect {top direction: int} {right left directions: int} {bottom direction: int}
+rect {top direction: int} {right direction: int} {bottom direction: int} {left direction: int}
+```
 
-```js
-'depth 10'
+### Depth
+Acts just like z-index when ordering layers.
+```
+depth {layer: int}
+```
 
-'gradient 20 #fff #212121'
+### Gradient
+Fills the background of an element with a gradient.
+```
+gradient {degrees: int} {from: color} {to: color}
+```
 
-'shadow 10 20'
-
-'rect stretch'
-'rect fit'
-'rect 10'
-
+### Shadow
+Drops a show around an element.
+```
+shadow {blur: float} {spread: float}
 ```
