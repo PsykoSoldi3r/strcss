@@ -41,31 +41,9 @@ export class User extends Component {
 ## Sheet Rules
 You can use other default CSS rules as well. Numbers will be turned into px.
 
-### Rect
-Positioning an element. Stretch will fill in the whole parent element. Fit will attach to the edges.
-```
-rect stretch
-rect fit
-rect {all directions: int}
-rect {top bottom directions: int} {right left directions: int}
-rect {top direction: int} {right left directions: int} {bottom direction: int}
-rect {top direction: int} {right direction: int} {bottom direction: int} {left direction: int}
-```
-
-### Depth
-Acts just like z-index when ordering layers.
-```
-depth {layer: int}
-```
-
-### Gradient
-Fills the background of an element with a gradient.
-```
-gradient {degrees: int} {from: color} {to: color}
-```
-
-### Shadow
-Drops a show around an element.
-```
-shadow {blur: float} {spread: float}
-```
+| Property | Description | Parametes |
+|---|---|---|
+| Rect | Positioning an element. Stretch will fill in the whole parent element. Fit will attach to the edges. | stretch / fit / directions`number` |
+| Depth | Acts just like z-index when ordering layers. | depth`number` |
+| Gradient | Fills the background of an element with a gradient. | degrees`number` from`color` to`color` |
+| Shadow | Drops a show around an element. | blur`number` spread`number` |
