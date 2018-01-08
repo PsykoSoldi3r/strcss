@@ -4,7 +4,8 @@ console.log ('\n\x1b[47m\x1b[30m============================================\n==
 
 Constants.set({
     'fontSize': '10',
-    'textColor': 'green'
+    'textColor': 'green',
+    'baseUrl': 'resources/test'
 })
 
 let sheet = new Sheet(`
@@ -23,10 +24,10 @@ let sheet = new Sheet(`
         size 10 50
         min-size 5 30
         max-size 100 200
-        image dog.jpeg
+        image $baseUrl/dog.jpeg
     back2
         size 100% 50%
-        wallpaper lol.png
+        wallpaper $baseUrl/lol.png
     test
         rect 10
     test2
