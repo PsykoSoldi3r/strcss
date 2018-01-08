@@ -176,9 +176,19 @@ var Sheet = function () {
                     styleKeyValue.key = 'background-image';
                     break;
                 case 'size':
-                    var splittedValues = styleKeyValue.value.split(' ');
-                    styleKeyValue.value = splittedValues[0] + ';\n\theight: ' + splittedValues[1];
+                    var sizeSplittedValues = styleKeyValue.value.split(' ');
+                    styleKeyValue.value = sizeSplittedValues[0] + ';\n\theight: ' + sizeSplittedValues[1];
                     styleKeyValue.key = 'width';
+                    break;
+                case 'min-size':
+                    var minSizeSplittedValues = styleKeyValue.value.split(' ');
+                    styleKeyValue.value = minSizeSplittedValues[0] + ';\n\tmin-height: ' + minSizeSplittedValues[1];
+                    styleKeyValue.key = 'min-width';
+                    break;
+                case 'max-size':
+                    var maxSizeSplittedValues = styleKeyValue.value.split(' ');
+                    styleKeyValue.value = maxSizeSplittedValues[0] + ';\n\tmax-height: ' + maxSizeSplittedValues[1];
+                    styleKeyValue.key = 'max-width';
                     break;
                 case 'rect':
                     styleKeyValue.key = 'top';
@@ -187,19 +197,19 @@ var Sheet = function () {
                     } else if (styleKeyValue.value === 'fit') {
                         styleKeyValue.value = '0px;\n\tright: 0px;\n\tbottom: 0px;\n\tleft: 0px';
                     } else {
-                        var _splittedValues = styleKeyValue.value.split(' ');
-                        switch (_splittedValues.length) {
+                        var splittedValues = styleKeyValue.value.split(' ');
+                        switch (splittedValues.length) {
                             case 1:
-                                styleKeyValue.value = _splittedValues[0] + ';\n\tright: ' + _splittedValues[0] + ';\n\tbottom: ' + _splittedValues[0] + ';\n\tleft: ' + _splittedValues[0];
+                                styleKeyValue.value = splittedValues[0] + ';\n\tright: ' + splittedValues[0] + ';\n\tbottom: ' + splittedValues[0] + ';\n\tleft: ' + splittedValues[0];
                                 break;
                             case 2:
-                                styleKeyValue.value = _splittedValues[0] + ';\n\tright: ' + _splittedValues[1] + ';\n\tbottom: ' + _splittedValues[0] + ';\n\tleft: ' + _splittedValues[1];
+                                styleKeyValue.value = splittedValues[0] + ';\n\tright: ' + splittedValues[1] + ';\n\tbottom: ' + splittedValues[0] + ';\n\tleft: ' + splittedValues[1];
                                 break;
                             case 3:
-                                styleKeyValue.value = _splittedValues[0] + ';\n\tright: ' + _splittedValues[1] + ';\n\tbottom: ' + _splittedValues[2] + ';\n\tleft: ' + _splittedValues[1];
+                                styleKeyValue.value = splittedValues[0] + ';\n\tright: ' + splittedValues[1] + ';\n\tbottom: ' + splittedValues[2] + ';\n\tleft: ' + splittedValues[1];
                                 break;
                             case 4:
-                                styleKeyValue.value = _splittedValues[0] + ';\n\tright: ' + _splittedValues[1] + ';\n\tbottom: ' + _splittedValues[2] + ';\n\tleft: ' + _splittedValues[3];
+                                styleKeyValue.value = splittedValues[0] + ';\n\tright: ' + splittedValues[1] + ';\n\tbottom: ' + splittedValues[2] + ';\n\tleft: ' + splittedValues[3];
                                 break;
                         }
                     }

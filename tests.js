@@ -21,6 +21,8 @@ let sheet = new Sheet(`
         rect fit
     back1
         size 10 50
+        min-size 5 30
+        max-size 100 200
         image dog.jpeg
     back2
         size 100% 50%

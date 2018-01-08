@@ -58,14 +58,20 @@ You can use most default CSS property as well. (Some are untested, let me know i
 
 | Property | Description | Parametes |
 |---|---|---|
-| rect | Positioning an element. Where stretch will fill in the whole parent element, fit will attach itself to the parents  edges. Or add up to 4 numbers acting the same as margin. | stretch / fit / directions`number` |
+| rect | Positioning an element. Where stretch will fill in the whole parent element, fit will attach itself to the parents  edges. Or add up to 4 numbers acting the same as margin. | stretch / fit / directions`size` |
 | depth | Acts just like z-index when ordering layers. | depth`number` |
 | gradient | Fills the background of an element with a gradient. | degrees`number` from`color` to`color` |
 | shadow | Drops a show around an element. | blur`number` spread`number` |
 | image | Draws an image containing of the background of an element | url`string` |
 | wallpaper | Fills the background of an element with an image | url`string` |
-| size | The size is used to set the height and width of an element. | height`number` width`number` |
+| size | The size is used to set the height and width of an element. | height`size` width`size` |
+| min-size | The min-size is used to set the minimal height and width of an element. | height`size` width`size` |
+| max-size | The max-size is used to set the maximal height and width of an element. | height`size` width`size` |
 | text-color | Acts just like color when coloring text. | color`color` |
+
+**Types:**
+- `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block.
+- `color` The name of a color or HEX value
 
 ## Notes
 In order to make Utseende work; target names need 4 spaces indent, properties need 8. Solo numbers will be turned into px.

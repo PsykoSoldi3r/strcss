@@ -160,9 +160,19 @@ export default class Sheet {
                 styleKeyValue.key = 'background-image'
                 break
             case 'size':
-                let splittedValues = styleKeyValue.value.split (' ')
-                styleKeyValue.value = `${splittedValues[0]};\n\theight: ${splittedValues[1]}`
+                let sizeSplittedValues = styleKeyValue.value.split (' ')
+                styleKeyValue.value = `${sizeSplittedValues[0]};\n\theight: ${sizeSplittedValues[1]}`
                 styleKeyValue.key = 'width'
+                break
+            case 'min-size':
+                let minSizeSplittedValues = styleKeyValue.value.split (' ')
+                styleKeyValue.value = `${minSizeSplittedValues[0]};\n\tmin-height: ${minSizeSplittedValues[1]}`
+                styleKeyValue.key = 'min-width'
+                break
+            case 'max-size':
+                let maxSizeSplittedValues = styleKeyValue.value.split (' ')
+                styleKeyValue.value = `${maxSizeSplittedValues[0]};\n\tmax-height: ${maxSizeSplittedValues[1]}`
+                styleKeyValue.key = 'max-width'
                 break
             case 'rect':
                 styleKeyValue.key = 'top'
