@@ -5,6 +5,7 @@ export class Sheet {
         this.apply ();
     }
     apply () {
+        // TODO move this to static instead of window
         if (typeof window.stylings === 'undefined')
             window.stylings = {};
         if (typeof window.stylings[this.baseName] === 'undefined') {
