@@ -41,8 +41,8 @@ export class User extends Component {
 ## Numbers 
 Numbers without px, %, em etc will be turned into px by default.
 
-## Customs
-Custom props
+## All tested values
+Other default css values will work as well but are not tested!
 
 ```js
 'depth 10'
