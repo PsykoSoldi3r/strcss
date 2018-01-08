@@ -31,7 +31,7 @@ export default class Sheet {
             else if (this.isLineStyle (sheetRule)) {
                 let styleKeyValue = this.getStyleKeyValue (sheetRule)
                 let parsedStyle = this.getParsedStyle (styleKeyValue)
-                this.css += `\n\t${parsedStyle.key}: ${parsedStyle.value};`
+                this.css += parsedStyle
             }
         })
 
@@ -112,7 +112,7 @@ export default class Sheet {
 
     applyToDocument () {
         if (typeof document === 'undefined '|| typeof window === 'undefined')
-            return /* node env? */
+            return
 
         let htmlStyleTag = document.createElement ("style");
         htmlStyleTag.type = "text/css";
@@ -161,17 +161,17 @@ export default class Sheet {
                 break
             case 'size':
                 let sizeSplittedValues = styleKeyValue.value.split (' ')
-                styleKeyValue.value = `${sizeSplittedValues[0]};\n\theight: ${sizeSplittedValues[1]}`
+                styleKeyValue.value = `${sizeSplittedValues[0]};\n\theight: ${sizeSplittedValues[1] || sizeSplittedValues[0]}`
                 styleKeyValue.key = 'width'
                 break
             case 'min-size':
                 let minSizeSplittedValues = styleKeyValue.value.split (' ')
-                styleKeyValue.value = `${minSizeSplittedValues[0]};\n\tmin-height: ${minSizeSplittedValues[1]}`
+                styleKeyValue.value = `${minSizeSplittedValues[0]};\n\tmin-height: ${minSizeSplittedValues[1] || minSizeSplittedValues[0]}`
                 styleKeyValue.key = 'min-width'
                 break
             case 'max-size':
                 let maxSizeSplittedValues = styleKeyValue.value.split (' ')
-                styleKeyValue.value = `${maxSizeSplittedValues[0]};\n\tmax-height: ${maxSizeSplittedValues[1]}`
+                styleKeyValue.value = `${maxSizeSplittedValues[0]};\n\tmax-height: ${maxSizeSplittedValues[1] || maxSizeSplittedValues[0]}`
                 styleKeyValue.key = 'max-width'
                 break
             case 'rect':
@@ -201,6 +201,6 @@ export default class Sheet {
                 }
                 break
         }
-        return styleKeyValue
+        return `\n\t${styleKeyValue.key}: ${styleKeyValue.value};`
     }
 }

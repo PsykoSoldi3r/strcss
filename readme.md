@@ -64,9 +64,9 @@ You can use most default CSS property as well. (Some are untested, let me know i
 | shadow | Drops a show around an element. | blur`number` spread`number` |
 | image | Draws an image containing of the background of an element | url`string` |
 | wallpaper | Fills the background of an element with an image | url`string` |
-| size | The size is used to set the height and width of an element. | height`size` width`size` |
-| min-size | The min-size is used to set the minimal height and width of an element. | height`size` width`size` |
-| max-size | The max-size is used to set the maximal height and width of an element. | height`size` width`size` |
+| size | The size is used to set the height and width of an element. | height`size` width`size` / heightWidth`size` |
+| min-size | The min-size is used to set the minimal height and width of an element. | height`size` width`size` / heightWidth`size` |
+| max-size | The max-size is used to set the maximal height and width of an element. | height`size` width`size` / heightWidth`size` |
 | text-color | Acts just like color when coloring text. | color`color` |
 
 **Types:**

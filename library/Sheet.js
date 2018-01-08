@@ -44,7 +44,7 @@ var Sheet = function () {
                 } else if (_this.isLineStyle(sheetRule)) {
                     var styleKeyValue = _this.getStyleKeyValue(sheetRule);
                     var parsedStyle = _this.getParsedStyle(styleKeyValue);
-                    _this.css += '\n\t' + parsedStyle.key + ': ' + parsedStyle.value + ';';
+                    _this.css += parsedStyle;
                 }
             });
 
@@ -127,7 +127,7 @@ var Sheet = function () {
     }, {
         key: 'applyToDocument',
         value: function applyToDocument() {
-            if (typeof document === 'undefined ' || typeof window === 'undefined') return; /* node env? */
+            if (typeof document === 'undefined ' || typeof window === 'undefined') return;
 
             var htmlStyleTag = document.createElement("style");
             htmlStyleTag.type = "text/css";
@@ -177,17 +177,17 @@ var Sheet = function () {
                     break;
                 case 'size':
                     var sizeSplittedValues = styleKeyValue.value.split(' ');
-                    styleKeyValue.value = sizeSplittedValues[0] + ';\n\theight: ' + sizeSplittedValues[1];
+                    styleKeyValue.value = sizeSplittedValues[0] + ';\n\theight: ' + (sizeSplittedValues[1] || sizeSplittedValues[0]);
                     styleKeyValue.key = 'width';
                     break;
                 case 'min-size':
                     var minSizeSplittedValues = styleKeyValue.value.split(' ');
-                    styleKeyValue.value = minSizeSplittedValues[0] + ';\n\tmin-height: ' + minSizeSplittedValues[1];
+                    styleKeyValue.value = minSizeSplittedValues[0] + ';\n\tmin-height: ' + (minSizeSplittedValues[1] || minSizeSplittedValues[0]);
                     styleKeyValue.key = 'min-width';
                     break;
                 case 'max-size':
                     var maxSizeSplittedValues = styleKeyValue.value.split(' ');
-                    styleKeyValue.value = maxSizeSplittedValues[0] + ';\n\tmax-height: ' + maxSizeSplittedValues[1];
+                    styleKeyValue.value = maxSizeSplittedValues[0] + ';\n\tmax-height: ' + (maxSizeSplittedValues[1] || maxSizeSplittedValues[0]);
                     styleKeyValue.key = 'max-width';
                     break;
                 case 'rect':
@@ -215,7 +215,7 @@ var Sheet = function () {
                     }
                     break;
             }
-            return styleKeyValue;
+            return '\n\t' + styleKeyValue.key + ': ' + styleKeyValue.value + ';';
         }
     }]);
 

@@ -1,4 +1,4 @@
-const { Constants, Sheet } = require('./')
+const { Constants, Sheet } = require('../')
 
 console.log ('\n\x1b[47m\x1b[30m============================================\n============== UTSEENDE TEST ===============\n\x1b[0m')
 
