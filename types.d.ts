@@ -3,9 +3,9 @@ export class Sheet {
     private sheetText: String;
     private sheetRules: String[];
     private css: String;
-    public map: Object;
+    public map: any;
 }
 
 export class Constants {
-    public static set (newConstants: Object): void;
+    public static set (newConstants: any): void;
 }
