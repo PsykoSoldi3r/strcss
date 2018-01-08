@@ -46,3 +46,5 @@ Numbers will be turned into px.
 | depth | Acts just like z-index when ordering layers. | depth`number` |
 | gradient | Fills the background of an element with a gradient. | degrees`number` from`color` to`color` |
 | shadow | Drops a show around an element. | blur`number` spread`number` |
+| image | Draws an image containing of the background of an element | url`string` |
+| wallpaper | Fills the background of an element with an image | url`string` |
