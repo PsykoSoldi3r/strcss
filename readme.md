@@ -38,8 +38,9 @@ export class User extends Component {
 
 ```
 
-## Sheet Rules
-You can use other default CSS rules as well. Numbers will be turned into px.
+## Properties
+You can use most default CSS property as well. 
+Numbers will be turned into px.
 
 | Property | Description | Parametes |
 |---|---|---|
