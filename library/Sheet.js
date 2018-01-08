@@ -29,6 +29,7 @@ var Sheet = function () {
             var _this = this;
 
             // if (typeof sheetCache[this.id] === 'undefined') {
+            // TODO!!!!!
 
             var isScoped = false;
             this.sheetRules.map(function (sheetRule) {
@@ -133,7 +134,7 @@ var Sheet = function () {
 
             var htmlStyleTag = document.createElement("style");
             htmlStyleTag.type = "text/css";
-            htmlStyleTag.innerHTML = output;
+            htmlStyleTag.innerHTML = this.css;
             document.head.appendChild(htmlStyleTag);
         }
     }, {
