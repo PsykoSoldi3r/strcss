@@ -13,6 +13,7 @@ export default class Sheet {
     
     generateCSS () {
         // if (typeof sheetCache[this.id] === 'undefined') {
+            // TODO!!!!!
 
         let isScoped = false
         this.sheetRules.map (sheetRule => {
