@@ -10,7 +10,7 @@ var _Utseende = require('./Utseende');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var reservedAppliers = ['hover', 'visited', 'last-child', 'first-child'];
+var reservedAppliers = ['hover', 'visited', 'active', 'last-child', 'first-child'];
 
 var Sheet = function () {
     function Sheet(sheetText) {
@@ -83,12 +83,14 @@ var Sheet = function () {
     }, {
         key: 'isLineTarget',
         value: function isLineTarget(sheetRule) {
-            return sheetRule.includes('for') || sheetRule.includes('-');
+            var lineShifted = this.getLineShifted(sheetRule);
+            return lineShifted.includes('for') || lineShifted[0] === '-';
         }
     }, {
         key: 'isLineApplier',
         value: function isLineApplier(sheetRule) {
-            return sheetRule.includes('and') || sheetRule.includes('^');
+            var lineShifted = this.getLineShifted(sheetRule);
+            return lineShifted.includes('and') || lineShifted[0] === '^';
         }
     }, {
         key: 'getParsedApplier',

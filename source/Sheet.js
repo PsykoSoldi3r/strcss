@@ -76,12 +76,13 @@ export default class Sheet {
     }
 
     isLineTarget (sheetRule) {
-        return sheetRule.includes ('for') || sheetRule.includes ('-')
-        
+        let lineShifted = this.getLineShifted (sheetRule)
+        return lineShifted.includes ('for') || lineShifted[0] === '-'
     }
 
     isLineApplier (sheetRule) {
-        return sheetRule.includes ('and') || sheetRule.includes ('^')
+        let lineShifted = this.getLineShifted (sheetRule)
+        return lineShifted.includes ('and') || lineShifted[0] === '^'
     }
 
     getParsedApplier (sheetRule) {
