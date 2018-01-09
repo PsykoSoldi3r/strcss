@@ -29,23 +29,43 @@ var Sheet = function () {
             var _this = this;
 
             var isScoped = false;
+            var currentScopeUniqueID = '';
+
             this.sheetRules.map(function (sheetRule) {
 
-                if (_this.isLineTarget(sheetRule) === true) {
-                    if (isScoped === true) _this.css += ' }';
+                // comment
+                if (sheetRule.includes('//')) return;
 
-                    isScoped = true;
-                    var uniqueID = _this.getUniqueID();
-                    var targetName = _this.getTargetName(sheetRule);
+                // empty lines
+                if (_this.getLineShifted(sheetRule).length === 0) return;
 
-                    _this.css += '\n/* Utseende Sheet for: ' + targetName + ' */';
-                    _this.css += '\n.' + uniqueID + ' {';
-                    _this.map[targetName] = uniqueID;
-                } else if (_this.isLineStyle(sheetRule)) {
-                    var styleKeyValue = _this.getStyleKeyValue(sheetRule);
-                    var parsedStyle = _this.getParsedStyle(styleKeyValue);
-                    _this.css += parsedStyle;
+                // applier ^
+                if (_this.isLineApplier(sheetRule) === true) {
+                    var parsedApplier = _this.getParsedApplier(sheetRule);
+                    _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
                 }
+
+                // target
+                else if (_this.isLineTarget(sheetRule) === true) {
+                        if (isScoped === true) _this.css += ' }';
+
+                        var uniqueID = _this.getUniqueID();
+                        var targetName = _this.getTargetName(sheetRule);
+
+                        currentScopeUniqueID = uniqueID;
+                        isScoped = true;
+
+                        _this.css += '\n/* Utseende Sheet for: ' + targetName + ' */';
+                        _this.css += '\n.' + uniqueID + ' {';
+                        _this.map[targetName] = uniqueID;
+                    }
+
+                    // style
+                    else if (_this.isLineStyle(sheetRule)) {
+                            var styleKeyValue = _this.getStyleKeyValue(sheetRule);
+                            var parsedStyle = _this.getParsedStyle(styleKeyValue);
+                            _this.css += parsedStyle;
+                        }
             });
 
             if (isScoped === true) this.css += ' }';
@@ -60,6 +80,16 @@ var Sheet = function () {
         value: function isLineTarget(sheetRule) {
             if (typeof sheetRule[4] === 'string') return sheetRule[4] !== ' ';
             return false;
+        }
+    }, {
+        key: 'isLineApplier',
+        value: function isLineApplier(sheetRule) {
+            return sheetRule.includes('^');
+        }
+    }, {
+        key: 'getParsedApplier',
+        value: function getParsedApplier(sheetRule) {
+            return this.getLineShifted(sheetRule).replace('^', ':');
         }
     }, {
         key: 'getTargetName',

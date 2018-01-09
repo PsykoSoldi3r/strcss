@@ -13,21 +13,41 @@ export default class Sheet {
     
     generateCSS () {
         let isScoped = false
+        let currentScopeUniqueID = ''
+
         this.sheetRules.map (sheetRule => {
+
+            // comment
+            if (sheetRule.includes ('//'))
+                return
+                
+            // empty lines
+            if (this.getLineShifted (sheetRule).length === 0)
+                return
             
-            if (this.isLineTarget (sheetRule) === true) {
+            // applier ^
+            if (this.isLineApplier (sheetRule) === true) {
+                let parsedApplier = this.getParsedApplier (sheetRule)
+                this.css += `\n.${currentScopeUniqueID}${parsedApplier} {`
+            }
+
+            // target
+            else if (this.isLineTarget (sheetRule) === true) {
                 if (isScoped === true)
                     this.css += ' }'
 
-                isScoped = true
                 let uniqueID = this.getUniqueID ()
                 let targetName = this.getTargetName (sheetRule)
+
+                currentScopeUniqueID = uniqueID
+                isScoped = true
 
                 this.css += `\n/* Utseende Sheet for: ${targetName} */`
                 this.css += `\n.${uniqueID} {`
                 this.map[targetName] = uniqueID
             }
 
+            // style
             else if (this.isLineStyle (sheetRule)) {
                 let styleKeyValue = this.getStyleKeyValue (sheetRule)
                 let parsedStyle = this.getParsedStyle (styleKeyValue)
@@ -47,6 +67,14 @@ export default class Sheet {
         if (typeof sheetRule[4] === 'string')
             return sheetRule[4] !== ' '
         return false
+    }
+
+    isLineApplier (sheetRule) {
+        return sheetRule.includes ('^')
+    }
+
+    getParsedApplier (sheetRule) {
+        return this.getLineShifted (sheetRule).replace ('^', ':')
     }
 
     getTargetName (sheetRules) {

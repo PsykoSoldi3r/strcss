@@ -2,7 +2,7 @@
 
 Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍
 
-> Utseende is Work in progress. Feel free to contribute!
+> Utseende is Work in progress, big changes may be made during new versions. Feel free to contribute!
 
 ## Installation
 Install using NPM
@@ -34,7 +34,7 @@ const sheet = new Sheet (`
         font-size $fontSize
         image $baseUrl/login.png
         cursor pointer
-    &:hover
+    ^hover
         text-color blue
 `)
 
