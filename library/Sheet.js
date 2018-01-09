@@ -41,7 +41,10 @@ var Sheet = function () {
 
                 // applier ^
                 if (_this.isLineApplier(sheetRule) === true) {
+                    if (isScoped === true) _this.css += ' }';
+
                     var parsedApplier = _this.getParsedApplier(sheetRule);
+
                     _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
                 }
 
