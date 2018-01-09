@@ -176,6 +176,8 @@ var Sheet = function () {
                 case 'z-index':
                 case 'opacity':
                 case 'alpha':
+                case 'scale':
+                case 'transform':
                 case 'flex':
                     break;
                 case 'gradient':
@@ -224,6 +226,11 @@ var Sheet = function () {
                     break;
                 case 'text-color':
                     styleKeyValue.key = 'color';
+                    break;
+                case 'scale':
+                    var scaleSplittedValues = styleKeyValue.value.split(' ');
+                    styleKeyValue.key = 'transform';
+                    if (scaleSplittedValues.length === 2) styleKeyValue.value = 'scale(' + scaleSplittedValues[0] + ', ' + scaleSplittedValues[1] + ')';else styleKeyValue.value = 'scale(' + styleKeyValue.value + ', ' + styleKeyValue.value + ')';
                     break;
                 case 'image':
                     styleKeyValue.value = 'url(' + styleKeyValue.value + ');\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: contain';

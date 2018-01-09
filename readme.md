@@ -69,8 +69,9 @@ You can use most default CSS property as well. (Some are untested, let me know i
 | max-size | The max-size is used to set the maximal height and width of an element. | height`size` width`size` / heightWidth`size` |
 | text-color | Acts just like color when coloring text. | color`color` |
 | frostblur | Blurs the elements which are rendered overlapped by the target element | spread`number` |
-| scroll | Used to add scrollbars to elements with an content that overflows the `size` | horizontal / vertical / both |
+| scroll | Used to add scrollbars to elements with an content that overflows (according to the parameters given for the `size`) | horizontal / vertical / both |
 | align | Blocks an element and aligns it relative to its parent | left / center / right |
+| scale | The scale increases or decreases the size of an element (according to the parameters given for the `size`). | x`number` y`number` / xy`number` |
 
 **Types:**
 - `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block. Single numbers will be turned into px (if posibile).
