@@ -83,13 +83,13 @@ var Sheet = function () {
         key: 'isLineTarget',
         value: function isLineTarget(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted.includes('for') || lineShifted[0] === '-';
+            return lineShifted[0] === 'f' || lineShifted[1] === 'o' || lineShifted[3] === 'r' || lineShifted[0] === '-';
         }
     }, {
         key: 'isLineApplier',
         value: function isLineApplier(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted.includes('and') || lineShifted[0] === '^';
+            return lineShifted[0] === 'a' || lineShifted[1] === 'n' || lineShifted[3] === 'd' || lineShifted[0] === '-';
         }
     }, {
         key: 'getParsedApplier',
