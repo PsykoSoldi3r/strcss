@@ -20,21 +20,21 @@ Contants.set ({
 })
 
 const sheet = new Sheet (`
-    container
+    for container
         position fixed
         rect stretch
         margin 20
-    window
+    for window
         padding 30
         size 300 200
         gradient 90 red blue
-    title
+    for title
         text-color orange
-    button
+    for button
         font-size $fontSize
         image $baseUrl/login.png
         cursor pointer
-    ^hover
+    and hover
         text-color blue
 `)
 
@@ -76,6 +76,18 @@ You can use most default CSS property as well. (Some are untested, let me know i
 **Types:**
 - `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block. Single numbers will be turned into px (if posibile).
 - `color` The name of a color or HEX value
+
+## Shorthand
+You can use a dash instead for the `for` keyword, and use ^ instead of the `and` keyword.
+```js
+const sheet = new Sheet (`
+    -button
+        color blue
+        cursor pointer
+    ^hover
+        color red
+`)
+```
 
 ## Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change. Before commiting, please compile your code using `npm run compile` and test using `npm test`, then open a pull request. Thank you very much!

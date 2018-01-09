@@ -1,5 +1,12 @@
 import { constants, sheetCache, uniques } from './Utseende'
 
+const reservedAppliers = [
+    'hover',
+    'visited',
+    'active',
+    'last-child',
+    'first-child' ]
+
 export default class Sheet {
     constructor (sheetText) {
         this.sheetText = this.applyContants (sheetText)
@@ -46,7 +53,7 @@ export default class Sheet {
                 currentScopeUniqueID = uniqueID
                 isScoped = true
 
-                this.css += `\n/* Utseende Sheet for: ${targetName} */`
+                this.css += `\n/* Utseende Sheet for '${targetName}' */`
                 this.css += `\n.${uniqueID} {`
                 this.map[targetName] = uniqueID
             }
@@ -64,25 +71,29 @@ export default class Sheet {
     }
 
     isLineStyle (sheetRule) {
-        return sheetRule[7] === ' '
+        return (this.isLineTarget (sheetRule) === false
+            && this.isLineTarget (sheetRule) === false)
     }
 
     isLineTarget (sheetRule) {
-        if (typeof sheetRule[4] === 'string')
-            return sheetRule[4] !== ' '
-        return false
+        return sheetRule.includes ('for') || sheetRule.includes ('-')
+        
     }
 
     isLineApplier (sheetRule) {
-        return sheetRule.includes ('^')
+        return sheetRule.includes ('and') || sheetRule.includes ('^')
     }
 
     getParsedApplier (sheetRule) {
-        return this.getLineShifted (sheetRule).replace ('^', ':')
+        let applier = this.getLineShifted (sheetRule).replace ('and ', '').replace ('^', '')
+        if (reservedAppliers.includes (applier)) {
+            return `:${applier}`
+        }
+        return `.${applier}`
     }
 
     getTargetName (sheetRules) {
-        return this.getLineShifted (sheetRules)
+        return this.getLineShifted (sheetRules).replace ('for ', '').replace ('-', '')
     }
 
     getLineShifted (sheetRules) {
@@ -91,7 +102,7 @@ export default class Sheet {
 
     getUniqueID () {
         uniques.push ('id')
-        let id = `_UTSEENDE`
+        let id = `_U`
         for (var i = 0; i < 3; i++)
             id += `_${Math.round (Math.random () * 1000)}${(uniques.length * (i + 1))}`
         return `${id}_`
@@ -206,6 +217,9 @@ export default class Sheet {
                 break
             case 'alpha':
                 styleKeyValue.key = 'opacity'
+                break
+            case 'depth':
+                styleKeyValue.key = 'z-index'
                 break
             case 'text-color':
                 styleKeyValue.key = 'color'

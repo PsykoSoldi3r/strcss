@@ -10,6 +10,8 @@ var _Utseende = require('./Utseende');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var reservedAppliers = ['hover', 'visited', 'last-child', 'first-child'];
+
 var Sheet = function () {
     function Sheet(sheetText) {
         _classCallCheck(this, Sheet);
@@ -58,7 +60,7 @@ var Sheet = function () {
                         currentScopeUniqueID = uniqueID;
                         isScoped = true;
 
-                        _this.css += '\n/* Utseende Sheet for: ' + targetName + ' */';
+                        _this.css += '\n/* Utseende Sheet for \'' + targetName + '\' */';
                         _this.css += '\n.' + uniqueID + ' {';
                         _this.map[targetName] = uniqueID;
                     }
@@ -76,28 +78,31 @@ var Sheet = function () {
     }, {
         key: 'isLineStyle',
         value: function isLineStyle(sheetRule) {
-            return sheetRule[7] === ' ';
+            return this.isLineTarget(sheetRule) === false && this.isLineTarget(sheetRule) === false;
         }
     }, {
         key: 'isLineTarget',
         value: function isLineTarget(sheetRule) {
-            if (typeof sheetRule[4] === 'string') return sheetRule[4] !== ' ';
-            return false;
+            return sheetRule.includes('for') || sheetRule.includes('-');
         }
     }, {
         key: 'isLineApplier',
         value: function isLineApplier(sheetRule) {
-            return sheetRule.includes('^');
+            return sheetRule.includes('and') || sheetRule.includes('^');
         }
     }, {
         key: 'getParsedApplier',
         value: function getParsedApplier(sheetRule) {
-            return this.getLineShifted(sheetRule).replace('^', ':');
+            var applier = this.getLineShifted(sheetRule).replace('and ', '').replace('^', '');
+            if (reservedAppliers.includes(applier)) {
+                return ':' + applier;
+            }
+            return '.' + applier;
         }
     }, {
         key: 'getTargetName',
         value: function getTargetName(sheetRules) {
-            return this.getLineShifted(sheetRules);
+            return this.getLineShifted(sheetRules).replace('for ', '').replace('-', '');
         }
     }, {
         key: 'getLineShifted',
@@ -108,7 +113,7 @@ var Sheet = function () {
         key: 'getUniqueID',
         value: function getUniqueID() {
             _Utseende.uniques.push('id');
-            var id = '_UTSEENDE';
+            var id = '_U';
             for (var i = 0; i < 3; i++) {
                 id += '_' + Math.round(Math.random() * 1000) + _Utseende.uniques.length * (i + 1);
             }return id + '_';
@@ -223,6 +228,9 @@ var Sheet = function () {
                     break;
                 case 'alpha':
                     styleKeyValue.key = 'opacity';
+                    break;
+                case 'depth':
+                    styleKeyValue.key = 'z-index';
                     break;
                 case 'text-color':
                     styleKeyValue.key = 'color';

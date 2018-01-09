@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <style>
+            #t1, 
+            #t2 {
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                width: 50vw;
+                height: 100vh;
+                border: 0px;
+                padding: 25px;
+                margin: 0px;
+                box-sizing: border-box;
+                outline: none;
+                font-family: monospace;
+                font-size: 12px;
+                line-height: 14px;
+                overflow-y: scroll;
+            }
+            #t2 {
+                left: auto;
+                right: 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <textarea id='t1'>// Type here...</textarea>
+        <pre id='t2'></pre>
+    </body>
+    <script>
+        // Fake Node Env
+        window.exports = {}
+        window.require = module => { return { constants: {}, uniques: [] }}
+    </script>
+    <script src="../library/Sheet.js"></script>
+    <script>
+        let sheet = new Sheet ('')
+        let t1 = document.getElementById ('t1')
+        let t2 = document.getElementById ('t2')
+
+        parseT1 = _ => {
+            sheet.sheetText = t1.value
+            sheet.sheetRules = t1.value.split ('\n')
+            sheet.css = ''
+            sheet.generateCSS ()
+            t2.innerHTML = sheet.css
+        }
+
+        t1.addEventListener ('keydown', e => {
+            if (e.keyCode === 9) {
+                e.preventDefault ();
+                t1.value += '    '
+            }
+
+        })
+
+        t1.addEventListener ('input', e => {
+            parseT1 ()
+        })
+
+        t1.value = '// Utseende v0.1.15\n'
+        t1.focus ()
+        parseT1 ()
+    </script>
+</html>
