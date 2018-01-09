@@ -158,6 +158,7 @@ export default class Sheet {
             case 'order':
             case 'z-index':
             case 'opacity':
+            case 'alpha':
             case 'flex':
                 break
             case 'gradient':
@@ -200,6 +201,9 @@ export default class Sheet {
                 break
             case 'order':
                 styleKeyValue.key = 'z-index'
+                break
+            case 'alpha':
+                styleKeyValue.key = 'opacity'
                 break
             case 'text-color':
                 styleKeyValue.key = 'color'
