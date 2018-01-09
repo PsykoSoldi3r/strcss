@@ -42,9 +42,13 @@
         parseT1 = _ => {
             sheet.sheetText = t1.value
             sheet.sheetRules = t1.value.split ('\n')
-            sheet.css = ''
+            sheet.css = 'Generated CSS:\n------------------------------'
+            sheet.map = []
             sheet.generateCSS ()
-            t2.innerHTML = sheet.css
+            t2.innerHTML = sheet.css + '\n\n\nClassname lookup table:\n------------------------------'
+            for (var key in sheet.map) {
+                t2.innerHTML += '\n' + key + ' = ' + sheet.map[key]
+            }
         }
 
         t1.addEventListener ('keydown', e => {
@@ -52,14 +56,13 @@
                 e.preventDefault ();
                 t1.value += '    '
             }
-
         })
 
         t1.addEventListener ('input', e => {
             parseT1 ()
         })
 
-        t1.value = '// Utseende v0.1.15\n'
+        t1.value = '// https://www.npmjs.com/package/utseende\n// Utseende v0.1.18\n\nfor popup\n    position fixed\n    depth 1\n    rect stretch\n    scroll both\n    wallpaper background.png\nand closed\n    display none\n\nfor button\n    size 100 30\n    shadow 10 20\n    cursor pointer\n    margin 10\nand hover\n    gradient 0 red blue'
         t1.focus ()
         parseT1 ()
     </script>

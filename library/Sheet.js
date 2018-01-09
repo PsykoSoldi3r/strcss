@@ -60,8 +60,7 @@ var Sheet = function () {
                         currentScopeUniqueID = uniqueID;
                         isScoped = true;
 
-                        _this.css += '\n/* Utseende Sheet for \'' + targetName + '\' */';
-                        _this.css += '\n.' + uniqueID + ' {';
+                        _this.css += '\n.' + uniqueID + ' { /* ' + targetName + ' */';
                         _this.map[targetName] = uniqueID;
                     }
 

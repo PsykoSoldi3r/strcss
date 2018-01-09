@@ -53,8 +53,7 @@ export default class Sheet {
                 currentScopeUniqueID = uniqueID
                 isScoped = true
 
-                this.css += `\n/* Utseende Sheet for '${targetName}' */`
-                this.css += `\n.${uniqueID} {`
+                this.css += `\n.${uniqueID} { /* ${targetName} */`
                 this.map[targetName] = uniqueID
             }
 
@@ -77,12 +76,12 @@ export default class Sheet {
 
     isLineTarget (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.includes ('for') || lineShifted[0] === '-'
+        return (lineShifted[0] === 'f' || lineShifted[1] === 'o' || lineShifted[3] === 'r') || lineShifted[0] === '-'
     }
 
     isLineApplier (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.includes ('and') || lineShifted[0] === '^'
+        return (lineShifted[0] === 'a' || lineShifted[1] === 'n' || lineShifted[3] === 'd') || lineShifted[0] === '-'
     }
 
     getParsedApplier (sheetRule) {
