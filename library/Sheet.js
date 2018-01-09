@@ -138,14 +138,21 @@ var Sheet = function () {
         key: 'getParsedStyle',
         value: function getParsedStyle(styleKeyValue) {
             switch (styleKeyValue.key) {
-                case 'gradient':
-                case 'background-image':
-                    this.addNumericEndings(styleKeyValue, 'deg');
-                    break;
                 case 'depth':
                 case 'order':
                 case 'z-index':
                 case 'opacity':
+                case 'flex':
+                    break;
+                case 'gradient':
+                case 'background-image':
+                    this.addNumericEndings(styleKeyValue, 'deg');
+                    break;
+                case 'transition':
+                case 'transition-duration':
+                case 'animation':
+                case 'animation-duration':
+                    this.addNumericEndings(styleKeyValue, 's');
                     break;
                 default:
                     this.addNumericEndings(styleKeyValue, 'px');
@@ -161,6 +168,20 @@ var Sheet = function () {
                     styleKeyValue.key = 'box-shadow';
                     styleKeyValue.value = '0px 0px ' + styleKeyValue.value + ' rgba(0,0,0,0.5)';
                     break;
+                case 'align':
+                    styleKeyValue.key = 'display';
+                    switch (styleKeyValue.value) {
+                        case 'left':
+                            styleKeyValue.value = 'block;\n\tmargin-left: 0px;\n\tmargin-right: auto';
+                            break;
+                        case 'center':
+                            styleKeyValue.value = 'block;\n\tmargin-left: auto;\n\tmargin-right: auto';
+                            break;
+                        case 'right':
+                            styleKeyValue.value = 'block;\n\tmargin-left: auto;\n\tmargin-right: 0px';
+                            break;
+                    }
+                    break;
                 case 'order':
                     styleKeyValue.key = 'z-index';
                     break;
@@ -174,6 +195,24 @@ var Sheet = function () {
                 case 'wallpaper':
                     styleKeyValue.value = 'url(' + styleKeyValue.value + ');\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: cover';
                     styleKeyValue.key = 'background-image';
+                    break;
+                case 'frostblur':
+                    styleKeyValue.value = 'blur(' + styleKeyValue.value + ')';
+                    styleKeyValue.key = '-webkit-backdrop-filter';
+                    break;
+                case 'scroll':
+                    styleKeyValue.key = 'margin';
+                    switch (styleKeyValue.value) {
+                        case 'horizontal':
+                            styleKeyValue.value = '0px;\n\tpadding: 0px\n\toverflow: auto;\n\toverflow-y: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
+                            break;
+                        case 'vertical':
+                            styleKeyValue.value = '0px;\n\tpadding: 0px\n\toverflow: scroll;\n\toverflow-x: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
+                            break;
+                        case 'both':
+                            styleKeyValue.value = '0px;\n\tpadding: 0px\n\toverflow: scroll;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
+                            break;
+                    }
                     break;
                 case 'size':
                     var sizeSplittedValues = styleKeyValue.value.split(' ');
