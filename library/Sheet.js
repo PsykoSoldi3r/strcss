@@ -41,38 +41,49 @@ var Sheet = function () {
                 // empty lines
                 if (_this.getLineShifted(sheetRule).length === 0) return;
 
-                // applier ^
-                if (_this.isLineApplier(sheetRule) === true) {
-                    if (isScoped === true) _this.css += ' }';
-
-                    var parsedApplier = _this.getParsedApplier(sheetRule);
-
-                    _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
+                // fontface
+                if (_this.isLineFontface(sheetRule) === true) {
+                    if (isScoped === false) _this.css += _this.getLineFontface(sheetRule);
                 }
 
-                // target
-                else if (_this.isLineTarget(sheetRule) === true) {
+                // and
+                else if (_this.isLineApplier(sheetRule) === true) {
                         if (isScoped === true) _this.css += ' }';
 
-                        var uniqueID = _this.getUniqueID();
-                        var targetName = _this.getTargetName(sheetRule);
+                        var parsedApplier = _this.getParsedApplier(sheetRule);
 
-                        currentScopeUniqueID = uniqueID;
-                        isScoped = true;
-
-                        _this.css += '\n.' + uniqueID + ' { /* ' + targetName + ' */';
-                        _this.map[targetName] = uniqueID;
+                        _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
                     }
 
-                    // style
-                    else if (_this.isLineStyle(sheetRule)) {
-                            var styleKeyValue = _this.getStyleKeyValue(sheetRule);
-                            var parsedStyle = _this.getParsedStyle(styleKeyValue);
-                            _this.css += parsedStyle;
+                    // target
+                    else if (_this.isLineTarget(sheetRule) === true) {
+                            if (isScoped === true) _this.css += ' }';
+
+                            var uniqueID = _this.getUniqueID();
+                            var targetName = _this.getTargetName(sheetRule);
+
+                            currentScopeUniqueID = uniqueID;
+                            isScoped = true;
+
+                            _this.css += '\n.' + uniqueID + ' { /* ' + targetName + ' */';
+                            _this.map[targetName] = uniqueID;
                         }
+
+                        // style
+                        else if (_this.isLineStyle(sheetRule)) {
+                                var styleKeyValue = _this.getStyleKeyValue(sheetRule);
+                                var parsedStyle = _this.getParsedStyle(styleKeyValue);
+                                _this.css += parsedStyle;
+                            }
             });
 
             if (isScoped === true) this.css += ' }';
+        }
+    }, {
+        key: 'isLineFontface',
+        value: function isLineFontface(sheetRule) {
+            var lineShifted = this.getLineShifted(sheetRule);
+            return lineShifted.substring(0, 4) === 'font';
         }
     }, {
         key: 'isLineStyle',
@@ -83,18 +94,18 @@ var Sheet = function () {
         key: 'isLineTarget',
         value: function isLineTarget(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted[0] === 'f' && lineShifted[1] === 'o' && lineShifted[2] === 'r' || lineShifted[0] === '-';
+            return lineShifted.substring(0, 3) === 'for';
         }
     }, {
         key: 'isLineApplier',
         value: function isLineApplier(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted[0] === 'a' && lineShifted[1] === 'n' && lineShifted[2] === 'd' || lineShifted[0] === '-';
+            return lineShifted.substring(0, 3) === 'and';
         }
     }, {
         key: 'getParsedApplier',
         value: function getParsedApplier(sheetRule) {
-            var applier = this.getLineShifted(sheetRule).replace('and ', '').replace('^', '');
+            var applier = this.getLineShifted(sheetRule).replace('and ', '');
             if (reservedAppliers.includes(applier)) {
                 return ':' + applier;
             }
@@ -103,7 +114,7 @@ var Sheet = function () {
     }, {
         key: 'getTargetName',
         value: function getTargetName(sheetRules) {
-            return this.getLineShifted(sheetRules).replace('for ', '').replace('-', '');
+            return this.getLineShifted(sheetRules).replace('for ', '');
         }
     }, {
         key: 'getLineShifted',
@@ -136,6 +147,17 @@ var Sheet = function () {
                 key: key,
                 value: value
             };
+        }
+    }, {
+        key: 'getLineFontface',
+        value: function getLineFontface(sheetText) {
+            var splittedSheetText = sheetText.split(' ');
+            if (splittedSheetText.length === 3) {
+                return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ';\n\tfont-weight: normal;\n\tsrc: url(' + splittedSheetText[2] + '); }';
+            } else if (splittedSheetText.length === 4) {
+                return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ';\n\tfont-weight: ' + splittedSheetText[2] + ';\n\tsrc: url(' + splittedSheetText[3] + '); }';
+            }
+            return '';
         }
     }, {
         key: 'addNumericEndings',

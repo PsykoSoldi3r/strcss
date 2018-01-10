@@ -27,13 +27,19 @@ export default class Sheet {
             // comment
             if (sheetRule.includes ('//'))
                 return
-                
+
             // empty lines
             if (this.getLineShifted (sheetRule).length === 0)
                 return
+                
+            // fontface
+            if (this.isLineFontface (sheetRule) === true) {
+                if (isScoped === false)
+                    this.css += this.getLineFontface (sheetRule)
+            }
             
-            // applier ^
-            if (this.isLineApplier (sheetRule) === true) {
+            // and
+            else if (this.isLineApplier (sheetRule) === true) {
                 if (isScoped === true)
                     this.css += ' }'
 
@@ -69,6 +75,11 @@ export default class Sheet {
             this.css += ' }'
     }
 
+    isLineFontface (sheetRule) {
+        let lineShifted = this.getLineShifted (sheetRule)
+        return lineShifted.substring (0, 4) === 'font'
+    }
+
     isLineStyle (sheetRule) {
         return (this.isLineTarget (sheetRule) === false
             && this.isLineTarget (sheetRule) === false)
@@ -76,16 +87,16 @@ export default class Sheet {
 
     isLineTarget (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
-        return (lineShifted[0] === 'f' && lineShifted[1] === 'o' && lineShifted[2] === 'r') || lineShifted[0] === '-'
+        return lineShifted.substring (0, 3) === 'for'
     }
 
     isLineApplier (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
-        return (lineShifted[0] === 'a' && lineShifted[1] === 'n' && lineShifted[2] === 'd') || lineShifted[0] === '-'
+        return lineShifted.substring (0, 3) === 'and'
     }
 
     getParsedApplier (sheetRule) {
-        let applier = this.getLineShifted (sheetRule).replace ('and ', '').replace ('^', '')
+        let applier = this.getLineShifted (sheetRule).replace ('and ', '')
         if (reservedAppliers.includes (applier)) {
             return `:${applier}`
         }
@@ -93,7 +104,7 @@ export default class Sheet {
     }
 
     getTargetName (sheetRules) {
-        return this.getLineShifted (sheetRules).replace ('for ', '').replace ('-', '')
+        return this.getLineShifted (sheetRules).replace ('for ', '')
     }
 
     getLineShifted (sheetRules) {
@@ -125,6 +136,17 @@ export default class Sheet {
             key: key,
             value: value
         }
+    }
+
+    getLineFontface (sheetText) {
+        let splittedSheetText = sheetText.split (' ')
+        if (splittedSheetText.length === 3) {
+            return `\n@font-face {\n\tfont-family: ${splittedSheetText[1]};\n\tfont-weight: normal;\n\tsrc: url(${splittedSheetText[2]}); }`
+        }
+        else if (splittedSheetText.length === 4) {
+            return `\n@font-face {\n\tfont-family: ${splittedSheetText[1]};\n\tfont-weight: ${splittedSheetText[2]};\n\tsrc: url(${splittedSheetText[3]}); }`
+        }
+        return ''
     }
 
     addNumericEndings (styleKeyValue, suffix) {
