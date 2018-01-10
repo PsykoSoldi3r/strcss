@@ -12,39 +12,41 @@ npm install utseende --save
 
 ## Usage
 ```jsx
-import { Sheet, Contants } from 'utseende'
-
-Contants.set ({
-    fontSize: 14,
-    baseUrl: 'resources'
-})
+import { Sheet } from 'utseende'
 
 const sheet = new Sheet (`
-    font sfpro bold $baseUrl/fonts/sfpro.otf
-    font arial $baseUrl/fonts/arial.otf
+
+    var base public_html/resources
+
+    font sfpro bold base/fonts/sfpro.otf
+    font arial base/fonts/arial.otf
 
     for container
         position fixed
         rect stretch
-        margin 20
+        gradient 90 red blue
         font sfpro
     for window
-        padding 30
-        size 300 200
-        gradient 90 red blue
+        size 100%
+        max-size 300 200
+        padding 20
     and closed
         display none
     for title
-    for button
-        font-size $fontSize
-        font arial
+    for text
+        color #333
     for title
-        text-color orange
-    for button
+        font-size 20
+    for profilePicture
+        size 100
+        align center
         image $baseUrl/login.png
         cursor pointer
+    for button
+        cursor pointer
     and hover
-        text-color blue
+        scale 1.1
+        
 `)
 
 export class User extends Component {
@@ -52,8 +54,9 @@ export class User extends Component {
         return (
             <div className={sheet.map.container}>
                 <div className={sheet.map.window}>
+                    <div className={sheet.map.profilePicture} />
                     <div className={sheet.map.title}>Hello World!</div>
-                    <div className={sheet.map.button}>LOGIN</div>
+                    <div className={sheet.map.text}>How are you?</div>
                 </div>
             </div>
         );

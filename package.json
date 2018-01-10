@@ -1,13 +1,12 @@
 {
   "name": "utseende",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "description": "Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍",
   "main": "library/Utseende.js",
   "types": "./types.d.ts",
   "scripts": {
     "compile": "babel --presets env source --out-dir library",
-    "test": "npm run compile && node tests/cli.js",
-    "test-lot": "npm run compile && node tests/lot.js"
+    "test": "npm run compile && open test/index.html"
   },
   "repository": {
     "type": "git",

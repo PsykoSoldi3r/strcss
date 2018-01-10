@@ -184,9 +184,9 @@ var Sheet = function () {
         value: function getLineFontface(sheetText) {
             var splittedSheetText = this.getLineShifted(sheetText).split(' ');
             if (splittedSheetText.length === 3) {
-                return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ';\n\tfont-weight: normal;\n\tsrc: url(' + splittedSheetText[2] + '); }';
+                return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ' sans;\n\tfont-weight: normal;\n\tsrc: url(' + splittedSheetText[2] + '); }';
             } else if (splittedSheetText.length === 4) {
-                return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ';\n\tfont-weight: ' + splittedSheetText[2] + ';\n\tsrc: url(' + splittedSheetText[3] + '); }';
+                return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ' sans;\n\tfont-weight: ' + splittedSheetText[2] + ';\n\tsrc: url(' + splittedSheetText[3] + '); }';
             }
             return '';
         }

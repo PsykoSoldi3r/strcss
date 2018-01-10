@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Utseende</title>
+        <title>Utseende Demo</title>
         <style>
             #t1, 
             #t2 {
@@ -26,7 +26,42 @@
         </style>
     </head>
     <body>
-        <textarea id='t1'>// Type here...</textarea>
+        <textarea id='t1'>
+// Utseende Demo
+// download from NPM:
+//  https://www.npmjs.com/package/utseende
+
+var base public_html/resources
+
+font sfpro bold base/fonts/sfpro.otf
+font arial base/fonts/arial.otf
+
+for container
+    position fixed
+    rect stretch
+    gradient 90 red blue
+    font sfpro
+for window
+    size 100%
+    max-size 300 200
+    padding 20
+and closed
+    display none
+for title
+for text
+    color #333
+for title
+    font-size 20
+for profilePicture
+    size 100
+    align center
+    image $baseUrl/login.png
+    cursor pointer
+for button
+    cursor pointer
+and hover
+    scale 1.1
+        </textarea>
         <pre><code class="css" id='t2'></code></pre>
     </body>
     <link rel="stylesheet" href="highlight/highlight.css">
@@ -64,29 +99,6 @@
             parseT1 ()
         })
 
-        t1.value  = '// https://www.npmjs.com/package/utseende\n'
-        t1.value += '// Utseende v0.1.19\n\n'
-        t1.value += 'var base static/resources\n\n'
-        t1.value += 'font sfpro bolder $base/fonts/sfpro.otf\n\n'
-        t1.value += 'for popup\n'
-        t1.value += 'for button\n'
-        t1.value += '    color orange\n\n'
-        t1.value += 'for popup\n'
-        t1.value += '    position fixed\n'
-        t1.value += '    depth 1\n'
-        t1.value += '    rect stretch\n'
-        t1.value += '    scroll both\n'
-        t1.value += '    wallpaper $base/background.png\n'
-        t1.value += '    font sfpro\n'
-        t1.value += 'and closed\n'
-        t1.value += '    display none\n\n'
-        t1.value += 'for button\n'
-        t1.value += '    size 100 30\n'
-        t1.value += '    shadow 10 20\n'
-        t1.value += '    cursor pointer\n'
-        t1.value += '    margin 10\n'
-        t1.value += 'and hover\n'
-        t1.value += '    gradient 0 red blue'
         t1.focus ()
         parseT1 ()
     </script>
