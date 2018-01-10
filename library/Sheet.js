@@ -46,12 +46,11 @@ var Sheet = function () {
                     _this.css += _this.getLineFontface(sheetRule);
                 }
 
-                // and
-                else if (_this.isLineApplier(sheetRule) === true) {
-                        if (isScoped === true) _this.css += ' }';
-
+                // and / applier
+                else if (_this.isLineApplier(sheetRule) === true && isScoped === true) {
                         var parsedApplier = _this.getParsedApplier(sheetRule);
 
+                        _this.css += ' }';
                         _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
                     }
 
@@ -70,7 +69,7 @@ var Sheet = function () {
                         }
 
                         // style
-                        else {
+                        else if (isScoped === true) {
                                 var styleKeyValue = _this.getStyleKeyValue(sheetRule);
                                 var parsedStyle = _this.getParsedStyle(styleKeyValue);
                                 _this.css += parsedStyle;

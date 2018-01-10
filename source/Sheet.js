@@ -37,13 +37,11 @@ export default class Sheet {
                 this.css += this.getLineFontface (sheetRule)
             }
             
-            // and
-            else if (this.isLineApplier (sheetRule) === true) {
-                if (isScoped === true)
-                    this.css += ' }'
-
+            // and / applier
+            else if (this.isLineApplier (sheetRule) === true && isScoped === true) {
                 let parsedApplier = this.getParsedApplier (sheetRule)
                 
+                this.css += ' }'
                 this.css += `\n.${currentScopeUniqueID}${parsedApplier} {`
             }
 
@@ -63,7 +61,7 @@ export default class Sheet {
             }
 
             // style
-            else {
+            else if (isScoped === true) {
                 let styleKeyValue = this.getStyleKeyValue (sheetRule)
                 let parsedStyle = this.getParsedStyle (styleKeyValue)
                 this.css += parsedStyle
