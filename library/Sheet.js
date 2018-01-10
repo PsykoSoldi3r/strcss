@@ -80,27 +80,27 @@ var Sheet = function () {
             if (isScoped === true) this.css += ' }';
         }
     }, {
+        key: 'isLineStyle',
+        value: function isLineStyle(sheetRule) {
+            return this.isLineTarget(sheetRule) === false && this.isLineTarget(sheetRule) === false && this.isLineFontface(sheetRule) === false;
+        }
+    }, {
         key: 'isLineFontface',
         value: function isLineFontface(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted.substring(0, 4) === 'font';
-        }
-    }, {
-        key: 'isLineStyle',
-        value: function isLineStyle(sheetRule) {
-            return this.isLineTarget(sheetRule) === false && this.isLineTarget(sheetRule) === false;
+            return lineShifted.substring(0, 5) === 'font ';
         }
     }, {
         key: 'isLineTarget',
         value: function isLineTarget(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted.substring(0, 3) === 'for';
+            return lineShifted.substring(0, 4) === 'for ';
         }
     }, {
         key: 'isLineApplier',
         value: function isLineApplier(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted.substring(0, 3) === 'and';
+            return lineShifted.substring(0, 4) === 'and ';
         }
     }, {
         key: 'getParsedApplier',
@@ -189,6 +189,8 @@ var Sheet = function () {
         key: 'applyToDocument',
         value: function applyToDocument() {
             if (typeof document === 'undefined ' || typeof window === 'undefined') return;
+
+            console.log(this.css);
 
             var htmlStyleTag = document.createElement("style");
             htmlStyleTag.type = "text/css";

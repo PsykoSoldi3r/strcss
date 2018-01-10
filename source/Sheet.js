@@ -75,24 +75,25 @@ export default class Sheet {
             this.css += ' }'
     }
 
-    isLineFontface (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 4) === 'font'
-    }
-
     isLineStyle (sheetRule) {
         return (this.isLineTarget (sheetRule) === false
-            && this.isLineTarget (sheetRule) === false)
+            && this.isLineTarget (sheetRule) === false
+            && this.isLineFontface (sheetRule) === false)
+    }
+
+    isLineFontface (sheetRule) {
+        let lineShifted = this.getLineShifted (sheetRule)
+        return lineShifted.substring (0, 5) === 'font '
     }
 
     isLineTarget (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 3) === 'for'
+        return lineShifted.substring (0, 4) === 'for '
     }
 
     isLineApplier (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 3) === 'and'
+        return lineShifted.substring (0, 4) === 'and '
     }
 
     getParsedApplier (sheetRule) {
@@ -178,6 +179,8 @@ export default class Sheet {
     applyToDocument () {
         if (typeof document === 'undefined '|| typeof window === 'undefined')
             return
+
+        console.log (this.css)
 
         let htmlStyleTag = document.createElement ("style");
         htmlStyleTag.type = "text/css";
