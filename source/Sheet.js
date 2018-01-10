@@ -20,6 +20,7 @@ export default class Sheet {
     
     generateCSS () {
         let isScoped = false
+        let isPreScoped = false
         let currentScopeUniqueID = ''
 
         this.sheetRules.map (sheetRule => {
@@ -47,23 +48,36 @@ export default class Sheet {
 
             // target
             else if (this.isLineTarget (sheetRule) === true) {
-                if (isScoped === true)
+                if (isScoped === true && isPreScoped === false)
                     this.css += ' }'
+                
+                if (isPreScoped === true)
+                    this.css += ', '
 
                 let uniqueID = this.getUniqueID ()
                 let targetName = this.getTargetName (sheetRule)
 
+                if (typeof this.map[targetName] !== 'undefined')
+                    uniqueID = this.map[targetName]
+
                 currentScopeUniqueID = uniqueID
                 isScoped = true
+                isPreScoped = true
 
-                this.css += `\n.${uniqueID} { /* ${targetName} */`
+                this.css += `\n.${uniqueID} /* ${targetName} */ `
                 this.map[targetName] = uniqueID
             }
 
             // style
             else if (isScoped === true) {
+                if (isPreScoped === true) {
+                    this.css += ' {'
+                    isPreScoped = false
+                }
+
                 let styleKeyValue = this.getStyleKeyValue (sheetRule)
                 let parsedStyle = this.getParsedStyle (styleKeyValue)
+
                 this.css += parsedStyle
             }
         })
@@ -71,12 +85,6 @@ export default class Sheet {
         if (isScoped === true)
             this.css += ' }'
     }
-
-    // isLineStyle (sheetRule) {
-    //     return (this.isLineTarget (sheetRule) === false
-    //         && this.isLineTarget (sheetRule) === false
-    //         && this.isLineFontface (sheetRule) === false)
-    // }
 
     isLineFontface (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
@@ -111,9 +119,9 @@ export default class Sheet {
 
     getUniqueID () {
         uniques.push ('id')
-        let id = `_U`
+        let id = `_u`
         for (var i = 0; i < 3; i++)
-            id += `_${Math.round (Math.random () * 1000)}${(uniques.length * (i + 1))}`
+            id += `${Math.random().toString(36).substr(2, 5)}${(uniques.length * (i + 1))}`
         return `${id}_`
     }
 

@@ -31,6 +31,7 @@ var Sheet = function () {
             var _this = this;
 
             var isScoped = false;
+            var isPreScoped = false;
             var currentScopeUniqueID = '';
 
             this.sheetRules.map(function (sheetRule) {
@@ -56,35 +57,39 @@ var Sheet = function () {
 
                     // target
                     else if (_this.isLineTarget(sheetRule) === true) {
-                            if (isScoped === true) _this.css += ' }';
+                            if (isScoped === true && isPreScoped === false) _this.css += ' }';
+
+                            if (isPreScoped === true) _this.css += ', ';
 
                             var uniqueID = _this.getUniqueID();
                             var targetName = _this.getTargetName(sheetRule);
 
+                            if (typeof _this.map[targetName] !== 'undefined') uniqueID = _this.map[targetName];
+
                             currentScopeUniqueID = uniqueID;
                             isScoped = true;
+                            isPreScoped = true;
 
-                            _this.css += '\n.' + uniqueID + ' { /* ' + targetName + ' */';
+                            _this.css += '\n.' + uniqueID + ' /* ' + targetName + ' */ ';
                             _this.map[targetName] = uniqueID;
                         }
 
                         // style
                         else if (isScoped === true) {
+                                if (isPreScoped === true) {
+                                    _this.css += ' {';
+                                    isPreScoped = false;
+                                }
+
                                 var styleKeyValue = _this.getStyleKeyValue(sheetRule);
                                 var parsedStyle = _this.getParsedStyle(styleKeyValue);
+
                                 _this.css += parsedStyle;
                             }
             });
 
             if (isScoped === true) this.css += ' }';
         }
-
-        // isLineStyle (sheetRule) {
-        //     return (this.isLineTarget (sheetRule) === false
-        //         && this.isLineTarget (sheetRule) === false
-        //         && this.isLineFontface (sheetRule) === false)
-        // }
-
     }, {
         key: 'isLineFontface',
         value: function isLineFontface(sheetRule) {
@@ -126,9 +131,9 @@ var Sheet = function () {
         key: 'getUniqueID',
         value: function getUniqueID() {
             _Utseende.uniques.push('id');
-            var id = '_U';
+            var id = '_u';
             for (var i = 0; i < 3; i++) {
-                id += '_' + Math.round(Math.random() * 1000) + _Utseende.uniques.length * (i + 1);
+                id += '' + Math.random().toString(36).substr(2, 5) + _Utseende.uniques.length * (i + 1);
             }return id + '_';
         }
     }, {

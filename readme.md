@@ -35,12 +35,14 @@ const sheet = new Sheet (`
     and closed
         display none
     for title
-        text-color orange
     for button
         font-size $fontSize
+        font arial
+    for title
+        text-color orange
+    for button
         image $baseUrl/login.png
         cursor pointer
-        font arial
     and hover
         text-color blue
 `)
