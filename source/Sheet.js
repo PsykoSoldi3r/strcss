@@ -22,8 +22,13 @@ export default class Sheet {
         let isScoped = false
         let isPreScoped = false
         let currentScopeUniqueID = ''
+        var localVars = []
 
         this.sheetRules.map (sheetRule => {
+
+            localVars.map (localVar => {
+                sheetRule = sheetRule.replace (`$${localVar.key}`, localVar.value)
+            })
 
             // comment
             if (sheetRule.includes ('//'))
@@ -36,6 +41,11 @@ export default class Sheet {
             // fontface
             if (this.isLineFontface (sheetRule) === true && isScoped === false) {
                 this.css += this.getLineFontface (sheetRule)
+            }
+
+            // var
+            else if (this.isLineVar (sheetRule) === true && isScoped === false) {
+                localVars.push (this.getLineVar (sheetRule))
             }
             
             // and / applier
@@ -82,6 +92,8 @@ export default class Sheet {
             }
         })
 
+        if (isPreScoped)
+            this.css += '{ '
         if (isScoped === true)
             this.css += ' }'
     }
@@ -99,6 +111,18 @@ export default class Sheet {
     isLineApplier (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
         return lineShifted.substring (0, 4) === 'and '
+    }
+
+    isLineVar (sheetRule) {
+        let lineShifted = this.getLineShifted (sheetRule)
+        return lineShifted.substring (0, 4) === 'var '
+    }
+
+    getLineVar (sheetRule) {
+        sheetRule = sheetRule.replace ('var ', '')
+        let key = this.getLineShifted (sheetRule).split (' ')[0]
+        let value = this.getLineShifted (sheetRule.replace (key, ''))
+        return { key: key, value: value }
     }
 
     getParsedApplier (sheetRule) {

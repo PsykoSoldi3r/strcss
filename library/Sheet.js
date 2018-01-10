@@ -33,8 +33,13 @@ var Sheet = function () {
             var isScoped = false;
             var isPreScoped = false;
             var currentScopeUniqueID = '';
+            var localVars = [];
 
             this.sheetRules.map(function (sheetRule) {
+
+                localVars.map(function (localVar) {
+                    sheetRule = sheetRule.replace('$' + localVar.key, localVar.value);
+                });
 
                 // comment
                 if (sheetRule.includes('//')) return;
@@ -47,47 +52,53 @@ var Sheet = function () {
                     _this.css += _this.getLineFontface(sheetRule);
                 }
 
-                // and / applier
-                else if (_this.isLineApplier(sheetRule) === true && isScoped === true) {
-                        var parsedApplier = _this.getParsedApplier(sheetRule);
-
-                        _this.css += ' }';
-                        _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
+                // var
+                else if (_this.isLineVar(sheetRule) === true && isScoped === false) {
+                        localVars.push(_this.getLineVar(sheetRule));
                     }
 
-                    // target
-                    else if (_this.isLineTarget(sheetRule) === true) {
-                            if (isScoped === true && isPreScoped === false) _this.css += ' }';
+                    // and / applier
+                    else if (_this.isLineApplier(sheetRule) === true && isScoped === true) {
+                            var parsedApplier = _this.getParsedApplier(sheetRule);
 
-                            if (isPreScoped === true) _this.css += ', ';
-
-                            var uniqueID = _this.getUniqueID();
-                            var targetName = _this.getTargetName(sheetRule);
-
-                            if (typeof _this.map[targetName] !== 'undefined') uniqueID = _this.map[targetName];
-
-                            currentScopeUniqueID = uniqueID;
-                            isScoped = true;
-                            isPreScoped = true;
-
-                            _this.css += '\n.' + uniqueID + ' /* ' + targetName + ' */ ';
-                            _this.map[targetName] = uniqueID;
+                            _this.css += ' }';
+                            _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
                         }
 
-                        // style
-                        else if (isScoped === true) {
-                                if (isPreScoped === true) {
-                                    _this.css += ' {';
-                                    isPreScoped = false;
-                                }
+                        // target
+                        else if (_this.isLineTarget(sheetRule) === true) {
+                                if (isScoped === true && isPreScoped === false) _this.css += ' }';
 
-                                var styleKeyValue = _this.getStyleKeyValue(sheetRule);
-                                var parsedStyle = _this.getParsedStyle(styleKeyValue);
+                                if (isPreScoped === true) _this.css += ', ';
 
-                                _this.css += parsedStyle;
+                                var uniqueID = _this.getUniqueID();
+                                var targetName = _this.getTargetName(sheetRule);
+
+                                if (typeof _this.map[targetName] !== 'undefined') uniqueID = _this.map[targetName];
+
+                                currentScopeUniqueID = uniqueID;
+                                isScoped = true;
+                                isPreScoped = true;
+
+                                _this.css += '\n.' + uniqueID + ' /* ' + targetName + ' */ ';
+                                _this.map[targetName] = uniqueID;
                             }
+
+                            // style
+                            else if (isScoped === true) {
+                                    if (isPreScoped === true) {
+                                        _this.css += ' {';
+                                        isPreScoped = false;
+                                    }
+
+                                    var styleKeyValue = _this.getStyleKeyValue(sheetRule);
+                                    var parsedStyle = _this.getParsedStyle(styleKeyValue);
+
+                                    _this.css += parsedStyle;
+                                }
             });
 
+            if (isPreScoped) this.css += '{ ';
             if (isScoped === true) this.css += ' }';
         }
     }, {
@@ -107,6 +118,20 @@ var Sheet = function () {
         value: function isLineApplier(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
             return lineShifted.substring(0, 4) === 'and ';
+        }
+    }, {
+        key: 'isLineVar',
+        value: function isLineVar(sheetRule) {
+            var lineShifted = this.getLineShifted(sheetRule);
+            return lineShifted.substring(0, 4) === 'var ';
+        }
+    }, {
+        key: 'getLineVar',
+        value: function getLineVar(sheetRule) {
+            sheetRule = sheetRule.replace('var ', '');
+            var key = this.getLineShifted(sheetRule).split(' ')[0];
+            var value = this.getLineShifted(sheetRule.replace(key, ''));
+            return { key: key, value: value };
         }
     }, {
         key: 'getParsedApplier',

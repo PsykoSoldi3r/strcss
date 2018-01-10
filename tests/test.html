@@ -1,5 +1,6 @@
 <html>
     <head>
+        <title>Utseende</title>
         <style>
             #t1, 
             #t2 {
@@ -26,14 +27,16 @@
     </head>
     <body>
         <textarea id='t1'>// Type here...</textarea>
-        <pre id='t2'></pre>
+        <pre><code class="css" id='t2'></code></pre>
     </body>
+    <link rel="stylesheet" href="highlight/highlight.css">
     <script>
         // Fake Node Env
         window.exports = {}
         window.require = module => { return { constants: {}, uniques: [] }}
     </script>
     <script src="../library/Sheet.js"></script>
+    <script src="highlight/highlight.js"></script>
     <script>
         let sheet = new Sheet ('')
         let t1 = document.getElementById ('t1')
@@ -42,13 +45,12 @@
         parseT1 = _ => {
             sheet.sheetText = t1.value
             sheet.sheetRules = t1.value.split ('\n')
-            sheet.css = 'Generated CSS:\n------------------------------'
+            sheet.css = ''
             sheet.map = []
             sheet.generateCSS ()
-            t2.innerHTML = sheet.css + '\n\n\nClassname lookup table:\n------------------------------'
-            for (var key in sheet.map) {
-                t2.innerHTML += '\n' + key + ' = ' + sheet.map[key]
-            }
+            t2.innerHTML = sheet.css + '\n\n'
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
         }
 
         t1.addEventListener ('keydown', e => {
@@ -64,7 +66,8 @@
 
         t1.value  = '// https://www.npmjs.com/package/utseende\n'
         t1.value += '// Utseende v0.1.19\n\n'
-        t1.value += 'font sfpro bolder resource/fonts/sfpro.otf\n\n'
+        t1.value += 'var base static/resources\n\n'
+        t1.value += 'font sfpro bolder $base/fonts/sfpro.otf\n\n'
         t1.value += 'for popup\n'
         t1.value += 'for button\n'
         t1.value += '    color orange\n\n'
@@ -73,7 +76,7 @@
         t1.value += '    depth 1\n'
         t1.value += '    rect stretch\n'
         t1.value += '    scroll both\n'
-        t1.value += '    wallpaper background.png\n'
+        t1.value += '    wallpaper $base/background.png\n'
         t1.value += '    font sfpro\n'
         t1.value += 'and closed\n'
         t1.value += '    display none\n\n'
