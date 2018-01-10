@@ -51,7 +51,9 @@ export default class Sheet {
             // and / applier
             else if (this.isLineApplier (sheetRule) === true && isScoped === true) {
                 let parsedApplier = this.getParsedApplier (sheetRule)
-                
+                if (isPreScoped === true)
+                    this.css += '{ '
+                    
                 this.css += ' }'
                 this.css += `\n.${currentScopeUniqueID}${parsedApplier} {`
             }

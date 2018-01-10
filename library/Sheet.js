@@ -60,6 +60,7 @@ var Sheet = function () {
                     // and / applier
                     else if (_this.isLineApplier(sheetRule) === true && isScoped === true) {
                             var parsedApplier = _this.getParsedApplier(sheetRule);
+                            if (isPreScoped === true) _this.css += '{ ';
 
                             _this.css += ' }';
                             _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
