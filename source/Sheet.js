@@ -27,7 +27,7 @@ export default class Sheet {
         this.sheetRules.map (sheetRule => {
 
             localVars.map (localVar => {
-                sheetRule = sheetRule.replace (`$${localVar.key}`, localVar.value)
+                sheetRule = sheetRule.replace (`{${localVar.key}}`, localVar.value)
             })
 
             // comment

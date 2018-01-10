@@ -38,7 +38,7 @@ var Sheet = function () {
             this.sheetRules.map(function (sheetRule) {
 
                 localVars.map(function (localVar) {
-                    sheetRule = sheetRule.replace('$' + localVar.key, localVar.value);
+                    sheetRule = sheetRule.replace('{' + localVar.key + '}', localVar.value);
                 });
 
                 // comment

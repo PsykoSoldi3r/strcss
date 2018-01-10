@@ -2,8 +2,6 @@
 
 Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍
 
-[Click here for a live demo of the script below!](https://dev.jeffreylanters.nl/utseende/test/)
-
 > Utseende is Work in progress, big changes may be made during new versions. Feel free to contribute!
 
 ## Installation
@@ -12,7 +10,8 @@ Install using NPM
 npm install utseende --save
 ```
 
-## Usage
+## Example usage
+[Click here for a live demo of the script below!](https://dev.jeffreylanters.nl/utseende/test/)
 ```jsx
 import { Sheet } from 'utseende'
 
@@ -20,8 +19,8 @@ const sheet = new Sheet (`
 
     var base public_html/resources
 
-    font sfpro bold base/fonts/sfpro.otf
-    font arial base/fonts/arial.otf
+    font sfpro bold {base}/fonts/sfpro.otf
+    font arial {base}/fonts/arial.otf
 
     for container
         position fixed
@@ -42,13 +41,12 @@ const sheet = new Sheet (`
     for profilePicture
         size 100
         align center
-        image $baseUrl/login.png
+        image {base}/login.png
         cursor pointer
     for button
         cursor pointer
     and hover
         scale 1.1
-        
 `)
 
 export class User extends Component {
