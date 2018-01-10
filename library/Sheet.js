@@ -42,7 +42,7 @@ var Sheet = function () {
                 });
 
                 // comment
-                if (sheetRule.includes('//')) return;
+                if (_this.isLineComment(sheetRule) === true) return;
 
                 // empty lines
                 if (_this.getLineShifted(sheetRule).length === 0) return;
@@ -124,6 +124,12 @@ var Sheet = function () {
         value: function isLineVar(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
             return lineShifted.substring(0, 4) === 'var ';
+        }
+    }, {
+        key: 'isLineComment',
+        value: function isLineComment(sheetRule) {
+            var lineShifted = this.getLineShifted(sheetRule);
+            return lineShifted[0] === '#';
         }
     }, {
         key: 'getLineVar',

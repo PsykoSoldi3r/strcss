@@ -2,6 +2,8 @@
 
 Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍
 
+[https://dev.jeffreylanters.nl/utseende/test/](Click here for a live demo of the script below!)
+
 > Utseende is Work in progress, big changes may be made during new versions. Feel free to contribute!
 
 ## Installation

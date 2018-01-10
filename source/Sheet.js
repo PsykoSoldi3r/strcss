@@ -31,7 +31,7 @@ export default class Sheet {
             })
 
             // comment
-            if (sheetRule.includes ('//'))
+            if (this.isLineComment (sheetRule) === true)
                 return
 
             // empty lines
@@ -116,6 +116,11 @@ export default class Sheet {
     isLineVar (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
         return lineShifted.substring (0, 4) === 'var '
+    }
+
+    isLineComment (sheetRule) {
+        let lineShifted = this.getLineShifted (sheetRule)
+        return lineShifted[0] === '#'
     }
 
     getLineVar (sheetRule) {

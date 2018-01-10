@@ -1,6 +1,6 @@
 {
   "name": "utseende",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "description": "Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍",
   "main": "library/Utseende.js",
   "types": "./types.d.ts",

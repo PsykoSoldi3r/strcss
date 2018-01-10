@@ -3,7 +3,8 @@
         <title>Utseende Demo</title>
         <style>
             #t1, 
-            #t2 {
+            #t2,
+            #t3 {
                 position: fixed;
                 top: 0px;
                 left: 0px;
@@ -16,8 +17,16 @@
                 outline: none;
                 font-family: monospace;
                 font-size: 12px;
-                line-height: 14px;
-                overflow-y: scroll;
+                line-height: 12px;
+                overflow: hidden;
+            }
+            #t1 {
+                background-color: transparent;
+                color: transparent;
+                z-index: 2;
+            }
+            #t3 {
+                z-index: 1;
             }
             #t2 {
                 left: auto;
@@ -27,9 +36,9 @@
     </head>
     <body>
         <textarea id='t1'>
-// Utseende Demo
-// download from NPM:
-//  https://www.npmjs.com/package/utseende
+# Utseende Demo
+# download from NPM:
+#  https://www.npmjs.com/package/utseende
 
 var base public_html/resources
 
@@ -63,6 +72,7 @@ and hover
     scale 1.1
         </textarea>
         <pre><code class="css" id='t2'></code></pre>
+        <pre><code class="perl" id='t3'></code></pre>
     </body>
     <link rel="stylesheet" href="highlight/highlight.css">
     <script>
@@ -76,6 +86,7 @@ and hover
         let sheet = new Sheet ('')
         let t1 = document.getElementById ('t1')
         let t2 = document.getElementById ('t2')
+        let t3 = document.getElementById ('t3')
 
         parseT1 = _ => {
             sheet.sheetText = t1.value
@@ -83,7 +94,8 @@ and hover
             sheet.css = ''
             sheet.map = []
             sheet.generateCSS ()
-            t2.innerHTML = sheet.css + '\n\n'
+            t2.innerHTML = sheet.css
+            t3.innerHTML = t1.value
             hljs.initHighlighting.called = false;
             hljs.initHighlighting();
         }
