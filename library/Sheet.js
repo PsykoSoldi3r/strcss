@@ -42,8 +42,8 @@ var Sheet = function () {
                 if (_this.getLineShifted(sheetRule).length === 0) return;
 
                 // fontface
-                if (_this.isLineFontface(sheetRule) === true) {
-                    if (isScoped === false) _this.css += _this.getLineFontface(sheetRule);
+                if (_this.isLineFontface(sheetRule) === true && isScoped === false) {
+                    _this.css += _this.getLineFontface(sheetRule);
                 }
 
                 // and
@@ -70,7 +70,7 @@ var Sheet = function () {
                         }
 
                         // style
-                        else if (_this.isLineStyle(sheetRule)) {
+                        else {
                                 var styleKeyValue = _this.getStyleKeyValue(sheetRule);
                                 var parsedStyle = _this.getParsedStyle(styleKeyValue);
                                 _this.css += parsedStyle;
@@ -79,11 +79,13 @@ var Sheet = function () {
 
             if (isScoped === true) this.css += ' }';
         }
-    }, {
-        key: 'isLineStyle',
-        value: function isLineStyle(sheetRule) {
-            return this.isLineTarget(sheetRule) === false && this.isLineTarget(sheetRule) === false && this.isLineFontface(sheetRule) === false;
-        }
+
+        // isLineStyle (sheetRule) {
+        //     return (this.isLineTarget (sheetRule) === false
+        //         && this.isLineTarget (sheetRule) === false
+        //         && this.isLineFontface (sheetRule) === false)
+        // }
+
     }, {
         key: 'isLineFontface',
         value: function isLineFontface(sheetRule) {
@@ -151,7 +153,7 @@ var Sheet = function () {
     }, {
         key: 'getLineFontface',
         value: function getLineFontface(sheetText) {
-            var splittedSheetText = sheetText.split(' ');
+            var splittedSheetText = this.getLineShifted(sheetText).split(' ');
             if (splittedSheetText.length === 3) {
                 return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ';\n\tfont-weight: normal;\n\tsrc: url(' + splittedSheetText[2] + '); }';
             } else if (splittedSheetText.length === 4) {
@@ -250,6 +252,9 @@ var Sheet = function () {
                     break;
                 case 'order':
                     styleKeyValue.key = 'z-index';
+                    break;
+                case 'font':
+                    styleKeyValue.key = 'font-family';
                     break;
                 case 'alpha':
                     styleKeyValue.key = 'opacity';

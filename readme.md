@@ -27,7 +27,7 @@ const sheet = new Sheet (`
         position fixed
         rect stretch
         margin 20
-        font-family sfpro
+        font sfpro
     for window
         padding 30
         size 300 200
@@ -40,6 +40,7 @@ const sheet = new Sheet (`
         font-size $fontSize
         image $baseUrl/login.png
         cursor pointer
+        font arial
     and hover
         text-color blue
 `)

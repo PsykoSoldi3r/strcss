@@ -33,9 +33,8 @@ export default class Sheet {
                 return
                 
             // fontface
-            if (this.isLineFontface (sheetRule) === true) {
-                if (isScoped === false)
-                    this.css += this.getLineFontface (sheetRule)
+            if (this.isLineFontface (sheetRule) === true && isScoped === false) {
+                this.css += this.getLineFontface (sheetRule)
             }
             
             // and
@@ -64,7 +63,7 @@ export default class Sheet {
             }
 
             // style
-            else if (this.isLineStyle (sheetRule)) {
+            else {
                 let styleKeyValue = this.getStyleKeyValue (sheetRule)
                 let parsedStyle = this.getParsedStyle (styleKeyValue)
                 this.css += parsedStyle
@@ -75,11 +74,11 @@ export default class Sheet {
             this.css += ' }'
     }
 
-    isLineStyle (sheetRule) {
-        return (this.isLineTarget (sheetRule) === false
-            && this.isLineTarget (sheetRule) === false
-            && this.isLineFontface (sheetRule) === false)
-    }
+    // isLineStyle (sheetRule) {
+    //     return (this.isLineTarget (sheetRule) === false
+    //         && this.isLineTarget (sheetRule) === false
+    //         && this.isLineFontface (sheetRule) === false)
+    // }
 
     isLineFontface (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
@@ -140,7 +139,7 @@ export default class Sheet {
     }
 
     getLineFontface (sheetText) {
-        let splittedSheetText = sheetText.split (' ')
+        let splittedSheetText = this.getLineShifted (sheetText).split (' ')
         if (splittedSheetText.length === 3) {
             return `\n@font-face {\n\tfont-family: ${splittedSheetText[1]};\n\tfont-weight: normal;\n\tsrc: url(${splittedSheetText[2]}); }`
         }
@@ -239,6 +238,9 @@ export default class Sheet {
                 break
             case 'order':
                 styleKeyValue.key = 'z-index'
+                break
+            case 'font':
+                styleKeyValue.key = 'font-family'
                 break
             case 'alpha':
                 styleKeyValue.key = 'opacity'
