@@ -2,7 +2,7 @@
 
 (formerly known as Utseende)
 
-StrCSS brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
+StrCSS (String CSS) brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
 
 <img src="https://raw.githubusercontent.com/jeffreylanters/strcss/master/resources/readme/logo.png" width="300px"><br />
 
