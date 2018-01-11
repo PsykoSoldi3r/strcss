@@ -1,8 +1,8 @@
 {
   "name": "strcss",
-  "version": "1.0.1",
-  "description": "StrCSS (formerly know as Utseende) brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍",
-  "main": "library/Utseende.js",
+  "version": "1.0.4",
+  "description": "StrCSS brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍",
+  "main": "library/index.js",
   "types": "./types.d.ts",
   "scripts": {
     "compile": "babel --presets env source --out-dir library",
@@ -10,19 +10,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jeffreylanters/utseende.git"
+    "url": "git+https://github.com/jeffreylanters/strcss.git"
   },
   "keywords": [
-    "Styles",
+    "strcss",
     "css",
-    "inline"
+    "inline",
+    "react",
+    "component"
   ],
   "author": "Jeffrey Lanters",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jeffreylanters/utseende/issues"
+    "url": "https://github.com/jeffreylanters/strcss/issues"
   },
-  "homepage": "https://github.com/jeffreylanters/utseende#readme",
+  "homepage": "https://github.com/jeffreylanters/strcss#readme",
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",

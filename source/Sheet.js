@@ -1,4 +1,4 @@
-import { constants, sheetCache, uniques } from './Utseende'
+import { sheetCache, uniques } from './index'
 
 const reservedAppliers = [
     'hover',
@@ -8,8 +8,8 @@ const reservedAppliers = [
     'first-child' ]
 
 export default class Sheet {
-    constructor (sheetText) {
-        this.sheetText = this.applyContants (sheetText)
+    constructor (strcss) {
+        this.sheetText = this.applyContants (strcss)
         this.sheetRules = this.sheetText.split ('\n')
         this.css = ''
         this.map = {}

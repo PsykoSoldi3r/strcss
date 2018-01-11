@@ -1,8 +1,8 @@
 # StrCSS &middot; [![license](https://img.shields.io/badge/license-MIT-red.svg)]() [![npm](https://img.shields.io/npm/v/strcss.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() [![npm](https://img.shields.io/npm/dt/strcss.svg)]()
 
-StrCSS brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
+(formerly known as Utseende)
 
-> StrCSS is Work in progress, big changes may be made during new versions. Feel free to contribute!
+StrCSS brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
 
 [Click here for a live demo!](https://dev.jeffreylanters.nl/strcss/test/)
 
