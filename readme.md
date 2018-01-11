@@ -10,7 +10,7 @@ Utseende brings you super powers with simple, light weight, custom ruled, shorth
 - [Installation](#installation)
 - [Usage](#usage)
 - [Keywords](#keywords)
-    - [Selectors](selectors)
+    - [Selectors](#selectors)
     - [Media Queries](#media-queries)
     - [Fonts](#fonts)
     - [Vars](#vars)
@@ -29,17 +29,20 @@ npm install utseende --save
 # Usage
 ```jsx
 import { Sheet } from 'utseende'
-import Reac,t { Component } from 'react'
+import React, { Component } from 'react'
 
 const sheet = new Sheet (`
     var base public/resources
+
     font lato {base}/fonts/lato.otf
+    
     map container
         position fixed
         rect fit
         size 50% 500
     at  mobile
         size 20% 400
+        
     map button
         font-size 20
     on  hover
