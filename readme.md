@@ -1,8 +1,25 @@
 # Utseende &middot; [![license](https://img.shields.io/badge/license-MIT-red.svg)]() [![npm](https://img.shields.io/npm/v/utseende.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() [![npm](https://img.shields.io/npm/dt/utseende.svg)]()
 
-Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍
+Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
 
 > Utseende is Work in progress, big changes may be made during new versions. Feel free to contribute!
+
+[Click here for a live demo!](https://dev.jeffreylanters.nl/utseende/test/)
+
+
+- [Installation](#installation)
+- [Usage](#usage)
+	- [Optional attributes](#optional-attributes)
+        - [Width and height](#width-and-height)
+        - [Tracking progression](#tracking-progression)
+        - [Modules](#modules)
+- [Calling Unity scripts functions from JavaScript in React](#calling-unity-scripts-functions-from-javascript-in-react)
+- [Calling JavaScript functions within React from Unity scripts](#calling-javascript-functions-within-react-from-unity-scripts)
+- [Notes](#notes)
+    - [Best practices for adding the src and loader files on a public path](#best-practices-for-adding-the-src-and-loader-files-on-a-public-path)
+    - [5.x to 6.x Upgrade note](#5x-to-6x-upgrade-note)
+    - [JavaScript to UnityScript types](#havaScript-to-unityScript-types)
+- [Contributing](#contributing)
 
 ## Installation
 Install using NPM
@@ -11,41 +28,22 @@ npm install utseende --save
 ```
 
 ## Example usage
-[Click here for a live demo of the script below!](https://dev.jeffreylanters.nl/utseende/test/)
 ```jsx
 import { Sheet } from 'utseende'
+import Reac,t { Component } from 'react'
 
 const sheet = new Sheet (`
-
-    var base public_html/resources
-
-    font sfpro bold {base}/fonts/sfpro.otf
-    font arial {base}/fonts/arial.otf
-
-    for container
+    var base public/resources
+    font lato {base}/fonts/lato.otf
+    map container
         position fixed
-        rect stretch
-        gradient 90 red blue
-        font sfpro
-    for window
-        size 100%
-        max-size 300 200
-        padding 20
-    and closed
-        display none
-    for title
-    for text
-        color #333
-    for title
+        rect fit
+        size 50% 500
+    at  mobile
+        size 20% 400
+    map button
         font-size 20
-    for profilePicture
-        size 100
-        align center
-        image {base}/login.png
-        cursor pointer
-    for button
-        cursor pointer
-    and hover
+    on  hover
         scale 1.1
 `)
 
@@ -53,16 +51,85 @@ export class User extends Component {
     render () {
         return (
             <div className={sheet.map.container}>
-                <div className={sheet.map.window}>
-                    <div className={sheet.map.profilePicture} />
-                    <div className={sheet.map.title}>Hello World!</div>
-                    <div className={sheet.map.text}>How are you?</div>
-                </div>
+                <div className={sheet.map.button}>Login</div>
             </div>
-        );
+        )
     }
-};
+}
+```
 
+## Keywords
+
+### Selectors
+Use the `on` keyword to apply a selector
+```jsx
+const sheet = new Sheet (`
+    map button
+        cursor pointer
+        color blue
+    on  hover
+        scale 1.1
+
+    map listItem
+    on  last-child
+        border-bottom 1 solid grey
+`)
+```
+
+### Media Queries
+Use the `at` keyword within a map to apply one of the three media queries.
+`mobile, tablet and desktop`.
+```jsx
+const sheet = new Sheet (`
+    map profilePicture
+        border-radius 50%
+    at  mobile
+        size 10
+    at  tablet
+        size 100
+    at  desktop
+        size 200
+`)
+```
+
+### Fonts
+Use the `font` keyword on top of your sheet to load font. When specifing just a name, the font will be loaded from Google Fonts.
+```jsx
+const sheet = new Sheet (`
+    font sfpro bold fonts/sfpro.otf
+    font arial fonts/arial.otf
+    font Lato
+`)
+```
+
+### Vars
+Use the `var` keyword on to declarate an var.
+```jsx
+const sheet = new Sheet (`
+    var base public/resources
+    font sfpro bold {base}/sfpro.otf
+    map picture
+        image {base}/dog.png
+`)
+```
+
+### Vars
+Use the `#` keyword to place comments.
+```jsx
+const sheet = new Sheet (`
+    # global font size
+    var fs 10
+
+`)
+```
+
+## Numbers
+Numbers will automaticly be changes into px when needed.
+```
+    var num = 10
+    font-size {num}     -> font-size 10px
+    z-index {num}       -> z-index 1
+    padding 10          -> padding 10px
 ```
 
 ## Properties
@@ -84,7 +151,7 @@ You can use most default CSS property as well. (Some are untested, let me know i
 | scroll | Used to add scrollbars to elements with an content that overflows (according to the parameters given for the `size`) | horizontal / vertical / both |
 | align | Blocks an element and aligns it relative to its parent | left / center / right |
 | scale | The scale increases or decreases the size of an element (according to the parameters given for the `size`). | x`number` y`number` / xy`number` |
-| font | To use the font for an HTML element, refer to the name of the font (myFirstFont) through the font property | name`string` |
+| font | To use the font for an HTML element, refer to the name of the font through the font property | name`string` |
 
 **Types:**
 - `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block. Single numbers will be turned into px (if posibile).

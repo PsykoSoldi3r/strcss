@@ -31,12 +31,11 @@ var Sheet = function () {
             var _this = this;
 
             var isScoped = false;
-            var isPreScoped = false;
+            var isMedia = false;
             var currentScopeUniqueID = '';
             var localVars = [];
 
             this.sheetRules.map(function (sheetRule) {
-
                 localVars.map(function (localVar) {
                     sheetRule = sheetRule.replace('{' + localVar.key + '}', localVar.value);
                 });
@@ -57,49 +56,60 @@ var Sheet = function () {
                         localVars.push(_this.getLineVar(sheetRule));
                     }
 
-                    // and / applier
-                    else if (_this.isLineApplier(sheetRule) === true && isScoped === true) {
-                            var parsedApplier = _this.getParsedApplier(sheetRule);
-                            if (isPreScoped === true) _this.css += '{ ';
+                    // media
+                    else if (_this.isLineMedia(sheetRule) === true) {
+                            if (isScoped === true) _this.css += ' }';
+                            if (isMedia === true) _this.css += ' }';
 
-                            _this.css += ' }';
-                            _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
-                        }
+                            var media = _this.getLineMedia(sheetRule);
 
-                        // target
-                        else if (_this.isLineTarget(sheetRule) === true) {
-                                if (isScoped === true && isPreScoped === false) _this.css += ' }';
+                            _this.css += '\n' + media;
 
-                                if (isPreScoped === true) _this.css += ', ';
-
-                                var uniqueID = _this.getUniqueID();
-                                var targetName = _this.getTargetName(sheetRule);
-
-                                if (typeof _this.map[targetName] !== 'undefined') uniqueID = _this.map[targetName];
-
-                                currentScopeUniqueID = uniqueID;
-                                isScoped = true;
-                                isPreScoped = true;
-
-                                _this.css += '\n.' + uniqueID + ' /* ' + targetName + ' */ ';
-                                _this.map[targetName] = uniqueID;
+                            if (isScoped === true) {
+                                _this.css += '';
+                                _this.css += '\n.' + currentScopeUniqueID + ' {';
                             }
 
-                            // style
-                            else if (isScoped === true) {
-                                    if (isPreScoped === true) {
-                                        _this.css += ' {';
-                                        isPreScoped = false;
+                            isMedia = true;
+                        }
+
+                        // applier
+                        else if (_this.isLineApplier(sheetRule) === true && isScoped === true) {
+                                var parsedApplier = _this.getParsedApplier(sheetRule);
+
+                                _this.css += ' }';
+                                _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
+                            }
+
+                            // target
+                            else if (_this.isLineTarget(sheetRule) === true) {
+                                    if (isScoped === true) _this.css += ' }';
+                                    if (isMedia === true) {
+                                        _this.css += ' }';
+                                        isMedia = false;
                                     }
 
-                                    var styleKeyValue = _this.getStyleKeyValue(sheetRule);
-                                    var parsedStyle = _this.getParsedStyle(styleKeyValue);
+                                    var uniqueID = _this.getUniqueID();
+                                    var targetName = _this.getTargetName(sheetRule);
 
-                                    _this.css += parsedStyle;
+                                    if (typeof _this.map[targetName] !== 'undefined') uniqueID = _this.map[targetName];
+
+                                    currentScopeUniqueID = uniqueID;
+                                    isScoped = true;
+
+                                    _this.css += '\n.' + uniqueID + ' { /* ' + targetName + ' */ ';
+                                    _this.map[targetName] = uniqueID;
                                 }
+
+                                // style
+                                else if (isScoped === true) {
+                                        var styleKeyValue = _this.getStyleKeyValue(sheetRule);
+                                        var parsedStyle = _this.getParsedStyle(styleKeyValue);
+
+                                        _this.css += parsedStyle;
+                                    }
             });
 
-            if (isPreScoped) this.css += '{ ';
             if (isScoped === true) this.css += ' }';
         }
     }, {
@@ -112,13 +122,13 @@ var Sheet = function () {
         key: 'isLineTarget',
         value: function isLineTarget(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted.substring(0, 4) === 'for ';
+            return lineShifted.substring(0, 4) === 'map ';
         }
     }, {
         key: 'isLineApplier',
         value: function isLineApplier(sheetRule) {
             var lineShifted = this.getLineShifted(sheetRule);
-            return lineShifted.substring(0, 4) === 'and ';
+            return lineShifted.substring(0, 3) === 'on ';
         }
     }, {
         key: 'isLineVar',
@@ -133,6 +143,12 @@ var Sheet = function () {
             return lineShifted[0] === '#';
         }
     }, {
+        key: 'isLineMedia',
+        value: function isLineMedia(sheetRule) {
+            var lineShifted = this.getLineShifted(sheetRule);
+            return lineShifted.substring(0, 3) === 'at ';
+        }
+    }, {
         key: 'getLineVar',
         value: function getLineVar(sheetRule) {
             sheetRule = sheetRule.replace('var ', '');
@@ -141,18 +157,37 @@ var Sheet = function () {
             return { key: key, value: value };
         }
     }, {
+        key: 'getLineMedia',
+        value: function getLineMedia(sheetRule) {
+            var mediaName = this.getLineShifted(this.getLineShifted(sheetRule).replace('at ', ''));
+            var media = '@media only screen and';
+
+            switch (mediaName) {
+                case 'mobile':
+                    media += '(max-width: 767px)';
+                    break;
+                case 'tablet':
+                    media += '(min-width: 768px) and (max-width: 991px)';
+                    break;
+                case 'desktop':
+                    media += '(min-width: 992px) and (max-width: 1199px)';
+                    break;
+            }
+
+            media += ' { /* ' + mediaName + ' */';
+            return media;
+        }
+    }, {
         key: 'getParsedApplier',
         value: function getParsedApplier(sheetRule) {
-            var applier = this.getLineShifted(sheetRule).replace('and ', '');
-            if (reservedAppliers.includes(applier)) {
-                return ':' + applier;
-            }
+            var applier = this.getLineShifted(this.getLineShifted(sheetRule).replace('on ', ''));
+            if (reservedAppliers.includes(applier)) return ':' + applier;
             return '.' + applier;
         }
     }, {
         key: 'getTargetName',
         value: function getTargetName(sheetRules) {
-            return this.getLineShifted(sheetRules).replace('for ', '');
+            return this.getLineShifted(sheetRules).replace('map ', '');
         }
     }, {
         key: 'getLineShifted',
@@ -190,10 +225,12 @@ var Sheet = function () {
         key: 'getLineFontface',
         value: function getLineFontface(sheetText) {
             var splittedSheetText = this.getLineShifted(sheetText).split(' ');
-            if (splittedSheetText.length === 3) {
-                return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ' sans;\n\tfont-weight: normal;\n\tsrc: url(' + splittedSheetText[2] + '); }';
+            if (splittedSheetText.length === 2) {
+                return '\n@import url(\'https://fonts.googleapis.com/css?family=' + splittedSheetText[1] + '\');';
+            } else if (splittedSheetText.length === 3) {
+                return '\n@font-face {\n\tfont-family: \'' + splittedSheetText[1] + '\';\n\tfont-weight: normal;\n\tsrc: url(' + splittedSheetText[2] + '); }';
             } else if (splittedSheetText.length === 4) {
-                return '\n@font-face {\n\tfont-family: ' + splittedSheetText[1] + ' sans;\n\tfont-weight: ' + splittedSheetText[2] + ';\n\tsrc: url(' + splittedSheetText[3] + '); }';
+                return '\n@font-face {\n\tfont-family: \'' + splittedSheetText[1] + '\';\n\tfont-weight: ' + splittedSheetText[2] + ';\n\tsrc: url(' + splittedSheetText[3] + '); }';
             }
             return '';
         }
@@ -291,6 +328,7 @@ var Sheet = function () {
                     break;
                 case 'font':
                     styleKeyValue.key = 'font-family';
+                    styleKeyValue.value = '\'' + styleKeyValue.value + '\', sans';
                     break;
                 case 'alpha':
                     styleKeyValue.key = 'opacity';

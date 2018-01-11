@@ -8,7 +8,6 @@
                 position: fixed;
                 top: 0px;
                 left: 0px;
-                width: 50vw;
                 height: 100vh;
                 border: 0px;
                 padding: 25px;
@@ -21,16 +20,21 @@
                 overflow: hidden;
             }
             #t1 {
-                background-color: transparent;
-                color: transparent;
                 z-index: 2;
+                background: #272822;
+                color: white;
+                width: 40vw;
             }
             #t3 {
-                z-index: 1;
+                z-index: 3;
+                background: transparent;
+                pointer-events: none;
+                width: 40vw;
             }
             #t2 {
                 left: auto;
                 right: 0px;
+                width: 60vw;
             }
         </style>
     </head>
@@ -44,31 +48,42 @@ var base public_html/resources
 
 font sfpro bold {base}/fonts/sfpro.otf
 font arial {base}/fonts/arial.otf
+font Lato
 
-for container
+map container
     position fixed
     rect stretch
     gradient 90 red blue
     font sfpro
-for window
+
+map window
     size 100%
     max-size 300 200
     padding 20
-and closed
+on  closed
     display none
-for title
-for text
+
+map title
+map text
     color #333
-for title
+
+map title
     font-size 20
-for profilePicture
-    size 100
+
+map profilePicture
     align center
     image {base}/login.png
     cursor pointer
-for button
+at  mobile
+    size 10
+at  tablet
+    size 100
+at  desktop
+    size 200
+
+map button
     cursor pointer
-and hover
+on  hover
     scale 1.1
         </textarea>
         <pre><code class="css" id='t2'></code></pre>

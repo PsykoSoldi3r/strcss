@@ -20,15 +20,13 @@ export default class Sheet {
     
     generateCSS () {
         let isScoped = false
-        let isPreScoped = false
+        let isMedia = false
         let currentScopeUniqueID = ''
         var localVars = []
 
         this.sheetRules.map (sheetRule => {
-
             localVars.map (localVar => {
-                sheetRule = sheetRule.replace (`{${localVar.key}}`, localVar.value)
-            })
+                sheetRule = sheetRule.replace (`{${localVar.key}}`, localVar.value)})
 
             // comment
             if (this.isLineComment (sheetRule) === true)
@@ -47,12 +45,29 @@ export default class Sheet {
             else if (this.isLineVar (sheetRule) === true && isScoped === false) {
                 localVars.push (this.getLineVar (sheetRule))
             }
+
+            // media
+            else if (this.isLineMedia (sheetRule) === true) {
+                if (isScoped === true)
+                    this.css += ' }'
+                if (isMedia === true)
+                    this.css += ' }'
+                
+                let media = this.getLineMedia (sheetRule)
+
+                this.css += `\n${media}`
+
+                if (isScoped === true) {
+                    this.css += ''
+                    this.css += `\n.${currentScopeUniqueID} {`
+                }
+
+                isMedia = true
+            }
             
-            // and / applier
+            // applier
             else if (this.isLineApplier (sheetRule) === true && isScoped === true) {
                 let parsedApplier = this.getParsedApplier (sheetRule)
-                if (isPreScoped === true)
-                    this.css += '{ '
                     
                 this.css += ' }'
                 this.css += `\n.${currentScopeUniqueID}${parsedApplier} {`
@@ -60,11 +75,12 @@ export default class Sheet {
 
             // target
             else if (this.isLineTarget (sheetRule) === true) {
-                if (isScoped === true && isPreScoped === false)
+                if (isScoped === true)
                     this.css += ' }'
-                
-                if (isPreScoped === true)
-                    this.css += ', '
+                if (isMedia === true) {
+                    this.css += ' }'
+                    isMedia = false
+                }
 
                 let uniqueID = this.getUniqueID ()
                 let targetName = this.getTargetName (sheetRule)
@@ -74,19 +90,13 @@ export default class Sheet {
 
                 currentScopeUniqueID = uniqueID
                 isScoped = true
-                isPreScoped = true
 
-                this.css += `\n.${uniqueID} /* ${targetName} */ `
+                this.css += `\n.${uniqueID} { /* ${targetName} */ `
                 this.map[targetName] = uniqueID
             }
 
             // style
             else if (isScoped === true) {
-                if (isPreScoped === true) {
-                    this.css += ' {'
-                    isPreScoped = false
-                }
-
                 let styleKeyValue = this.getStyleKeyValue (sheetRule)
                 let parsedStyle = this.getParsedStyle (styleKeyValue)
 
@@ -94,8 +104,6 @@ export default class Sheet {
             }
         })
 
-        if (isPreScoped)
-            this.css += '{ '
         if (isScoped === true)
             this.css += ' }'
     }
@@ -107,12 +115,12 @@ export default class Sheet {
 
     isLineTarget (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 4) === 'for '
+        return lineShifted.substring (0, 4) === 'map '
     }
 
     isLineApplier (sheetRule) {
         let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 4) === 'and '
+        return lineShifted.substring (0, 3) === 'on '
     }
 
     isLineVar (sheetRule) {
@@ -125,6 +133,11 @@ export default class Sheet {
         return lineShifted[0] === '#'
     }
 
+    isLineMedia (sheetRule) {
+        let lineShifted = this.getLineShifted (sheetRule)
+        return lineShifted.substring (0, 3) === 'at '
+    }
+
     getLineVar (sheetRule) {
         sheetRule = sheetRule.replace ('var ', '')
         let key = this.getLineShifted (sheetRule).split (' ')[0]
@@ -132,16 +145,35 @@ export default class Sheet {
         return { key: key, value: value }
     }
 
-    getParsedApplier (sheetRule) {
-        let applier = this.getLineShifted (sheetRule).replace ('and ', '')
-        if (reservedAppliers.includes (applier)) {
-            return `:${applier}`
+    getLineMedia (sheetRule) {
+        let mediaName = this.getLineShifted (this.getLineShifted (sheetRule).replace ('at ', ''))
+        let media = `@media only screen and`
+
+        switch (mediaName) {
+            case 'mobile':
+                media += '(max-width: 767px)'
+                break;
+            case 'tablet':
+                media += '(min-width: 768px) and (max-width: 991px)'
+                break;
+            case 'desktop':
+                media += '(min-width: 992px) and (max-width: 1199px)'
+                break;
         }
+
+        media += ` { /* ${mediaName} */`
+        return media
+    }
+
+    getParsedApplier (sheetRule) {
+        let applier = this.getLineShifted (this.getLineShifted (sheetRule).replace ('on ', ''))
+        if (reservedAppliers.includes (applier))
+            return `:${applier}`
         return `.${applier}`
     }
 
     getTargetName (sheetRules) {
-        return this.getLineShifted (sheetRules).replace ('for ', '')
+        return this.getLineShifted (sheetRules).replace ('map ', '')
     }
 
     getLineShifted (sheetRules) {
@@ -177,11 +209,14 @@ export default class Sheet {
 
     getLineFontface (sheetText) {
         let splittedSheetText = this.getLineShifted (sheetText).split (' ')
-        if (splittedSheetText.length === 3) {
-            return `\n@font-face {\n\tfont-family: ${splittedSheetText[1]};\n\tfont-weight: normal;\n\tsrc: url(${splittedSheetText[2]}); }`
+        if (splittedSheetText.length === 2) {
+            return `\n@import url('https://fonts.googleapis.com/css?family=${splittedSheetText[1]}');`
+        }
+        else if (splittedSheetText.length === 3) {
+            return `\n@font-face {\n\tfont-family: '${splittedSheetText[1]}';\n\tfont-weight: normal;\n\tsrc: url(${splittedSheetText[2]}); }`
         }
         else if (splittedSheetText.length === 4) {
-            return `\n@font-face {\n\tfont-family: ${splittedSheetText[1]};\n\tfont-weight: ${splittedSheetText[2]};\n\tsrc: url(${splittedSheetText[3]}); }`
+            return `\n@font-face {\n\tfont-family: '${splittedSheetText[1]}';\n\tfont-weight: ${splittedSheetText[2]};\n\tsrc: url(${splittedSheetText[3]}); }`
         }
         return ''
     }
@@ -278,7 +313,7 @@ export default class Sheet {
                 break
             case 'font':
                 styleKeyValue.key = 'font-family'
-                styleKeyValue.value += ', sans'
+                styleKeyValue.value = `'${styleKeyValue.value}', sans`
                 break
             case 'alpha':
                 styleKeyValue.key = 'opacity'
