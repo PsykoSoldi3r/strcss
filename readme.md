@@ -9,25 +9,24 @@ Utseende brings you super powers with simple, light weight, custom ruled, shorth
 
 - [Installation](#installation)
 - [Usage](#usage)
-	- [Optional attributes](#optional-attributes)
-        - [Width and height](#width-and-height)
-        - [Tracking progression](#tracking-progression)
-        - [Modules](#modules)
-- [Calling Unity scripts functions from JavaScript in React](#calling-unity-scripts-functions-from-javascript-in-react)
-- [Calling JavaScript functions within React from Unity scripts](#calling-javascript-functions-within-react-from-unity-scripts)
-- [Notes](#notes)
-    - [Best practices for adding the src and loader files on a public path](#best-practices-for-adding-the-src-and-loader-files-on-a-public-path)
-    - [5.x to 6.x Upgrade note](#5x-to-6x-upgrade-note)
-    - [JavaScript to UnityScript types](#havaScript-to-unityScript-types)
+- [Keywords](#keywords)
+    - [Selectors](selectors)
+    - [Media Queries](#media-queries)
+    - [Fonts](#fonts)
+    - [Vars](#vars)
+- [Numbers](Numbers)
+- [Properties](#properties)
 - [Contributing](#contributing)
 
-## Installation
+<br/><br/><br/>
+# Installation
 Install using NPM
 ```sh
 npm install utseende --save
 ```
 
-## Example usage
+<br/><br/><br/>
+# Usage
 ```jsx
 import { Sheet } from 'utseende'
 import Reac,t { Component } from 'react'
@@ -58,9 +57,10 @@ export class User extends Component {
 }
 ```
 
-## Keywords
+<br/><br/><br/>
+# Keywords
 
-### Selectors
+## Selectors
 Use the `on` keyword to apply a selector
 ```jsx
 const sheet = new Sheet (`
@@ -76,7 +76,7 @@ const sheet = new Sheet (`
 `)
 ```
 
-### Media Queries
+## Media Queries
 Use the `at` keyword within a map to apply one of the three media queries.
 `mobile, tablet and desktop`.
 ```jsx
@@ -92,7 +92,7 @@ const sheet = new Sheet (`
 `)
 ```
 
-### Fonts
+## Fonts
 Use the `font` keyword on top of your sheet to load font. When specifing just a name, the font will be loaded from Google Fonts.
 ```jsx
 const sheet = new Sheet (`
@@ -102,7 +102,7 @@ const sheet = new Sheet (`
 `)
 ```
 
-### Vars
+## Vars
 Use the `var` keyword on to declarate an var.
 ```jsx
 const sheet = new Sheet (`
@@ -113,7 +113,7 @@ const sheet = new Sheet (`
 `)
 ```
 
-### Vars
+## Vars
 Use the `#` keyword to place comments.
 ```jsx
 const sheet = new Sheet (`
@@ -123,7 +123,8 @@ const sheet = new Sheet (`
 `)
 ```
 
-## Numbers
+<br/><br/><br/>
+# Numbers
 Numbers will automaticly be changes into px when needed.
 ```
     var num = 10
@@ -132,7 +133,8 @@ Numbers will automaticly be changes into px when needed.
     padding 10          -> padding 10px
 ```
 
-## Properties
+<br/><br/><br/>
+# Properties
 You can use most default CSS property as well. (Some are untested, let me know if one doesnt work!)
 
 | Property | Description | Parametes |
@@ -157,5 +159,6 @@ You can use most default CSS property as well. (Some are untested, let me know i
 - `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block. Single numbers will be turned into px (if posibile).
 - `color` The name of a color or HEX value
 
-## Contributing
+<br/><br/><br/>
+# Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change. Before commiting, please compile your code using `npm run compile` and test using `npm test`, then open a pull request. Thank you very much!
