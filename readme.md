@@ -42,7 +42,7 @@ const sheet = new Sheet (`
         size 50% 500
     at  mobile
         size 20% 400
-        
+
     map button
         font-size 20
     on  hover
@@ -122,18 +122,19 @@ Use the `#` keyword to place comments.
 const sheet = new Sheet (`
     # global font size
     var fs 10
-
 `)
 ```
 
 <br/><br/><br/>
 # Numbers
 Numbers will automaticly be changes into px when needed.
-```
+```jsx
+const sheet = new Sheet (`
     var num = 10
-    font-size {num}     -> font-size 10px
-    z-index {num}       -> z-index 1
-    padding 10          -> padding 10px
+    font-size {num}     --> font-size 10px
+    z-index {num}       --> z-index 10
+    padding 20 10%      --> padding 20px 10%
+`)
 ```
 
 <br/><br/><br/>
