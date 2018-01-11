@@ -4,3 +4,4 @@ node_modules
 .gitignore
 tests.js
 readme.md
+resources/readme
