@@ -116,7 +116,7 @@ const sheet = new Sheet (`
 `)
 ```
 
-## Vars
+## Comments
 Use the `#` keyword to place comments.
 ```jsx
 const sheet = new Sheet (`
