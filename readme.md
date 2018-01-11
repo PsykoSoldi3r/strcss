@@ -42,9 +42,10 @@ const sheet = new Sheet (`
         rect fit
         size 50% 500
     at  mobile
-        size 20% 400
+        max-size 20% 400
 
     map button
+        image {base}/login.png
         font-size 20
     on  hover
         scale 1.1
