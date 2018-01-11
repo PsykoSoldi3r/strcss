@@ -1,10 +1,10 @@
-# Utseende &middot; [![license](https://img.shields.io/badge/license-MIT-red.svg)]() [![npm](https://img.shields.io/npm/v/utseende.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() [![npm](https://img.shields.io/npm/dt/utseende.svg)]()
+# StrCSS &middot; [![license](https://img.shields.io/badge/license-MIT-red.svg)]() [![npm](https://img.shields.io/npm/v/strcss.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() [![npm](https://img.shields.io/npm/dt/strcss.svg)]()
 
-Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
+StrCSS brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
 
-> Utseende is Work in progress, big changes may be made during new versions. Feel free to contribute!
+> StrCSS is Work in progress, big changes may be made during new versions. Feel free to contribute!
 
-[Click here for a live demo!](https://dev.jeffreylanters.nl/utseende/test/)
+[Click here for a live demo!](https://dev.jeffreylanters.nl/strcss/test/)
 
 
 - [Installation](#installation)
@@ -23,13 +23,13 @@ Utseende brings you super powers with simple, light weight, custom ruled, shorth
 # Installation
 Install using NPM
 ```sh
-npm install utseende --save
+npm install strcss --save
 ```
 
 <br/><br/><br/>
 # Usage
 ```jsx
-import { Sheet } from 'utseende'
+import { Sheet } from 'strcss'
 import React, { Component } from 'react'
 
 const sheet = new Sheet (`

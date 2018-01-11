@@ -1,7 +1,7 @@
 {
-  "name": "utseende",
-  "version": "0.1.34",
-  "description": "Utseende brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍",
+  "name": "strcss",
+  "version": "1.0.1",
+  "description": "StrCSS (formerly know as Utseende) brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have three wishes left... 🧞‍",
   "main": "library/Utseende.js",
   "types": "./types.d.ts",
   "scripts": {
