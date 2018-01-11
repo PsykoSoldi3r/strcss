@@ -160,7 +160,7 @@ var Sheet = function () {
         key: 'getLineMedia',
         value: function getLineMedia(sheetRule) {
             var mediaName = this.getLineShifted(this.getLineShifted(sheetRule).replace('at ', ''));
-            var media = '@media only screen and';
+            var media = '@media only screen and ';
 
             switch (mediaName) {
                 case 'mobile':

@@ -14,6 +14,7 @@ Utseende brings you super powers with simple, light weight, custom ruled, shorth
     - [Media Queries](#media-queries)
     - [Fonts](#fonts)
     - [Vars](#vars)
+    - [Comments](#comments)
 - [Numbers](Numbers)
 - [Properties](#properties)
 - [Contributing](#contributing)

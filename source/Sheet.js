@@ -147,7 +147,7 @@ export default class Sheet {
 
     getLineMedia (sheetRule) {
         let mediaName = this.getLineShifted (this.getLineShifted (sheetRule).replace ('at ', ''))
-        let media = `@media only screen and`
+        let media = `@media only screen and `
 
         switch (mediaName) {
             case 'mobile':
