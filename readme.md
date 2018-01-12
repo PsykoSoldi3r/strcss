@@ -21,10 +21,10 @@ StrCSS (String CSS), formerly known as Utseende, brings you super powers with si
 
 <br/><br/><br/>
 # Installation
-Install using NPM
 ```sh
 npm install strcss --save
 ```
+Install the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=jeffreylanters.strcss-highlighting) from the Visual Studio Marketplace for syntax highlighting support!
 
 <br/><br/><br/>
 # Usage
