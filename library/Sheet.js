@@ -13,10 +13,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var reservedAppliers = ['hover', 'visited', 'active', 'last-child', 'first-child'];
 
 var Sheet = function () {
-    function Sheet(sheetText) {
+    function Sheet(strcss) {
         _classCallCheck(this, Sheet);
 
-        this.sheetText = this.applyContants(sheetText);
+        this.sheetText = strcss;
         this.sheetRules = this.sheetText.split('\n');
         this.css = '';
         this.map = {};
@@ -202,14 +202,6 @@ var Sheet = function () {
             for (var i = 0; i < 3; i++) {
                 id += '' + Math.random().toString(36).substr(2, 5) + _index.uniques.length * (i + 1);
             }return id + '_';
-        }
-    }, {
-        key: 'applyContants',
-        value: function applyContants(sheetText) {
-            for (var constantKey in constants) {
-                sheetText = sheetText.replace(new RegExp('\\$' + constantKey, 'g'), constants[constantKey]);
-            }
-            return sheetText;
         }
     }, {
         key: 'getStyleKeyValue',

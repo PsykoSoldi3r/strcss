@@ -9,7 +9,7 @@ const reservedAppliers = [
 
 export default class Sheet {
     constructor (strcss) {
-        this.sheetText = this.applyContants (strcss)
+        this.sheetText = strcss
         this.sheetRules = this.sheetText.split ('\n')
         this.css = ''
         this.map = {}
@@ -186,16 +186,6 @@ export default class Sheet {
         for (var i = 0; i < 3; i++)
             id += `${Math.random().toString(36).substr(2, 5)}${(uniques.length * (i + 1))}`
         return `${id}_`
-    }
-
-    applyContants (sheetText) {
-        for (var constantKey in constants) {
-            sheetText = sheetText.replace (
-                new RegExp (
-                    `\\$${constantKey}`, 'g'), 
-                    constants[constantKey]);
-        }
-        return sheetText
     }
 
     getStyleKeyValue (sheetText) {
