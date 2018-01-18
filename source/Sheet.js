@@ -259,6 +259,7 @@ export default class Sheet {
             case 'scale':
             case 'transform':
             case 'flex':
+            case 'font-weight':
                 break
             case 'gradient':
             case 'background-image':

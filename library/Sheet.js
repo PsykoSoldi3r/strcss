@@ -276,6 +276,7 @@ var Sheet = function () {
                 case 'scale':
                 case 'transform':
                 case 'flex':
+                case 'font-weight':
                     break;
                 case 'gradient':
                 case 'background-image':
