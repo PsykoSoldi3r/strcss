@@ -270,6 +270,9 @@ export default class Sheet {
             case 'animation-duration':
                 this.addNumericEndings (styleKeyValue, 's')
                 break
+            case 'font-weight':
+                this.addNumericEndings( styleKeyValue, '' );
+                break;
             default:
                 this.addNumericEndings (styleKeyValue, 'px')
                 break
