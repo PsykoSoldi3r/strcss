@@ -259,6 +259,7 @@ export default class Sheet {
             case 'scale':
             case 'transform':
             case 'flex':
+            case 'font-weight':
                 break
             case 'gradient':
             case 'background-image':
@@ -270,9 +271,6 @@ export default class Sheet {
             case 'animation-duration':
                 this.addNumericEndings (styleKeyValue, 's')
                 break
-            case 'font-weight':
-                this.addNumericEndings( styleKeyValue, '' );
-                break;
             default:
                 this.addNumericEndings (styleKeyValue, 'px')
                 break
