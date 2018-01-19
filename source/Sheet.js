@@ -11,6 +11,17 @@ export default class Sheet {
         this.applyToDocument()
     }
 
+    get(names) {
+        let splittedNames = names.replace(/\s+/, "").split(',')
+        let result = ''
+        splittedNames.map(name => {
+            if (typeof this.map[name] !== 'undefined') {
+                result += this.map[name] + ' '
+            }
+        })
+        return result
+    }
+
     generateCSS() {
         let isScoped = false
         let isMedia = false

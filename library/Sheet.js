@@ -24,9 +24,23 @@ var Sheet = function () {
     }
 
     _createClass(Sheet, [{
+        key: 'get',
+        value: function get(names) {
+            var _this = this;
+
+            var splittedNames = names.replace(/\s+/, "").split(',');
+            var result = '';
+            splittedNames.map(function (name) {
+                if (typeof _this.map[name] !== 'undefined') {
+                    result += _this.map[name] + ' ';
+                }
+            });
+            return result;
+        }
+    }, {
         key: 'generateCSS',
         value: function generateCSS() {
-            var _this = this;
+            var _this2 = this;
 
             var isScoped = false;
             var isMedia = false;
@@ -39,72 +53,72 @@ var Sheet = function () {
                 });
 
                 // comment
-                if (_this.isLineComment(sheetRule) === true) return;
+                if (_this2.isLineComment(sheetRule) === true) return;
 
                 // empty lines
-                if (_this.getLineShifted(sheetRule).length === 0) return;
+                if (_this2.getLineShifted(sheetRule).length === 0) return;
 
                 // fontface
-                if (_this.isLineFontface(sheetRule) === true && isScoped === false) {
-                    _this.css += _this.getLineFontface(sheetRule);
+                if (_this2.isLineFontface(sheetRule) === true && isScoped === false) {
+                    _this2.css += _this2.getLineFontface(sheetRule);
                 }
 
                 // var
-                else if (_this.isLineVar(sheetRule) === true && isScoped === false) {
-                        localVars.push(_this.getLineVar(sheetRule));
+                else if (_this2.isLineVar(sheetRule) === true && isScoped === false) {
+                        localVars.push(_this2.getLineVar(sheetRule));
                     }
 
                     // media
-                    else if (_this.isLineMedia(sheetRule) === true) {
-                            if (isScoped === true) _this.css += ' }';
-                            if (isMedia === true) _this.css += ' }';
+                    else if (_this2.isLineMedia(sheetRule) === true) {
+                            if (isScoped === true) _this2.css += ' }';
+                            if (isMedia === true) _this2.css += ' }';
 
-                            var media = _this.getLineMedia(sheetRule);
+                            var media = _this2.getLineMedia(sheetRule);
 
-                            _this.css += '\n' + media;
+                            _this2.css += '\n' + media;
 
                             if (isScoped === true) {
-                                _this.css += '';
-                                _this.css += '\n.' + currentScopeUniqueID + ' {';
+                                _this2.css += '';
+                                _this2.css += '\n.' + currentScopeUniqueID + ' {';
                             }
 
                             isMedia = true;
                         }
 
                         // applier
-                        else if (_this.isLineApplier(sheetRule) === true && isScoped === true) {
-                                var parsedApplier = _this.getParsedApplier(sheetRule);
+                        else if (_this2.isLineApplier(sheetRule) === true && isScoped === true) {
+                                var parsedApplier = _this2.getParsedApplier(sheetRule);
 
-                                _this.css += ' }';
-                                _this.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
+                                _this2.css += ' }';
+                                _this2.css += '\n.' + currentScopeUniqueID + parsedApplier + ' {';
                             }
 
                             // target
-                            else if (_this.isLineTarget(sheetRule) === true) {
-                                    if (isScoped === true) _this.css += ' }';
+                            else if (_this2.isLineTarget(sheetRule) === true) {
+                                    if (isScoped === true) _this2.css += ' }';
                                     if (isMedia === true) {
-                                        _this.css += ' }';
+                                        _this2.css += ' }';
                                         isMedia = false;
                                     }
 
-                                    var uniqueID = _this.getUniqueID();
-                                    var targetName = _this.getTargetName(sheetRule);
+                                    var uniqueID = _this2.getUniqueID();
+                                    var targetName = _this2.getTargetName(sheetRule);
 
-                                    if (typeof _this.map[targetName] !== 'undefined') uniqueID = _this.map[targetName];
+                                    if (typeof _this2.map[targetName] !== 'undefined') uniqueID = _this2.map[targetName];
 
                                     currentScopeUniqueID = uniqueID;
                                     isScoped = true;
 
-                                    _this.css += '\n.' + uniqueID + ' { /* ' + targetName + ' */ ';
-                                    _this.map[targetName] = uniqueID;
+                                    _this2.css += '\n.' + uniqueID + ' { /* ' + targetName + ' */ ';
+                                    _this2.map[targetName] = uniqueID;
                                 }
 
                                 // style
                                 else if (isScoped === true) {
-                                        var styleKeyValue = _this.getStyleKeyValue(sheetRule);
-                                        var parsedStyle = _this.getParsedStyle(styleKeyValue);
+                                        var styleKeyValue = _this2.getStyleKeyValue(sheetRule);
+                                        var parsedStyle = _this2.getParsedStyle(styleKeyValue);
 
-                                        _this.css += parsedStyle;
+                                        _this2.css += parsedStyle;
                                     }
             });
 

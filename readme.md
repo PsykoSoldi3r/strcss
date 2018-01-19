@@ -88,7 +88,7 @@ export class User extends Component {
 # How It Works
 Create a sheet per component, a stylesheet will be generated per component class - NOT per component instance. When running your web application, the sheets will be injected before rendering. 
 
-Use the map key as class names, mapped styles will be available in the map object.
+Use the maps as class names, mapped styles will be available in the map object.
 
 ```jsx
 const sheet = new Sheet(`
@@ -101,8 +101,11 @@ const sheet = new Sheet(`
     on  hover
         scale 1.1
 `)
+// Get the styles from the map object
 <div className={sheet.map.title} />
 <div className={sheet.map.button} />
+// Or grab multiple maps using the get method
+<div className={sheet.get('title, button')}>
 ```
 
 Will be rendered into...
