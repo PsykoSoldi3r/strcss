@@ -1,4 +1,11 @@
-# StrCSS &middot; [![license](https://img.shields.io/badge/license-MIT-red.svg)]() [![npm](https://img.shields.io/npm/v/strcss.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() [![npm](https://img.shields.io/npm/dt/strcss.svg)]() [![npm](https://img.shields.io/badge/typescript-supported-2a507e.svg)]()
+# StrCSS &middot; 
+
+[![license](https://img.shields.io/badge/license-MIT-red.svg)]() 
+[![npm](https://img.shields.io/npm/v/strcss.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() 
+[![npm](https://img.shields.io/npm/dt/strcss.svg)]() 
+[![npm](https://img.shields.io/badge/typescript-supported-2a507e.svg)]()
+[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 StrCSS (String CSS), formerly known as Utseende, brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
 
@@ -6,10 +13,8 @@ StrCSS (String CSS), formerly known as Utseende, brings you super powers with si
 
 [Click here for a live demo!](https://dev.jeffreylanters.nl/strcss/test/)
 
-
-- [Installation](#installation)
-- [Syntax Highlighting](#syntax-highlighting)
-- [Usage](#usage)
+- [Getting started](#getting-started)
+- [Features](#features)
 - [Keywords](#keywords)
     - [Selectors](#selectors)
     - [Media Queries](#media-queries)
@@ -20,55 +25,55 @@ StrCSS (String CSS), formerly known as Utseende, brings you super powers with si
 - [Properties](#properties)
 - [Contributing](#contributing)
 
+
+
 <br/><br/><br/>
-# Installation
-Install using NPM
+# Getting started
+First install the package using NPM
 ```sh
 npm install strcss --save
 ```
 
-<br/><br/><br/>
-# Syntax Highlighting
-Install the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=jeffreylanters.strcss-highlighting) from the Visual Studio Marketplace for syntax highlighting support!
+You can (optional) install the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=jeffreylanters.strcss-highlighting) from the Visual Studio Marketplace for syntax highlighting support!
 ```sh
 code --install-extension jeffreylanters.strcss-highlighting
 ```
 
-<br/><br/><br/>
-# Usage
+Now you can import `Sheet` from `strcss`.
 ```jsx
 import { Sheet } from 'strcss'
 import React, { Component } from 'react'
 
 const sheet = new Sheet (`
-    var base public/resources
-
-    font lato {base}/fonts/lato.otf
-    
-    map container
-        position fixed
-        rect fit
-        size 50% 500
-    at  mobile
-        maxSize 20% 400
-
     map button
-        image {base}/login.png
-        fontSize 20
-    on  hover
-        scale 1.1
+        color green
 `)
 
 export class User extends Component {
     render () {
         return (
-            <div className={sheet.map.container}>
-                <div className={sheet.map.button}>Login</div>
-            </div>
+            <div className={sheet.map.button}>Login</div>
         )
     }
 }
 ```
+
+
+
+<br/><br/><br/>
+# Features
+
+- Full vanilla CSS support
+- Complete isolation using maps
+- Built-in CSS shorthands
+- Fast, minimal, simple
+- High-performance runtime-CSS-injection
+- For both browser and server
+- Automatic source maps
+- Auto number suffix injection
+- CSS Preprocessing
+
+
 
 <br/><br/><br/>
 # Keywords
@@ -146,7 +151,7 @@ const sheet = new Sheet (`
     var num = 10
     fontSize {num}     --> font-size 10px
     zIndex {num}       --> z-index 10
-    padding 20 10%      --> padding 20px 10%
+    padding 20 10%     --> padding 20px 10%
 `)
 ```
 
