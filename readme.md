@@ -148,7 +148,6 @@ There are two ways of setting variables within your sheet.
 ## Internal variables
 You can use the interval variable system for declaring variables. Use the var keyword, followed by the key and variable.
 ```jsx
-// Styles.js
 const sheet = new Sheet(`
     var size 10
     map button
@@ -160,7 +159,6 @@ const sheet = new Sheet(`
 ## Using string builders
 You can also use the ES string builder for injecting variables.
 ```jsx
-// Styles.js
 const size = 10;
 const sheet = new Sheet(`
     map button
