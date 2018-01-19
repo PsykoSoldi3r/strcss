@@ -258,6 +258,7 @@ Even though you can use all the vanilla CSS properties, there are some custom pr
 
 | Property | Description | Parametes |
 |---|---|---|
+| flexy | Basic flex options for creating rows and columns. | row / column / grow`number` |
 | rect | Positioning an element. Where stretch will fill in the whole parent element, fit will attach itself to the parents  edges. Or add up to 4 numbers acting the same as margin. | stretch / fit / directions`size` |
 | depth | Acts just like z-index when ordering layers. | depth`number` |
 | gradient | Fills the background of an element with a gradient. | degrees`number` from`color` to`color` |

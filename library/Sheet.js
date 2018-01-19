@@ -277,6 +277,7 @@ var Sheet = function () {
                 case 'scale':
                 case 'transform':
                 case 'flex':
+                case 'flexy':
                 case 'font-weight':
                     break;
                 case 'gradient':
@@ -378,6 +379,18 @@ var Sheet = function () {
                     var maxSizeSplittedValues = styleKeyValue.value.split(' ');
                     styleKeyValue.value = maxSizeSplittedValues[0] + ';\n\tmax-height: ' + (maxSizeSplittedValues[1] || maxSizeSplittedValues[0]);
                     styleKeyValue.key = 'max-width';
+                    break;
+                case 'flexy':
+                    if (styleKeyValue.value === 'row') {
+                        styleKeyValue.key = 'display';
+                        styleKeyValue.value = 'flex-direction: row;\n\tflex-wrap: nowrap;\n\tjustify-content: flex-start;\n\talign-content: stretch';
+                    } else if (styleKeyValue.value === 'column') {
+                        styleKeyValue.key = 'display';
+                        styleKeyValue.value = 'flex-direction: row;\n\tflex-wrap: nowrap;\n\tjustify-content: flex-start;\n\talign-content: stretch';
+                    } else {
+                        styleKeyValue.key = 'order';
+                        styleKeyValue.value = '0;\n\tflex: ' + styleKeyValue.value + ' 1 auto;\n\talign-self: auto';
+                    }
                     break;
                 case 'rect':
                     styleKeyValue.key = 'top';
