@@ -10,8 +10,6 @@ var _index = require('./index');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var reservedAppliers = ['hover', 'visited', 'active', 'last-child', 'first-child'];
-
 var Sheet = function () {
     function Sheet(strcss) {
         _classCallCheck(this, Sheet);
@@ -184,8 +182,7 @@ var Sheet = function () {
         key: 'getParsedApplier',
         value: function getParsedApplier(sheetRule) {
             var applier = this.getLineShifted(this.getLineShifted(sheetRule).replace('on ', ''));
-            if (reservedAppliers.includes(applier)) return ':' + applier;
-            return '.' + applier;
+            return ':' + applier;
         }
     }, {
         key: 'getTargetName',
@@ -259,8 +256,6 @@ var Sheet = function () {
         key: 'applyToDocument',
         value: function applyToDocument() {
             if (typeof document === 'undefined ' || typeof window === 'undefined') return;
-
-            console.log(this.css);
 
             var htmlStyleTag = document.createElement("style");
             htmlStyleTag.type = "text/css";
@@ -359,13 +354,13 @@ var Sheet = function () {
                     styleKeyValue.key = 'margin';
                     switch (styleKeyValue.value) {
                         case 'horizontal':
-                            styleKeyValue.value = '0px;\n\tpadding: 0px\n\toverflow: auto;\n\toverflow-y: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
+                            styleKeyValue.value = '0px;\n\tpadding: 0px;\n\toverflow: auto;\n\toverflow-y: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
                             break;
                         case 'vertical':
-                            styleKeyValue.value = '0px;\n\tpadding: 0px\n\toverflow: scroll;\n\toverflow-x: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
+                            styleKeyValue.value = '0px;\n\tpadding: 0px;\n\toverflow: scroll;\n\toverflow-x: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
                             break;
                         case 'both':
-                            styleKeyValue.value = '0px;\n\tpadding: 0px\n\toverflow: scroll;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
+                            styleKeyValue.value = '0px;\n\tpadding: 0px;\n\toverflow: scroll;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch';
                             break;
                     }
                     break;

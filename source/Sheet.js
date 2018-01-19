@@ -1,12 +1,5 @@
 import { sheetCache, uniques } from './index'
 
-const reservedAppliers = [
-    'hover',
-    'visited',
-    'active',
-    'last-child',
-    'first-child']
-
 export default class Sheet {
     constructor(strcss) {
         this.sheetText = strcss
@@ -171,9 +164,7 @@ export default class Sheet {
 
     getParsedApplier(sheetRule) {
         let applier = this.getLineShifted(this.getLineShifted(sheetRule).replace('on ', ''))
-        if (reservedAppliers.includes(applier))
-            return `:${applier}`
-        return `.${applier}`
+        return `:${applier}`
     }
 
     getTargetName(sheetRules) {
@@ -244,8 +235,6 @@ export default class Sheet {
     applyToDocument() {
         if (typeof document === 'undefined ' || typeof window === 'undefined')
             return
-
-        console.log(this.css)
 
         let htmlStyleTag = document.createElement("style");
         htmlStyleTag.type = "text/css";
@@ -346,13 +335,13 @@ export default class Sheet {
                 styleKeyValue.key = 'margin'
                 switch (styleKeyValue.value) {
                     case 'horizontal':
-                        styleKeyValue.value = `0px;\n\tpadding: 0px\n\toverflow: auto;\n\toverflow-y: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
+                        styleKeyValue.value = `0px;\n\tpadding: 0px;\n\toverflow: auto;\n\toverflow-y: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
                         break
                     case 'vertical':
-                        styleKeyValue.value = `0px;\n\tpadding: 0px\n\toverflow: scroll;\n\toverflow-x: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
+                        styleKeyValue.value = `0px;\n\tpadding: 0px;\n\toverflow: scroll;\n\toverflow-x: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
                         break
                     case 'both':
-                        styleKeyValue.value = `0px;\n\tpadding: 0px\n\toverflow: scroll;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
+                        styleKeyValue.value = `0px;\n\tpadding: 0px;\n\toverflow: scroll;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
                         break
                 }
                 break

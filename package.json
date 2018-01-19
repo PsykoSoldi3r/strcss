@@ -1,6 +1,6 @@
 {
   "name": "strcss",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "StrCSS brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍",
   "main": "library/index.js",
   "types": "./types.d.ts",

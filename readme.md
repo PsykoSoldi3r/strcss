@@ -1,11 +1,12 @@
-# StrCSS &middot; 
+# StrCSS
 
 [![license](https://img.shields.io/badge/license-MIT-red.svg)]() 
-[![npm](https://img.shields.io/npm/v/strcss.svg)]() [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() 
-[![npm](https://img.shields.io/npm/dt/strcss.svg)]() 
+[![npm](https://img.shields.io/npm/v/strcss.svg)]() 
+[![npm](https://img.shields.io/badge/build-passing-brightgreen.svg)]() 
 [![npm](https://img.shields.io/badge/typescript-supported-2a507e.svg)]()
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![npm](https://img.shields.io/npm/dt/strcss.svg)]() 
 
 StrCSS (String CSS), formerly known as Utseende, brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍
 
@@ -15,12 +16,15 @@ StrCSS (String CSS), formerly known as Utseende, brings you super powers with si
 
 - [Getting started](#getting-started)
 - [Features](#features)
-- [Keywords](#keywords)
-    - [Selectors](#selectors)
-    - [Media Queries](#media-queries)
-    - [Fonts](#fonts)
-    - [Vars](#vars)
-    - [Comments](#comments)
+- [How It Works](#how-it-works)
+- [Sheets outside of components](#sheets-outside-of-components)
+- [Variables](#variables)
+    - [Internal variables](#internal-variables)
+    - [Using string builders](#using-string-builders)
+- [Device targeting](#device-targeting)
+- [Fonts](#fonts)
+    - [Custom fonts](#custom-fonts)
+    - [Google fonts](#google-fonts)
 - [Numbers](Numbers)
 - [Properties](#properties)
 - [Contributing](#contributing)
@@ -39,7 +43,7 @@ You can (optional) install the [VSCode extension](https://marketplace.visualstud
 code --install-extension jeffreylanters.strcss-highlighting
 ```
 
-Now you can import `Sheet` from `strcss`.
+Now you can import `Sheet` from `strcss` and get started!
 ```jsx
 import { Sheet } from 'strcss'
 import React, { Component } from 'react'
@@ -52,7 +56,9 @@ const sheet = new Sheet (`
 export class User extends Component {
     render () {
         return (
-            <div className={sheet.map.button}>Login</div>
+            <div className={sheet.map.button}>
+                Look mom, I'm green!
+            </div>
         )
     }
 }
@@ -62,24 +68,112 @@ export class User extends Component {
 
 <br/><br/><br/>
 # Features
-
-- Full vanilla CSS support
 - Complete isolation using maps
+- Styles within components
 - Built-in CSS shorthands
 - Fast, minimal, simple
 - High-performance runtime-CSS-injection
 - For both browser and server
 - Automatic source maps
 - Auto number suffix injection
-- CSS Preprocessing
+- Real-time preprocessing
+- Full CSS support
+- (Google) font importer
+- Built-in media queries
+- Expandable and customizable
 
 
 
 <br/><br/><br/>
-# Keywords
+# How It Works
+Create a sheet per component, a stylesheet will be generated per component class - NOT per component instance. When running your web application, the sheets will be injected before rendering. 
 
-## Selectors
-Use the `on` keyword to apply a selector
+Use the map key as class names, mapped styles will be available in the map object.
+
+```jsx
+const sheet = new Sheet(`
+    map title
+        fontSize 15
+    at  mobile
+        fontSize 10
+    map button
+        size 100 150
+    on  hover
+        scale 1.1
+`)
+<div className={sheet.map.title} />
+<div className={sheet.map.button} />
+```
+
+Will be rendered into...
+
+```html
+<style>
+    ._uvxl6x84ljz716wuj6024_ { /* title */ 
+        font-size: 15px; }
+    @media only screen and (max-width: 767px) { /* mobile */
+    ._uvxl6x84ljz716wuj6024_ {
+        font-size: 10px; } }
+    ._umzn0w91ud5g18q4j9227_ { /* button */ 
+        width: 100px;
+        height: 150px; }
+    ._umzn0w91ud5g18q4j9227_:hover {
+        transform: scale(1.1, 1.1); }
+</style>
+<div class="_uvxl6x84ljz716wuj6024_" />
+<div class="_umzn0w91ud5g18q4j9227_" />
+```
+
+
+
+<br/><br/><br/>
+# Sheets outside of components
+You can export and import sheets to use them outside of components.
+```jsx
+// Styles.js
+const sheet = new Sheet(``)
+export { sheet }
+
+// Component.jsx
+import { sheet } from 'Styles'
+sheet.map...
+```
+
+
+
+<br/><br/><br/>
+# Variables
+There are two ways of setting variables within your sheet. 
+
+## Internal variables
+You can use the interval variable system for declaring variables. Use the var keyword, followed by the key and variable.
+```jsx
+// Styles.js
+const sheet = new Sheet(`
+    var size 10
+    map button
+        fontSize {size}    -> font-size: 10px;
+        zIndex {size}      -> z-index: 10;
+`)
+```
+
+## Using string builders
+You can also use the ES string builder for injecting variables.
+```jsx
+// Styles.js
+const size = 10;
+const sheet = new Sheet(`
+    map button
+        fontSize ${size}    -> font-size: 10px;
+        zIndex ${size}      -> z-index: 10;
+`)
+```
+
+
+
+<br/><br/><br/>
+# Selectors
+Use the `on` keyword to apply a selector to the last created map.
 ```jsx
 const sheet = new Sheet (`
     map button
@@ -94,10 +188,12 @@ const sheet = new Sheet (`
 `)
 ```
 
-## Media Queries
-Use the `at` keyword within a map to apply one of the three media queries.
-`mobile, tablet and desktop`.
-```jsx
+
+
+<br/><br/><br/>
+# Device targeting
+Use the `at` keyword within a map to target specific device.
+```
 const sheet = new Sheet (`
     map profilePicture
         borderRadius 50%
@@ -113,39 +209,40 @@ const sheet = new Sheet (`
 `)
 ```
 
-## Fonts
-Use the `font` keyword on top of your sheet to load font. When specifing just a name, the font will be loaded from Google Fonts.
+
+
+<br/><br/><br/>
+# Fonts
+Use the `font` keyword on top of your sheet to load font. The loaded font can be used in all other sheets.
+
+## Custom fonts
+You can specify just a name and path to directly load the font, or add a font weight inbetween.
 ```jsx
 const sheet = new Sheet (`
     font sfpro bold fonts/sfpro.otf
     font arial fonts/arial.otf
-    font Lato
+    map title
+        font sfpro
+    map paragraph
+        font arial
 `)
 ```
 
-## Vars
-Use the `var` keyword on to declarate an var.
+## Google fonts
+Another option would be to just specify a name, this will load the font directly from [Google Fonts](http://fonts.google.com).
 ```jsx
 const sheet = new Sheet (`
-    var base public/resources
-    font sfpro bold {base}/sfpro.otf
-    map picture
-        image {base}/dog.png
+    font lato
+    map title
+        font lato
 `)
 ```
 
-## Comments
-Use the `#` keyword to place comments.
-```jsx
-const sheet = new Sheet (`
-    # global font size
-    var fs 10
-`)
-```
+
 
 <br/><br/><br/>
 # Numbers
-Numbers will automaticly be changes into px when needed.
+Numbers will be suffixed automaticly if needed, even in variables.
 ```jsx
 const sheet = new Sheet (`
     var num = 10
@@ -155,9 +252,11 @@ const sheet = new Sheet (`
 `)
 ```
 
+
+
 <br/><br/><br/>
 # Properties
-You can use most default CSS property as well. (Some are untested, let me know if one doesnt work!)
+Even though you can use all the vanilla CSS properties, there are some custom properties you can use as well.
 
 | Property | Description | Parametes |
 |---|---|---|
@@ -180,6 +279,8 @@ You can use most default CSS property as well. (Some are untested, let me know i
 **Types:**
 - `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block. Single numbers will be turned into px (if posibile).
 - `color` The name of a color or HEX value
+
+
 
 <br/><br/><br/>
 # Contributing
