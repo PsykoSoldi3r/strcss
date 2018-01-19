@@ -50,11 +50,11 @@ const sheet = new Sheet (`
         rect fit
         size 50% 500
     at  mobile
-        max-size 20% 400
+        maxSize 20% 400
 
     map button
         image {base}/login.png
-        font-size 20
+        fontSize 20
     on  hover
         scale 1.1
 `)
@@ -85,7 +85,7 @@ const sheet = new Sheet (`
 
     map listItem
     on  last-child
-        border-bottom 1 solid grey
+        borderBottom 1 solid grey
 `)
 ```
 
@@ -95,13 +95,16 @@ Use the `at` keyword within a map to apply one of the three media queries.
 ```jsx
 const sheet = new Sheet (`
     map profilePicture
-        border-radius 50%
+        borderRadius 50%
     at  mobile
         size 10
     at  tablet
         size 100
     at  desktop
         size 200
+
+    at iphonex
+        margin-top 100
 `)
 ```
 
@@ -141,8 +144,8 @@ Numbers will automaticly be changes into px when needed.
 ```jsx
 const sheet = new Sheet (`
     var num = 10
-    font-size {num}     --> font-size 10px
-    z-index {num}       --> z-index 10
+    fontSize {num}     --> font-size 10px
+    zIndex {num}       --> z-index 10
     padding 20 10%      --> padding 20px 10%
 `)
 ```

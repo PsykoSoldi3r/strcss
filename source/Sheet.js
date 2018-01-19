@@ -5,55 +5,56 @@ const reservedAppliers = [
     'visited',
     'active',
     'last-child',
-    'first-child' ]
+    'first-child']
 
 export default class Sheet {
-    constructor (strcss) {
+    constructor(strcss) {
         this.sheetText = strcss
-        this.sheetRules = this.sheetText.split ('\n')
+        this.sheetRules = this.sheetText.split('\n')
         this.css = ''
         this.map = {}
 
-        this.generateCSS ()
-        this.applyToDocument ()
+        this.generateCSS()
+        this.applyToDocument()
     }
-    
-    generateCSS () {
+
+    generateCSS() {
         let isScoped = false
         let isMedia = false
         let currentScopeUniqueID = ''
         var localVars = []
 
-        this.sheetRules.map (sheetRule => {
-            localVars.map (localVar => {
-                sheetRule = sheetRule.replace (`{${localVar.key}}`, localVar.value)})
+        this.sheetRules.map(sheetRule => {
+            localVars.map(localVar => {
+                sheetRule = sheetRule.replace(`{${localVar.key}}`, localVar.value)
+            })
 
             // comment
-            if (this.isLineComment (sheetRule) === true)
+            if (this.isLineComment(sheetRule) === true)
                 return
 
             // empty lines
-            if (this.getLineShifted (sheetRule).length === 0)
+            if (this.getLineShifted(sheetRule).length === 0)
                 return
-                
+
             // fontface
-            if (this.isLineFontface (sheetRule) === true && isScoped === false) {
-                this.css += this.getLineFontface (sheetRule)
+            if (this.isLineFontface(sheetRule) === true && isScoped === false) {
+                this.css += this.getLineFontface(sheetRule)
             }
 
             // var
-            else if (this.isLineVar (sheetRule) === true && isScoped === false) {
-                localVars.push (this.getLineVar (sheetRule))
+            else if (this.isLineVar(sheetRule) === true && isScoped === false) {
+                localVars.push(this.getLineVar(sheetRule))
             }
 
             // media
-            else if (this.isLineMedia (sheetRule) === true) {
+            else if (this.isLineMedia(sheetRule) === true) {
                 if (isScoped === true)
                     this.css += ' }'
                 if (isMedia === true)
                     this.css += ' }'
-                
-                let media = this.getLineMedia (sheetRule)
+
+                let media = this.getLineMedia(sheetRule)
 
                 this.css += `\n${media}`
 
@@ -64,17 +65,17 @@ export default class Sheet {
 
                 isMedia = true
             }
-            
+
             // applier
-            else if (this.isLineApplier (sheetRule) === true && isScoped === true) {
-                let parsedApplier = this.getParsedApplier (sheetRule)
-                    
+            else if (this.isLineApplier(sheetRule) === true && isScoped === true) {
+                let parsedApplier = this.getParsedApplier(sheetRule)
+
                 this.css += ' }'
                 this.css += `\n.${currentScopeUniqueID}${parsedApplier} {`
             }
 
             // target
-            else if (this.isLineTarget (sheetRule) === true) {
+            else if (this.isLineTarget(sheetRule) === true) {
                 if (isScoped === true)
                     this.css += ' }'
                 if (isMedia === true) {
@@ -82,8 +83,8 @@ export default class Sheet {
                     isMedia = false
                 }
 
-                let uniqueID = this.getUniqueID ()
-                let targetName = this.getTargetName (sheetRule)
+                let uniqueID = this.getUniqueID()
+                let targetName = this.getTargetName(sheetRule)
 
                 if (typeof this.map[targetName] !== 'undefined')
                     uniqueID = this.map[targetName]
@@ -97,8 +98,8 @@ export default class Sheet {
 
             // style
             else if (isScoped === true) {
-                let styleKeyValue = this.getStyleKeyValue (sheetRule)
-                let parsedStyle = this.getParsedStyle (styleKeyValue)
+                let styleKeyValue = this.getStyleKeyValue(sheetRule)
+                let parsedStyle = this.getParsedStyle(styleKeyValue)
 
                 this.css += parsedStyle
             }
@@ -108,97 +109,100 @@ export default class Sheet {
             this.css += ' }'
     }
 
-    isLineFontface (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 5) === 'font '
+    isLineFontface(sheetRule) {
+        let lineShifted = this.getLineShifted(sheetRule)
+        return lineShifted.substring(0, 5) === 'font '
     }
 
-    isLineTarget (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 4) === 'map '
+    isLineTarget(sheetRule) {
+        let lineShifted = this.getLineShifted(sheetRule)
+        return lineShifted.substring(0, 4) === 'map '
     }
 
-    isLineApplier (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 3) === 'on '
+    isLineApplier(sheetRule) {
+        let lineShifted = this.getLineShifted(sheetRule)
+        return lineShifted.substring(0, 3) === 'on '
     }
 
-    isLineVar (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 4) === 'var '
+    isLineVar(sheetRule) {
+        let lineShifted = this.getLineShifted(sheetRule)
+        return lineShifted.substring(0, 4) === 'var '
     }
 
-    isLineComment (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
+    isLineComment(sheetRule) {
+        let lineShifted = this.getLineShifted(sheetRule)
         return lineShifted[0] === '#'
     }
 
-    isLineMedia (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 3) === 'at '
+    isLineMedia(sheetRule) {
+        let lineShifted = this.getLineShifted(sheetRule)
+        return lineShifted.substring(0, 3) === 'at '
     }
 
-    getLineVar (sheetRule) {
-        sheetRule = sheetRule.replace ('var ', '')
-        let key = this.getLineShifted (sheetRule).split (' ')[0]
-        let value = this.getLineShifted (sheetRule.replace (key, ''))
+    getLineVar(sheetRule) {
+        sheetRule = sheetRule.replace('var ', '')
+        let key = this.getLineShifted(sheetRule).split(' ')[0]
+        let value = this.getLineShifted(sheetRule.replace(key, ''))
         return { key: key, value: value }
     }
 
-    getLineMedia (sheetRule) {
-        let mediaName = this.getLineShifted (this.getLineShifted (sheetRule).replace ('at ', ''))
+    getLineMedia(sheetRule) {
+        let mediaName = this.getLineShifted(this.getLineShifted(sheetRule).replace('at ', ''))
         let media = `@media only screen and `
 
         switch (mediaName) {
             case 'mobile':
                 media += '(max-width: 767px)'
-                break;
+                break
             case 'tablet':
                 media += '(min-width: 768px) and (max-width: 991px)'
-                break;
+                break
             case 'desktop':
                 media += '(min-width: 992px) and (max-width: 1199px)'
-                break;
+                break
+            case 'iphonex':
+                media += '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)'
+                break
         }
 
         media += ` { /* ${mediaName} */`
         return media
     }
 
-    getParsedApplier (sheetRule) {
-        let applier = this.getLineShifted (this.getLineShifted (sheetRule).replace ('on ', ''))
-        if (reservedAppliers.includes (applier))
+    getParsedApplier(sheetRule) {
+        let applier = this.getLineShifted(this.getLineShifted(sheetRule).replace('on ', ''))
+        if (reservedAppliers.includes(applier))
             return `:${applier}`
         return `.${applier}`
     }
 
-    getTargetName (sheetRules) {
-        return this.getLineShifted (sheetRules).replace ('map ', '')
+    getTargetName(sheetRules) {
+        return this.getLineShifted(sheetRules).replace('map ', '')
     }
 
-    getLineShifted (sheetRules) {
-        return sheetRules.slice (sheetRules.search(/\S|$/), sheetRules.length)
+    getLineShifted(sheetRules) {
+        return sheetRules.slice(sheetRules.search(/\S|$/), sheetRules.length)
     }
 
-    getUniqueID () {
-        uniques.push ('id')
+    getUniqueID() {
+        uniques.push('id')
         let id = `_u`
         for (var i = 0; i < 3; i++)
             id += `${Math.random().toString(36).substr(2, 5)}${(uniques.length * (i + 1))}`
         return `${id}_`
     }
 
-    getStyleKeyValue (sheetText) {
-        let key = this.getLineShifted (sheetText).split (' ')[0]
-        let value = this.getLineShifted (sheetText.replace (key, ''))
+    getStyleKeyValue(sheetText) {
+        let key = this.getLineShifted(sheetText).split(' ')[0]
+        let value = this.getLineShifted(sheetText.replace(key, ''))
         return {
             key: key,
             value: value
         }
     }
 
-    getLineFontface (sheetText) {
-        let splittedSheetText = this.getLineShifted (sheetText).split (' ')
+    getLineFontface(sheetText) {
+        let splittedSheetText = this.getLineShifted(sheetText).split(' ')
         if (splittedSheetText.length === 2) {
             return `\n@import url('https://fonts.googleapis.com/css?family=${splittedSheetText[1]}');`
         }
@@ -211,15 +215,15 @@ export default class Sheet {
         return ''
     }
 
-    addNumericEndings (styleKeyValue, suffix) {
+    addNumericEndings(styleKeyValue, suffix) {
         let parsedString = ''
-        let valueSplits = styleKeyValue.value.split (' ')
-        valueSplits.map (valueSplit => {
+        let valueSplits = styleKeyValue.value.split(' ')
+        valueSplits.map(valueSplit => {
             let rgx = /^((\d+)?(\.\d+)?\d)$/g
             let matches = rgx.exec(valueSplit)
 
             if (matches !== null) {
-                valueSplit = valueSplit.replace (
+                valueSplit = valueSplit.replace(
                     matches[1],
                     `${matches[1]}${suffix}`)
             }
@@ -228,28 +232,31 @@ export default class Sheet {
         styleKeyValue.value = parsedString.substr(0, parsedString.length - 1)
     }
 
-    addSpaceSeperators (styleKeyValue, seperator) {
+    addSpaceSeperators(styleKeyValue, seperator) {
         let parsedString = ''
-        let valueSplits = styleKeyValue.value.split (' ')
-        valueSplits.map (valueSplit => {
+        let valueSplits = styleKeyValue.value.split(' ')
+        valueSplits.map(valueSplit => {
             parsedString += `${valueSplit}${seperator} `
         })
         styleKeyValue.value = parsedString.substr(0, parsedString.length - (seperator.length + 1))
     }
 
-    applyToDocument () {
-        if (typeof document === 'undefined '|| typeof window === 'undefined')
+    applyToDocument() {
+        if (typeof document === 'undefined ' || typeof window === 'undefined')
             return
 
-        console.log (this.css)
+        console.log(this.css)
 
-        let htmlStyleTag = document.createElement ("style");
+        let htmlStyleTag = document.createElement("style");
         htmlStyleTag.type = "text/css";
         htmlStyleTag.innerHTML = this.css;
-        document.head.appendChild (htmlStyleTag);
+        document.head.appendChild(htmlStyleTag);
     }
 
-    getParsedStyle (styleKeyValue) {
+    getParsedStyle(styleKeyValue) {
+
+        styleKeyValue.key = styleKeyValue.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+
         switch (styleKeyValue.key) {
             case 'depth':
             case 'order':
@@ -263,21 +270,21 @@ export default class Sheet {
                 break
             case 'gradient':
             case 'background-image':
-                this.addNumericEndings (styleKeyValue, 'deg')
+                this.addNumericEndings(styleKeyValue, 'deg')
                 break
             case 'transition':
             case 'transition-duration':
             case 'animation':
             case 'animation-duration':
-                this.addNumericEndings (styleKeyValue, 's')
+                this.addNumericEndings(styleKeyValue, 's')
                 break
             default:
-                this.addNumericEndings (styleKeyValue, 'px')
+                this.addNumericEndings(styleKeyValue, 'px')
                 break
         }
         switch (styleKeyValue.key) {
             case 'gradient':
-                this.addSpaceSeperators (styleKeyValue, ',')
+                this.addSpaceSeperators(styleKeyValue, ',')
                 styleKeyValue.key = 'background-image'
                 styleKeyValue.value = `linear-gradient(${styleKeyValue.value})`
                 break
@@ -316,7 +323,7 @@ export default class Sheet {
                 styleKeyValue.key = 'color'
                 break
             case 'scale':
-                let scaleSplittedValues = styleKeyValue.value.split (' ')
+                let scaleSplittedValues = styleKeyValue.value.split(' ')
                 styleKeyValue.key = 'transform'
                 if (scaleSplittedValues.length === 2)
                     styleKeyValue.value = `scale(${scaleSplittedValues[0]}, ${scaleSplittedValues[1]})`
@@ -350,17 +357,17 @@ export default class Sheet {
                 }
                 break
             case 'size':
-                let sizeSplittedValues = styleKeyValue.value.split (' ')
+                let sizeSplittedValues = styleKeyValue.value.split(' ')
                 styleKeyValue.value = `${sizeSplittedValues[0]};\n\theight: ${sizeSplittedValues[1] || sizeSplittedValues[0]}`
                 styleKeyValue.key = 'width'
                 break
             case 'min-size':
-                let minSizeSplittedValues = styleKeyValue.value.split (' ')
+                let minSizeSplittedValues = styleKeyValue.value.split(' ')
                 styleKeyValue.value = `${minSizeSplittedValues[0]};\n\tmin-height: ${minSizeSplittedValues[1] || minSizeSplittedValues[0]}`
                 styleKeyValue.key = 'min-width'
                 break
             case 'max-size':
-                let maxSizeSplittedValues = styleKeyValue.value.split (' ')
+                let maxSizeSplittedValues = styleKeyValue.value.split(' ')
                 styleKeyValue.value = `${maxSizeSplittedValues[0]};\n\tmax-height: ${maxSizeSplittedValues[1] || maxSizeSplittedValues[0]}`
                 styleKeyValue.key = 'max-width'
                 break
@@ -368,12 +375,12 @@ export default class Sheet {
                 styleKeyValue.key = 'top'
                 if (styleKeyValue.value === 'stretch') {
                     styleKeyValue.value = '0px;\n\tleft: 0px;\n\twidth: 100%;\n\theight: 100%'
-                } 
+                }
                 else if (styleKeyValue.value === 'fit') {
                     styleKeyValue.value = '0px;\n\tright: 0px;\n\tbottom: 0px;\n\tleft: 0px'
                 }
                 else {
-                    let splittedValues = styleKeyValue.value.split (' ')
+                    let splittedValues = styleKeyValue.value.split(' ')
                     switch (splittedValues.length) {
                         case 1:
                             styleKeyValue.value = `${splittedValues[0]};\n\tright: ${splittedValues[0]};\n\tbottom: ${splittedValues[0]};\n\tleft: ${splittedValues[0]}`

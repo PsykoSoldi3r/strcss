@@ -172,6 +172,9 @@ var Sheet = function () {
                 case 'desktop':
                     media += '(min-width: 992px) and (max-width: 1199px)';
                     break;
+                case 'iphonex':
+                    media += '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)';
+                    break;
             }
 
             media += ' { /* ' + mediaName + ' */';
@@ -267,6 +270,9 @@ var Sheet = function () {
     }, {
         key: 'getParsedStyle',
         value: function getParsedStyle(styleKeyValue) {
+
+            styleKeyValue.key = styleKeyValue.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
             switch (styleKeyValue.key) {
                 case 'depth':
                 case 'order':
