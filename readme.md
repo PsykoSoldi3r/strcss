@@ -102,9 +102,11 @@ const sheet = new Sheet(`
     on  hover
         scale 1.1
 `)
+
 // Get the styles from the map object
 <div className={sheet.map.title} />
 <div className={sheet.map.button} />
+
 // Or grab multiple maps using the get method
 <div className={sheet.get('title, button')}>
 ```
@@ -126,6 +128,7 @@ Will be rendered into...
 </style>
 <div class="_uvxl6x84ljz716wuj6024_" />
 <div class="_umzn0w91ud5g18q4j9227_" />
+<div class="_umzn0w91ud5g18q4j9227_ _umzn0w91ud5g18q4j9227_" />
 ```
 
 
