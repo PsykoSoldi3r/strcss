@@ -123,6 +123,8 @@ var Sheet = function () {
             });
 
             if (isScoped === true) this.css += ' }';
+
+            if (isMedia === true) this.css += ' }';
         }
     }, {
         key: 'isLineFontface',
@@ -166,7 +168,10 @@ var Sheet = function () {
             sheetRule = sheetRule.replace('var ', '');
             var key = this.getLineShifted(sheetRule).split(' ')[0];
             var value = this.getLineShifted(sheetRule.replace(key, ''));
-            return { key: key, value: value };
+            return {
+                key: key,
+                value: value
+            };
         }
     }, {
         key: 'getLineMedia',
@@ -206,7 +211,8 @@ var Sheet = function () {
     }, {
         key: 'getLineShifted',
         value: function getLineShifted(sheetRules) {
-            return sheetRules.slice(sheetRules.search(/\S|$/), sheetRules.length);
+            return sheetRules.replace(/^\s+|\s+$/g, '');
+            // return sheetRules.slice(sheetRules.search(/\S|$/), sheetRules.length)
         }
     }, {
         key: 'getUniqueID',
@@ -280,8 +286,10 @@ var Sheet = function () {
         key: 'getParsedStyle',
         value: function getParsedStyle(styleKeyValue) {
 
+            // Replace camel with dash
             styleKeyValue.key = styleKeyValue.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
+            // Auto suffixer
             switch (styleKeyValue.key) {
                 case 'depth':
                 case 'order':
@@ -308,6 +316,8 @@ var Sheet = function () {
                     this.addNumericEndings(styleKeyValue, 'px');
                     break;
             }
+
+            // Handle Custom Properties
             switch (styleKeyValue.key) {
                 case 'gradient':
                     this.addSpaceSeperators(styleKeyValue, ',');
@@ -316,7 +326,7 @@ var Sheet = function () {
                     break;
                 case 'shadow':
                     styleKeyValue.key = 'box-shadow';
-                    styleKeyValue.value = '0px 0px ' + styleKeyValue.value + ' rgba(0,0,0,0.5)';
+                    styleKeyValue.value = '0px 0px ' + styleKeyValue.value + ' rgba(0,0,0,0.2)';
                     break;
                 case 'align':
                     styleKeyValue.key = 'display';
