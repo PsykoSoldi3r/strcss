@@ -1,4 +1,7 @@
-import { sheetCache, uniques } from './index'
+import {
+    sheetCache,
+    uniques
+} from './index'
 
 export default class Sheet {
     constructor(strcss) {
@@ -111,6 +114,9 @@ export default class Sheet {
 
         if (isScoped === true)
             this.css += ' }'
+
+        if (isMedia === true)
+            this.css += ' }'
     }
 
     isLineFontface(sheetRule) {
@@ -147,7 +153,10 @@ export default class Sheet {
         sheetRule = sheetRule.replace('var ', '')
         let key = this.getLineShifted(sheetRule).split(' ')[0]
         let value = this.getLineShifted(sheetRule.replace(key, ''))
-        return { key: key, value: value }
+        return {
+            key: key,
+            value: value
+        }
     }
 
     getLineMedia(sheetRule) {
@@ -183,7 +192,8 @@ export default class Sheet {
     }
 
     getLineShifted(sheetRules) {
-        return sheetRules.slice(sheetRules.search(/\S|$/), sheetRules.length)
+        return sheetRules.replace(/^\s+|\s+$/g, '');
+        // return sheetRules.slice(sheetRules.search(/\S|$/), sheetRules.length)
     }
 
     getUniqueID() {
@@ -207,11 +217,9 @@ export default class Sheet {
         let splittedSheetText = this.getLineShifted(sheetText).split(' ')
         if (splittedSheetText.length === 2) {
             return `\n@import url('https://fonts.googleapis.com/css?family=${splittedSheetText[1]}');`
-        }
-        else if (splittedSheetText.length === 3) {
+        } else if (splittedSheetText.length === 3) {
             return `\n@font-face {\n\tfont-family: '${splittedSheetText[1]}';\n\tfont-weight: normal;\n\tsrc: url(${splittedSheetText[2]}); }`
-        }
-        else if (splittedSheetText.length === 4) {
+        } else if (splittedSheetText.length === 4) {
             return `\n@font-face {\n\tfont-family: '${splittedSheetText[1]}';\n\tfont-weight: ${splittedSheetText[2]};\n\tsrc: url(${splittedSheetText[3]}); }`
         }
         return ''
@@ -255,8 +263,10 @@ export default class Sheet {
 
     getParsedStyle(styleKeyValue) {
 
+        // Replace camel with dash
         styleKeyValue.key = styleKeyValue.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
 
+        // Auto suffixer
         switch (styleKeyValue.key) {
             case 'depth':
             case 'order':
@@ -283,6 +293,8 @@ export default class Sheet {
                 this.addNumericEndings(styleKeyValue, 'px')
                 break
         }
+
+        // Handle Custom Properties
         switch (styleKeyValue.key) {
             case 'gradient':
                 this.addSpaceSeperators(styleKeyValue, ',')
@@ -291,7 +303,7 @@ export default class Sheet {
                 break
             case 'shadow':
                 styleKeyValue.key = 'box-shadow'
-                styleKeyValue.value = `0px 0px ${styleKeyValue.value} rgba(0,0,0,0.5)`
+                styleKeyValue.value = `0px 0px ${styleKeyValue.value} rgba(0,0,0,0.2)`
                 break
             case 'align':
                 styleKeyValue.key = 'display'
@@ -376,12 +388,10 @@ export default class Sheet {
                 if (styleKeyValue.value === 'row') {
                     styleKeyValue.key = 'display'
                     styleKeyValue.value = 'flex-direction: row;\n\tflex-wrap: nowrap;\n\tjustify-content: flex-start;\n\talign-content: stretch'
-                }
-                else if (styleKeyValue.value === 'column') {
+                } else if (styleKeyValue.value === 'column') {
                     styleKeyValue.key = 'display'
                     styleKeyValue.value = 'flex-direction: row;\n\tflex-wrap: nowrap;\n\tjustify-content: flex-start;\n\talign-content: stretch'
-                }
-                else {
+                } else {
                     styleKeyValue.key = 'order'
                     styleKeyValue.value = `0;\n\tflex: ${styleKeyValue.value} 1 auto;\n\talign-self: auto`
                 }
@@ -390,11 +400,9 @@ export default class Sheet {
                 styleKeyValue.key = 'top'
                 if (styleKeyValue.value === 'stretch') {
                     styleKeyValue.value = '0px;\n\tleft: 0px;\n\twidth: 100%;\n\theight: 100%'
-                }
-                else if (styleKeyValue.value === 'fit') {
+                } else if (styleKeyValue.value === 'fit') {
                     styleKeyValue.value = '0px;\n\tright: 0px;\n\tbottom: 0px;\n\tleft: 0px'
-                }
-                else {
+                } else {
                     let splittedValues = styleKeyValue.value.split(' ')
                     switch (splittedValues.length) {
                         case 1:
