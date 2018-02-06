@@ -12,14 +12,14 @@ export default class Sheet {
   }
 
   get(names) {
-    let _splittedNames = names.replace(/\s+/, "").split(",");
-    let _result = "";
-    _splittedNames.map(name => {
+    let splittedNames = names.replace(/\s+/, "").split(",");
+    let result = "";
+    splittedNames.map(name => {
       if (typeof this.map[name] !== "undefined") {
-        _result += this.map[name] + " ";
+        result += this.map[name] + " ";
       }
     });
-    return _result;
+    return result;
   }
 
   generateCSS() {
@@ -83,7 +83,7 @@ export default class Sheet {
         currentScopeUniqueID = uniqueID;
         isScoped = true;
 
-        this.css += `\n\n/* map ${targetName} */\n.${uniqueID} {`;
+        this.css += `\n.${uniqueID} { /* ${targetName} */ `;
         this.map[targetName] = uniqueID;
       } else if (isScoped === true) {
         // style
@@ -178,6 +178,7 @@ export default class Sheet {
 
   getLineShifted(sheetRules) {
     return sheetRules.replace(/^\s+|\s+$/g, "");
+    // return sheetRules.slice(sheetRules.search(/\S|$/), sheetRules.length)
   }
 
   getUniqueID() {

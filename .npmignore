@@ -2,3 +2,6 @@ source
 node_modules
 .babelrc
 .gitignore
+tests.js
+readme.md
+resources/readme

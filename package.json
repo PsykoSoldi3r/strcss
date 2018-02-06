@@ -15,6 +15,7 @@
     "url": "git+https://github.com/jeffreylanters/strcss.git"
   },
   "keywords": ["strcss", "css", "inline", "react", "component"],
+
   "author": "Jeffrey Lanters",
   "license": "ISC",
   "bugs": {

@@ -28,14 +28,14 @@ var Sheet = function () {
     value: function get(names) {
       var _this = this;
 
-      var _splittedNames = names.replace(/\s+/, "").split(",");
-      var _result = "";
-      _splittedNames.map(function (name) {
+      var splittedNames = names.replace(/\s+/, "").split(",");
+      var result = "";
+      splittedNames.map(function (name) {
         if (typeof _this.map[name] !== "undefined") {
-          _result += _this.map[name] + " ";
+          result += _this.map[name] + " ";
         }
       });
-      return _result;
+      return result;
     }
   }, {
     key: "generateCSS",
@@ -101,7 +101,7 @@ var Sheet = function () {
           currentScopeUniqueID = uniqueID;
           isScoped = true;
 
-          _this2.css += "\n\n/* map " + targetName + " */\n." + uniqueID + " {";
+          _this2.css += "\n." + uniqueID + " { /* " + targetName + " */ ";
           _this2.map[targetName] = uniqueID;
         } else if (isScoped === true) {
           // style
@@ -202,6 +202,7 @@ var Sheet = function () {
     key: "getLineShifted",
     value: function getLineShifted(sheetRules) {
       return sheetRules.replace(/^\s+|\s+$/g, "");
+      // return sheetRules.slice(sheetRules.search(/\S|$/), sheetRules.length)
     }
   }, {
     key: "getUniqueID",
