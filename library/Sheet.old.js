@@ -316,13 +316,6 @@ var Sheet = function () {
 
       // Handle Custom Properties
       switch (styleKeyValue.key) {
-        case "font":
-          styleKeyValue.key = "font-family";
-          styleKeyValue.value = "'" + styleKeyValue.value + "', sans";
-          break;
-        case "alpha":
-          styleKeyValue.key = "opacity";
-          break;
         case "depth":
           styleKeyValue.key = "z-index";
           break;
