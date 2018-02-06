@@ -21,6 +21,7 @@ StrCSS (String CSS), formerly known as Utseende, brings you super powers with si
 - [Variables](#variables)
     - [Internal variables](#internal-variables)
     - [Using string builders](#using-string-builders)
+- [Nesting](#nesting)
 - [Device targeting](#device-targeting)
 - [Fonts](#fonts)
     - [Custom fonts](#custom-fonts)
@@ -171,6 +172,24 @@ const sheet = new Sheet(`
     map button
         fontSize ${size}    -> font-size: 10px;
         zIndex ${size}      -> z-index: 10;
+`)
+```
+```
+
+
+
+<br/><br/><br/>
+# Nesting
+Nesting allows you to manipulate maps inside other maps.
+
+```jsx
+const sheet = new Sheet(`
+    map button
+        size 100 50
+    map text in button
+        color grey
+    map text in button on hover
+        color blue
 `)
 ```
 
