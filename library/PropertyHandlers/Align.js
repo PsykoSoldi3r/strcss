@@ -20,7 +20,7 @@ var Align = function () {
     value: function parse(property) {
       switch (property.value) {
         case "left":
-          return "display: lock; margin-left: 0px; margin-right: auto";
+          return "display: block; margin-left: 0px; margin-right: auto";
         case "center":
           return "display: block; margin-left: auto; margin-right: auto";
         case "right":

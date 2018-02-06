@@ -60,11 +60,27 @@ export function parseAt(rule) {
 }
 
 /**
- * Returns the name of a map
+ * Returns a parsed map object
  * @param {string} rule
  */
 export function parseMap(rule) {
-  return shift(rule.text.replace("map ", ""));
+  let _splitted = rule.text.split(" ");
+  if (_splitted.length === 4) {
+    return {
+      name: _splitted[1],
+      selector: `.${_splitted[3]} .${_splitted[1]}`
+    };
+  }
+  if (_splitted.length === 6) {
+    return {
+      name: _splitted[1],
+      selector: `.${_splitted[3]}:${_splitted[5]} .${_splitted[1]}`
+    };
+  }
+  return {
+    name: _splitted[1],
+    selector: `.${_splitted[1]}`
+  };
 }
 
 /**

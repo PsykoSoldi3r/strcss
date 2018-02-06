@@ -53,10 +53,7 @@ var Sheet = function () {
       var _lastMapName = "";
       var _maps = [];
 
-      /**
-       * Convert all the rules to rule objects
-       * so we can parse them easier.
-       */
+      // Lines to rules
       _rules = lines.map(function (line) {
         return {
           type: (0, _Utils.getLineType)((0, _Utils.shift)(line)),
@@ -64,29 +61,15 @@ var Sheet = function () {
         };
       });
 
-      /**
-       * Handle all the rules and put them in
-       * the css object.
-       */
+      // Handle all types
       _cssLines = _rules.map(function (rule) {
         var _out = "";
         switch (rule.type) {
-          /**
-           * SPACING
-           * Comments and empty lines will be
-           * ignored while parsing.
-           */
           default:
           case "comment":
           case "spacing":
             break;
 
-          /**
-           * AT
-           * Leaved the last map and the last at
-           * if needed and wraps itself in a media
-           * query.
-           */
           case "at":
             if (_isInAt === true) _out += "} ";
             var _query = (0, _Utils.parseAt)(rule);
@@ -95,49 +78,28 @@ var Sheet = function () {
             _isInAt = true;
             break;
 
-          /**
-           * VAR
-           */
           case "var":
             // TODO
             break;
 
-          /**
-           * FONT
-           */
           case "font":
             // TODO
             break;
 
-          /**
-           * ON
-           * Leaves the last map and applies a
-           * selector to the current map.
-           */
           case "on":
             var _onName = (0, _Utils.parseOn)(rule);
             _out += "} ." + _lastMapName + ":" + _onName + " {";
             break;
 
-          /**
-           * MAP
-           */
           case "map":
             if (_isInMap === true) _out += "}";
+            var _map = (0, _Utils.parseMap)(rule);
+            _out += _map.selector + " {";
+            _lastMapName = _map.name;
+            _maps.push(_map.name);
             _isInMap = true;
-            var _mapName = (0, _Utils.parseMap)(rule);
-            _out += "." + _mapName + " {";
-            _lastMapName = _mapName;
-            _maps.push(_mapName);
             break;
 
-          /**
-           * PROPERTY
-           * Tries all the property handles to match
-           * the properies key. If there is no match
-           * the property will be added like normal
-           * css styles.
-           */
           case "property":
             var _property = (0, _Utils.parsePropety)(rule);
             var _usedPropertyHandler = false;
@@ -161,12 +123,10 @@ var Sheet = function () {
       // Join to single string
       _css = _cssLines.join(" ");
 
-      // Randomize all the classnames
+      // Hash all the classnames
       _maps.map(function (map) {
-        var _findMap = "." + map;
-        var _regex = new RegExp(_findMap, "g");
+        var _regex = new RegExp("\\." + map, "g");
         var _unique = (0, _Utils.getUnique)();
-
         _css = _css.replace(_regex, "." + _unique);
         _this2.map[map] = _unique;
       });
@@ -178,11 +138,16 @@ var Sheet = function () {
     key: "applyToDocument",
     value: function applyToDocument() {
       if (typeof document === "undefined " || typeof window === "undefined") return;
-
-      var htmlStyleTag = document.createElement("style");
-      htmlStyleTag.type = "text/css";
-      htmlStyleTag.innerHTML = this.css;
-      document.head.appendChild(htmlStyleTag);
+      var _element = document.getElementById("strcss");
+      if (typeof _element !== "undefined") {
+        _element.innerHTML += this.css;
+      } else {
+        _element = document.createElement("style");
+        _element.type = "text/css";
+        _element.innerHTML = this.css;
+        _element.id = "strcss";
+        document.head.appendChild(_element);
+      }
     }
   }]);
 

@@ -94,3 +94,20 @@ console.log(test6.map);
 drawSpacing(1);
 console.log(cssbeautify(test6.css));
 drawSpacing(2);
+
+const test7 = new Sheet(`
+  map parent
+    test parent
+  map child
+    test child
+  map child in parent
+    test child-in-parent
+  map child in parent on hover
+    test child-in-parent-on-hover
+`);
+
+drawSeperator("test 7 - nesting");
+console.log(test7.map);
+drawSpacing(1);
+console.log(cssbeautify(test7.css));
+drawSpacing(2);
