@@ -125,3 +125,20 @@ export function getUnique() {
   return `${id}_`;
 }
 const uniqueHistory = [];
+
+/**
+ * Applies to document
+ */
+export function applyToDocument(css) {
+  if (typeof document === "undefined " || typeof window === "undefined") return;
+  let _element = document.getElementById("strcss");
+  if (typeof _element !== "undefined") {
+    _element.innerHTML += css;
+  } else {
+    _element = document.createElement("style");
+    _element.type = "text/css";
+    _element.innerHTML = css;
+    _element.id = "strcss";
+    document.head.appendChild(_element);
+  }
+}

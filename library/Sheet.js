@@ -15,14 +15,15 @@ var _AutoSuffixer = require("./Utils/AutoSuffixer");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Sheet = function () {
-  function Sheet(sheet) {
+  function Sheet(sheet, options) {
     _classCallCheck(this, Sheet);
 
     this.css = "";
     this.map = {};
+    this.options = options || {};
 
     this.parse(sheet.split("\n"));
-    this.applyToDocument();
+    (0, _Utils.applyToDocument)(this.css);
   }
 
   _createClass(Sheet, [{
@@ -50,7 +51,7 @@ var Sheet = function () {
       var _isInMap = false;
       var _isInAt = false;
       var _localVars = [];
-      var _lastMapName = "";
+      var _lastMap = "";
       var _maps = [];
 
       // Lines to rules
@@ -74,7 +75,7 @@ var Sheet = function () {
             if (_isInAt === true) _out += "} ";
             var _query = (0, _Utils.parseAt)(rule);
             _out += "} " + _query + " {";
-            _out += "." + _lastMapName + " {";
+            _out += _lastMap.selector + " {";
             _isInAt = true;
             break;
 
@@ -88,14 +89,14 @@ var Sheet = function () {
 
           case "on":
             var _onName = (0, _Utils.parseOn)(rule);
-            _out += "} ." + _lastMapName + ":" + _onName + " {";
+            _out += "} " + _lastMap.selector + ":" + _onName + " {";
             break;
 
           case "map":
             if (_isInMap === true) _out += "}";
             var _map = (0, _Utils.parseMap)(rule);
-            _out += _map.selector + " {";
-            _lastMapName = _map.name;
+            _out += _map.selector + " { ";
+            _lastMap = _map;
             _maps.push(_map.name);
             _isInMap = true;
             break;
@@ -113,6 +114,8 @@ var Sheet = function () {
             if (_usedPropertyHandler === false) _out += _property.key + ": " + _property.value + ";";
             break;
         }
+
+        // Return what we made!
         return _out;
       });
 
@@ -124,30 +127,17 @@ var Sheet = function () {
       _css = _cssLines.join(" ");
 
       // Hash all the classnames
-      _maps.map(function (map) {
-        var _regex = new RegExp("\\." + map, "g");
-        var _unique = (0, _Utils.getUnique)();
-        _css = _css.replace(_regex, "." + _unique);
-        _this2.map[map] = _unique;
-      });
+      if (this.options.hash !== false) {
+        _maps.map(function (map) {
+          var _regex = new RegExp("\\." + map, "g");
+          var _unique = (0, _Utils.getUnique)();
+          _css = _css.replace(_regex, "." + _unique);
+          _this2.map[map] = _unique;
+        });
+      }
 
       // Thanks for coming
       this.css = _css;
-    }
-  }, {
-    key: "applyToDocument",
-    value: function applyToDocument() {
-      if (typeof document === "undefined " || typeof window === "undefined") return;
-      var _element = document.getElementById("strcss");
-      if (typeof _element !== "undefined") {
-        _element.innerHTML += this.css;
-      } else {
-        _element = document.createElement("style");
-        _element.type = "text/css";
-        _element.innerHTML = this.css;
-        _element.id = "strcss";
-        document.head.appendChild(_element);
-      }
     }
   }]);
 

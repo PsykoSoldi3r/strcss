@@ -97,13 +97,17 @@ drawSpacing(2);
 
 const test7 = new Sheet(`
   map parent
-    test parent
+    shouldBe parent
   map child
-    test child
+    shouldBe child
   map child in parent
-    test child-in-parent
+    shouldBe child-in-parent
+  on hover
+    shouldBe child-on-hover-in-parent
   map child in parent on hover
-    test child-in-parent-on-hover
+    shouldBe child-in-parent-on-hover
+  on hover
+    shouldBe child-on-hover-in-parent-on-hover
 `);
 
 drawSeperator("test 7 - nesting");

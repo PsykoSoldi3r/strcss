@@ -6,17 +6,19 @@ import {
   parseMap,
   parsePropety,
   parseOn,
-  getUnique
+  getUnique,
+  applyToDocument
 } from "./Utils";
 import { autoSuffix } from "./Utils/AutoSuffixer";
 
 export default class Sheet {
-  constructor(sheet) {
+  constructor(sheet, options) {
     this.css = "";
     this.map = {};
+    this.options = options || {};
 
     this.parse(sheet.split("\n"));
-    this.applyToDocument();
+    applyToDocument(this.css);
   }
 
   get(names) {
@@ -37,7 +39,7 @@ export default class Sheet {
     let _isInMap = false;
     let _isInAt = false;
     let _localVars = [];
-    let _lastMapName = "";
+    let _lastMap = "";
     let _maps = [];
 
     // Lines to rules
@@ -61,7 +63,7 @@ export default class Sheet {
           if (_isInAt === true) _out += "} ";
           let _query = parseAt(rule);
           _out += `} ${_query} {`;
-          _out += `.${_lastMapName} {`;
+          _out += `${_lastMap.selector} {`;
           _isInAt = true;
           break;
 
@@ -75,14 +77,14 @@ export default class Sheet {
 
         case "on":
           let _onName = parseOn(rule);
-          _out += `} .${_lastMapName}:${_onName} {`;
+          _out += `} ${_lastMap.selector}:${_onName} {`;
           break;
 
         case "map":
           if (_isInMap === true) _out += "}";
           let _map = parseMap(rule);
-          _out += `${_map.selector} {`;
-          _lastMapName = _map.name;
+          _out += `${_map.selector} { `;
+          _lastMap = _map;
           _maps.push(_map.name);
           _isInMap = true;
           break;
@@ -101,6 +103,8 @@ export default class Sheet {
             _out += `${_property.key}: ${_property.value};`;
           break;
       }
+
+      // Return what we made!
       return _out;
     });
 
@@ -112,29 +116,16 @@ export default class Sheet {
     _css = _cssLines.join(" ");
 
     // Hash all the classnames
-    _maps.map(map => {
-      var _regex = new RegExp("\\." + map, "g");
-      let _unique = getUnique();
-      _css = _css.replace(_regex, `.${_unique}`);
-      this.map[map] = _unique;
-    });
+    if (this.options.hash !== false) {
+      _maps.map(map => {
+        var _regex = new RegExp("\\." + map, "g");
+        let _unique = getUnique();
+        _css = _css.replace(_regex, `.${_unique}`);
+        this.map[map] = _unique;
+      });
+    }
 
     // Thanks for coming
     this.css = _css;
-  }
-
-  applyToDocument() {
-    if (typeof document === "undefined " || typeof window === "undefined")
-      return;
-    let _element = document.getElementById("strcss");
-    if (typeof _element !== "undefined") {
-      _element.innerHTML += this.css;
-    } else {
-      _element = document.createElement("style");
-      _element.type = "text/css";
-      _element.innerHTML = this.css;
-      _element.id = "strcss";
-      document.head.appendChild(_element);
-    }
   }
 }

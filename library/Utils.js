@@ -10,6 +10,7 @@ exports.parseMap = parseMap;
 exports.parseOn = parseOn;
 exports.parsePropety = parsePropety;
 exports.getUnique = getUnique;
+exports.applyToDocument = applyToDocument;
 /**
  * Removes all leading and trailing
  * whitespace from a string.
@@ -129,3 +130,20 @@ function getUnique() {
   return id + "_";
 }
 var uniqueHistory = [];
+
+/**
+ * Applies to document
+ */
+function applyToDocument(css) {
+  if (typeof document === "undefined " || typeof window === "undefined") return;
+  var _element = document.getElementById("strcss");
+  if (typeof _element !== "undefined") {
+    _element.innerHTML += css;
+  } else {
+    _element = document.createElement("style");
+    _element.type = "text/css";
+    _element.innerHTML = css;
+    _element.id = "strcss";
+    document.head.appendChild(_element);
+  }
+}
