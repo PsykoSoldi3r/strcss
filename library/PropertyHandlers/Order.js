@@ -8,21 +8,21 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Shadow = function () {
-  function Shadow() {
-    _classCallCheck(this, Shadow);
+var Order = function () {
+  function Order() {
+    _classCallCheck(this, Order);
 
-    this.propertyKey = "shadow";
+    this.propertyKey = "order";
   }
 
-  _createClass(Shadow, [{
+  _createClass(Order, [{
     key: "parse",
     value: function parse(property) {
-      return "box-shadow: 0px 0px " + property.value + " rgba(0,0,0,0.2);";
+      return "z-index: " + property.value + ";";
     }
   }]);
 
-  return Shadow;
+  return Order;
 }();
 
-exports.default = Shadow;
+exports.default = Order;

@@ -67,8 +67,13 @@ var Sheet = function () {
         var _out = "";
         switch (rule.type) {
           default:
-          case "comment":
           case "spacing":
+            break;
+
+          case "comment":
+            if (_this2.options.comments === true) {
+              _out += "/* " + rule.text.replace("#", "") + " */ ";
+            }
             break;
 
           case "at":
@@ -124,7 +129,7 @@ var Sheet = function () {
       if (_isInAt === true) _cssLines.push("}");
 
       // Join to single string
-      _css = _cssLines.join(" ");
+      _css = _cssLines.join("\n");
 
       // Hash all the classnames
       if (this.options.hash !== false) {

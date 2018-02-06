@@ -64,14 +64,70 @@ drawSpacing(1);
 console.log(cssbeautify(test4.css));
 drawSpacing(2);
 
-const test5 = new Sheet(`
-  map defaults
-    margin 10 50
-    fontSize 100
-  map customs
-    gradient 45 red green
+const test5 = new Sheet(
+  `
+  map customProperties
+    #align
     align center
-`);
+    #gradient
+    gradient 45 red green
+    #shadow
+    shadow 0 10
+    #order
+    order 5
+    #font
+    font lato
+    #alpha
+    alpha .5
+    #textColor
+    textColor red
+    #scale (1)
+    scale 1.1
+    #scale (2)
+    scale 1.1 1.2
+    #image
+    image dog.jpg
+    #wallpaper
+    wallpaper cat.png
+    #frostblur
+    frostblur 10
+    #scroll (1)
+    scroll vertical
+    #scroll (2)
+    scroll horizontal
+    #scroll (3)
+    scroll both
+    #size (1)
+    size 10
+    #size (2)
+    size 20 50
+    #min-size (1)
+    minSize 20
+    #min-size (2)
+    minSize 30 50
+    #max-size (1)
+    maxSize 40
+    #max-size (2)
+    maxSize 60 40
+    #flexy (1)
+    flexy row
+    #flexy (2)
+    flexy column
+    #flexy (3)
+    flexy 10
+    #rect (1)
+    rect 10
+    #rect (2)
+    rect 10 20
+    #rect (3)
+    rect 10 20 30
+    #rect (4)
+    rect 10 20 30 40
+`,
+  {
+    comments: true
+  }
+);
 
 drawSeperator("test 5 - properties");
 console.log(test5.map);

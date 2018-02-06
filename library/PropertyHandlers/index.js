@@ -17,6 +17,10 @@ var _Align = require("./Align");
 
 var _Align2 = _interopRequireDefault(_Align);
 
+var _Order = require("./Order");
+
+var _Order2 = _interopRequireDefault(_Order);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PropertyHandlers = exports.PropertyHandlers = [new _Gradient2.default(), new _Shadow2.default(), new _Align2.default()];
+var PropertyHandlers = exports.PropertyHandlers = [new _Gradient2.default(), new _Shadow2.default(), new _Align2.default(), new _Order2.default()];

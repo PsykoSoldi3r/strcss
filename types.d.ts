@@ -1,5 +1,5 @@
 export class Sheet {
-  constructor(sheet: String, options: any);
+  constructor(sheet: String, options?: any);
   private sheetText: String;
   private sheetRules: String[];
   private css: String;

@@ -316,9 +316,6 @@ var Sheet = function () {
 
       // Handle Custom Properties
       switch (styleKeyValue.key) {
-        case "order":
-          styleKeyValue.key = "z-index";
-          break;
         case "font":
           styleKeyValue.key = "font-family";
           styleKeyValue.value = "'" + styleKeyValue.value + "', sans";

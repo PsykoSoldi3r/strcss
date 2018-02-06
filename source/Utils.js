@@ -68,18 +68,18 @@ export function parseMap(rule) {
   if (_splitted.length === 4) {
     return {
       name: _splitted[1],
-      selector: `.${_splitted[3]} .${_splitted[1]}`
+      selector: ` .${_splitted[3]} .${_splitted[1]}`
     };
   }
   if (_splitted.length === 6) {
     return {
       name: _splitted[1],
-      selector: `.${_splitted[3]}:${_splitted[5]} .${_splitted[1]}`
+      selector: ` .${_splitted[3]}:${_splitted[5]} .${_splitted[1]}`
     };
   }
   return {
     name: _splitted[1],
-    selector: `.${_splitted[1]}`
+    selector: ` .${_splitted[1]}`
   };
 }
 
@@ -132,7 +132,7 @@ const uniqueHistory = [];
 export function applyToDocument(css) {
   if (typeof document === "undefined " || typeof window === "undefined") return;
   let _element = document.getElementById("strcss");
-  if (typeof _element !== "undefined") {
+  if (_element !== null) {
     _element.innerHTML += css;
   } else {
     _element = document.createElement("style");
