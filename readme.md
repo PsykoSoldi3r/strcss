@@ -181,6 +181,7 @@ const sheet = new Sheet(`
 # Nesting
 Nesting allows you to manipulate maps inside other maps.
 
+The following example turns the text in a button blue when you hover over the button.
 ```jsx
 const sheet = new Sheet(`
     map button
