@@ -81,6 +81,12 @@ export class User extends Component {
 * (Google) font importer
 * Built-in media queries
 * Expandable and customizable
+* Up 3 times smaller file size \*1
+* Optional indenting \*2
+
+> \*1 File sizes for StrCSS are up to 3 times small than competers such as Scss, Sass, Stylus etc due to runtime transpiling.
+
+> \*2 indenting is not needed and has no effect, you can use any number or tab size you want (or none).
 
 <br/><br/><br/>
 
@@ -89,8 +95,6 @@ export class User extends Component {
 Create a sheet per component, a stylesheet will be generated per component class - NOT per component instance. When running your web application, the sheets will be injected before rendering.
 
 Use the maps as class names. Mapped styles will be available in the map object by the name you gave them. You can also grab multiple maps using the get function as shown in the exmaple below.
-
-> Note that indenting is not needed and has no effect, you can use any number or tab size you want (or none).
 
 ```jsx
 // Create a sheet...
@@ -140,13 +144,12 @@ Will be rendered into...
 You can export and import sheets to use them outside of components.
 
 ```jsx
-// Styles.js
-const sheet = new Sheet(``)
-export { sheet }
+// Sheets.js
+const testSheet = new Sheet(``);
+export { testSheet };
 
 // Component.jsx
-import { sheet } from 'Styles'
-sheet.map...
+import { testSheet } from "../Sheets";
 ```
 
 <br/><br/><br/>
