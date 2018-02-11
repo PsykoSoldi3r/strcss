@@ -86,7 +86,7 @@ export class User extends Component {
 
 > \# 1 - File sizes for StrCSS are up to 3 times small than Scss, Sass, Stylus, etc due to runtime transpiling.
 
-> \# 2 - Indenting is not needed and has no effect, you can use any number or tab size you want or none at all.
+> \# 2 - Indenting is not needed and has no effect, you can use any number or tab size you want or none at.
 
 <br/><br/><br/>
 
@@ -229,8 +229,8 @@ const sheet = new Sheet(`
 
 Use the `at` keyword within a map to target specific device.
 
-```
-const sheet = new Sheet (`
+```js
+const sheet = new Sheet(`
     map profilePicture
         borderRadius 50%
     at  mobile
@@ -239,10 +239,9 @@ const sheet = new Sheet (`
         size 100
     at  desktop
         size 200
-
     at iphonex
         marginTop 100
-`)
+`);
 ```
 
 <br/><br/><br/>
