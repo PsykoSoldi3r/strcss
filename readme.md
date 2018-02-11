@@ -81,12 +81,12 @@ export class User extends Component {
 * (Google) font importer
 * Built-in media queries
 * Expandable and customizable
-* Up 3 times smaller file size \*1
-* Optional indenting \*2
+* Up 3 times smaller file size (1)
+* Optional indenting (2)
 
-> \*1 File sizes for StrCSS are up to 3 times small than competers such as Scss, Sass, Stylus etc due to runtime transpiling.
+> \# 1 - File sizes for StrCSS are up to 3 times small than Scss, Sass, Stylus, etc due to runtime transpiling.
 
-> \*2 indenting is not needed and has no effect, you can use any number or tab size you want (or none).
+> \# 2 - Indenting is not needed and has no effect, you can use any number or tab size you want or none at all.
 
 <br/><br/><br/>
 
