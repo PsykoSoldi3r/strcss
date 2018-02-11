@@ -90,6 +90,8 @@ Create a sheet per component, a stylesheet will be generated per component class
 
 Use the maps as class names. Mapped styles will be available in the map object by the name you gave them. You can also grab multiple maps using the get function as shown in the exmaple below.
 
+> Note that indenting is not needed and has no effect, you can use any number or tab size you want (or none).
+
 ```jsx
 // Create a sheet...
 const sheet = new Sheet(`
@@ -294,29 +296,29 @@ const sheet = new Sheet(`
 
 Even though you can use all the vanilla CSS properties, there are some custom properties you can use as well.
 
-| Property   | Description                                                                                                                                                                 | Parametes                                    |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| flexy      | Basic flex options for creating rows and columns.                                                                                                                           | row / column / grow`number`                  |
-| rect       | Positioning an element. Where stretch will fill in the whole parent element, fit will attach itself to the parents edges. Or add up to 4 numbers acting the same as margin. | stretch / fit / directions`size`             |
-| depth      | Acts just like z-index when ordering layers.                                                                                                                                | depth`number`                                |
-| gradient   | Fills the background of an element with a gradient.                                                                                                                         | degrees`number` from`color` to`color`        |
-| shadow     | Drops a show around an element.                                                                                                                                             | blur`number` spread`number`                  |
-| image      | Draws an image containing of the background of an element                                                                                                                   | url`string`                                  |
-| wallpaper  | Fills the background of an element with an image                                                                                                                            | url`string`                                  |
-| size       | The size is used to set the height and width of an element.                                                                                                                 | height`size` width`size` / heightWidth`size` |
-| min-size   | The min-size is used to set the minimal height and width of an element.                                                                                                     | height`size` width`size` / heightWidth`size` |
-| max-size   | The max-size is used to set the maximal height and width of an element.                                                                                                     | height`size` width`size` / heightWidth`size` |
-| text-color | Acts just like color when coloring text.                                                                                                                                    | color`color`                                 |
-| frostblur  | Blurs the elements which are rendered overlapped by the target element                                                                                                      | spread`number`                               |
-| scroll     | Used to add scrollbars to elements with an content that overflows (according to the parameters given for the `size`)                                                        | horizontal / vertical / both                 |
-| align      | Blocks an element and aligns it relative to its parent                                                                                                                      | left / center / right                        |
-| scale      | The scale increases or decreases the size of an element (according to the parameters given for the `size`).                                                                 | x`number` y`number` / xy`number`             |
-| font       | To use the font for an HTML element, refer to the name of the font through the font property                                                                                | name`string`                                 |
+| Property   | Description                                                                                                                                                                 | Parametes                                       |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| flexy      | Basic flex options for creating rows and columns.                                                                                                                           | row / column / grow (number)                    |
+| rect       | Positioning an element. Where stretch will fill in the whole parent element, fit will attach itself to the parents edges. Or add up to 4 numbers acting the same as margin. | stretch / fit / directions (size)               |
+| depth      | Acts just like z-index when ordering layers.                                                                                                                                | depth (number)                                  |
+| gradient   | Fills the background of an element with a gradient.                                                                                                                         | degrees (number) from (color) to (color)        |
+| shadow     | Drops a show around an element.                                                                                                                                             | blur (number) spread (number)                   |
+| image      | Draws an image containing of the background of an element                                                                                                                   | url (string)                                    |
+| wallpaper  | Fills the background of an element with an image                                                                                                                            | url (string)                                    |
+| size       | The size is used to set the height and width of an element.                                                                                                                 | height (size) width (size) / heightWidth (size) |
+| min-size   | The min-size is used to set the minimal height and width of an element.                                                                                                     | height (size) width (size) / heightWidth (size) |
+| max-size   | The max-size is used to set the maximal height and width of an element.                                                                                                     | height (size) width (size) / heightWidth (size) |
+| text-color | Acts just like color when coloring text.                                                                                                                                    | color (color)                                   |
+| frostblur  | Blurs the elements which are rendered overlapped by the target element                                                                                                      | spread (number)                                 |
+| scroll     | Used to add scrollbars to elements with an content that overflows (according to the parameters given for the (size))                                                        | horizontal / vertical / both                    |
+| align      | Blocks an element and aligns it relative to its parent                                                                                                                      | left / center / right                           |
+| scale      | The scale increases or decreases the size of an element (according to the parameters given for the (size)).                                                                 | x (number) y (number) / xy (number)             |
+| font       | To use the font for an HTML element, refer to the name of the font through the font property                                                                                | name (string)                                   |
 
 **Types:**
 
-* `size` The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block. Single numbers will be turned into px (if posibile).
-* `color` The name of a color or HEX value
+* (size) The size can be set to auto (this is default. Means that the browser calculates the size), or be specified in length values, like px, cm, etc., or in percent (%) of the containing block. Single numbers will be turned into px (if posibile).
+* (color) The name of a color or HEX value
 
 <br/><br/><br/>
 
