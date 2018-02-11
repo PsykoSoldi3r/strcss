@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _PropertyHandlers = require("./PropertyHandlers");
-
 var _Utils = require("./Utils");
+
+var _PropertyHandlers = require("./PropertyHandlers");
 
 var _AutoSuffixer = require("./Utils/AutoSuffixer");
 
@@ -77,10 +77,10 @@ var Sheet = function () {
             break;
 
           case "at":
-            if (_isInAt === true) _out += "} ";
+            if (_isInAt === true) _out += " } ";
             var _query = (0, _Utils.parseAt)(rule);
-            _out += "} " + _query + " {";
-            _out += _lastMap.selector + " {";
+            _out += " } " + _query + " { ";
+            _out += _lastMap.selector + " { ";
             _isInAt = true;
             break;
 
@@ -94,11 +94,11 @@ var Sheet = function () {
 
           case "on":
             var _onName = (0, _Utils.parseOn)(rule);
-            _out += "} " + _lastMap.selector + ":" + _onName + " {";
+            _out += "} " + _lastMap.selector + ":" + _onName + " { ";
             break;
 
           case "map":
-            if (_isInMap === true) _out += "}";
+            if (_isInMap === true) _out += " } ";
             var _map = (0, _Utils.parseMap)(rule);
             _out += _map.selector + " { ";
             _lastMap = _map;
@@ -113,7 +113,10 @@ var Sheet = function () {
             _PropertyHandlers.PropertyHandlers.map(function (propertyHandler) {
               if (propertyHandler.propertyKey === _property.key) {
                 _usedPropertyHandler = true;
-                _out += propertyHandler.parse(_property);
+                var _parsedProperies = propertyHandler.parse(_property);
+                for (var _parsedPropetyKey in _parsedProperies) {
+                  _out += _parsedPropetyKey + ": " + _parsedProperies[_parsedPropetyKey] + "; ";
+                }
               }
             });
             if (_usedPropertyHandler === false) _out += _property.key + ": " + _property.value + ";";
@@ -125,18 +128,18 @@ var Sheet = function () {
       });
 
       // Last escapes!
-      if (_isInMap === true) _cssLines.push("}");
-      if (_isInAt === true) _cssLines.push("}");
+      if (_isInMap === true) _cssLines.push(" }");
+      if (_isInAt === true) _cssLines.push(" }");
 
       // Join to single string
-      _css = _cssLines.join("\n");
+      _css = _cssLines.join(" ");
 
       // Hash all the classnames
       if (this.options.hash !== false) {
         _maps.map(function (map) {
-          var _regex = new RegExp("\\." + map, "g");
+          var _regex = new RegExp("\\." + map + " ", "g");
           var _unique = (0, _Utils.getUnique)();
-          _css = _css.replace(_regex, "." + _unique);
+          _css = _css.replace(_regex, "." + _unique + " ");
           _this2.map[map] = _unique;
         });
       }

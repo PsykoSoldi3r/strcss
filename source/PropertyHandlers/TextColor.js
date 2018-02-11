@@ -3,6 +3,6 @@ export default class TextColor {
     this.propertyKey = "text-color";
   }
   parse(property) {
-    return `color: ${property.value};`;
+    return { color: property.value };
   }
 }

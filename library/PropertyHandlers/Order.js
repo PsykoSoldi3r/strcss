@@ -18,7 +18,7 @@ var Order = function () {
   _createClass(Order, [{
     key: "parse",
     value: function parse(property) {
-      return "z-index: " + property.value + ";";
+      return { "z-index": property.value };
     }
   }]);
 

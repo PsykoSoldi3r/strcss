@@ -80,18 +80,18 @@ function parseMap(rule) {
   if (_splitted.length === 4) {
     return {
       name: _splitted[1],
-      selector: " ." + _splitted[3] + " ." + _splitted[1]
+      selector: "." + _splitted[3] + " ." + _splitted[1]
     };
   }
   if (_splitted.length === 6) {
     return {
       name: _splitted[1],
-      selector: " ." + _splitted[3] + ":" + _splitted[5] + " ." + _splitted[1]
+      selector: "." + _splitted[3] + ":" + _splitted[5] + " ." + _splitted[1]
     };
   }
   return {
     name: _splitted[1],
-    selector: " ." + _splitted[1]
+    selector: "." + _splitted[1]
   };
 }
 

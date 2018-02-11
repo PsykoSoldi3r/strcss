@@ -1,14 +1,15 @@
-import { PropertyHandlers } from "./PropertyHandlers";
 import {
-  shift,
+  applyToDocument,
   getLineType,
+  getUnique,
   parseAt,
   parseMap,
-  parsePropety,
   parseOn,
-  getUnique,
-  applyToDocument
+  parsePropety,
+  shift
 } from "./Utils";
+
+import { PropertyHandlers } from "./PropertyHandlers";
 import { autoSuffix } from "./Utils/AutoSuffixer";
 
 export default class Sheet {
@@ -65,10 +66,10 @@ export default class Sheet {
           break;
 
         case "at":
-          if (_isInAt === true) _out += "} ";
+          if (_isInAt === true) _out += " } ";
           let _query = parseAt(rule);
-          _out += `} ${_query} {`;
-          _out += `${_lastMap.selector} {`;
+          _out += ` } ${_query} { `;
+          _out += `${_lastMap.selector} { `;
           _isInAt = true;
           break;
 
@@ -82,11 +83,11 @@ export default class Sheet {
 
         case "on":
           let _onName = parseOn(rule);
-          _out += `} ${_lastMap.selector}:${_onName} {`;
+          _out += `} ${_lastMap.selector}:${_onName} { `;
           break;
 
         case "map":
-          if (_isInMap === true) _out += "}";
+          if (_isInMap === true) _out += " } ";
           let _map = parseMap(rule);
           _out += `${_map.selector} { `;
           _lastMap = _map;
@@ -101,7 +102,12 @@ export default class Sheet {
           PropertyHandlers.map(propertyHandler => {
             if (propertyHandler.propertyKey === _property.key) {
               _usedPropertyHandler = true;
-              _out += propertyHandler.parse(_property);
+              let _parsedProperies = propertyHandler.parse(_property);
+              for (var _parsedPropetyKey in _parsedProperies) {
+                _out += `${_parsedPropetyKey}: ${
+                  _parsedProperies[_parsedPropetyKey]
+                }; `;
+              }
             }
           });
           if (_usedPropertyHandler === false)
@@ -114,18 +120,18 @@ export default class Sheet {
     });
 
     // Last escapes!
-    if (_isInMap === true) _cssLines.push("}");
-    if (_isInAt === true) _cssLines.push("}");
+    if (_isInMap === true) _cssLines.push(" }");
+    if (_isInAt === true) _cssLines.push(" }");
 
     // Join to single string
-    _css = _cssLines.join("\n");
+    _css = _cssLines.join(" ");
 
     // Hash all the classnames
     if (this.options.hash !== false) {
       _maps.map(map => {
-        var _regex = new RegExp("\\." + map, "g");
+        var _regex = new RegExp("\\." + map + " ", "g");
         let _unique = getUnique();
-        _css = _css.replace(_regex, `.${_unique}`);
+        _css = _css.replace(_regex, `.${_unique} `);
         this.map[map] = _unique;
       });
     }

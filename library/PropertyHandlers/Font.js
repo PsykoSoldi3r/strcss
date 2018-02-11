@@ -8,6 +8,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * Takes an font name and sets it as the
+ * font families first member with an
+ * fallback to any sans font.
+ */
 var Font = function () {
   function Font() {
     _classCallCheck(this, Font);
@@ -18,7 +23,7 @@ var Font = function () {
   _createClass(Font, [{
     key: "parse",
     value: function parse(property) {
-      return "font-family: '" + property.value + "', sans;";
+      return { "font-family": "'" + property.value + "', sans" };
     }
   }]);
 

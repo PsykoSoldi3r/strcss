@@ -18,7 +18,7 @@ var TextColor = function () {
   _createClass(TextColor, [{
     key: "parse",
     value: function parse(property) {
-      return "color: " + property.value + ";";
+      return { color: property.value };
     }
   }]);
 

@@ -8,25 +8,21 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/**
- * Takes any number from 0 to 1 and sets
- * it as the opacity of an element.
- */
-var Alpha = function () {
-  function Alpha() {
-    _classCallCheck(this, Alpha);
+var Frostblur = function () {
+  function Frostblur() {
+    _classCallCheck(this, Frostblur);
 
-    this.propertyKey = "alpha";
+    this.propertyKey = "frostblur";
   }
 
-  _createClass(Alpha, [{
+  _createClass(Frostblur, [{
     key: "parse",
     value: function parse(property) {
-      return { opacity: property.value };
+      return { "-webkit-backdrop-filter": "blur(" + property.value + ")" };
     }
   }]);
 
-  return Alpha;
+  return Frostblur;
 }();
 
-exports.default = Alpha;
+exports.default = Frostblur;

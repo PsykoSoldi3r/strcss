@@ -18,7 +18,7 @@ var Shadow = function () {
   _createClass(Shadow, [{
     key: "parse",
     value: function parse(property) {
-      return "box-shadow: 0px 0px " + property.value + " rgba(0,0,0,0.2);";
+      return { "box-shadow": "0px 0px " + property.value + " rgba(0,0,0,0.2)" };
     }
   }]);
 

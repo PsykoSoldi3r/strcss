@@ -8,47 +8,48 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/**
- * Takes one keyword 'left, right or center'
- * and aligns content by setting the element
- * to display block and pushing it using the
- * left and right margin.
- */
-var Align = function () {
-  function Align() {
-    _classCallCheck(this, Align);
+var Scroll = function () {
+  function Scroll() {
+    _classCallCheck(this, Scroll);
 
-    this.propertyKey = "align";
+    this.propertyKey = "scroll";
   }
 
-  _createClass(Align, [{
+  _createClass(Scroll, [{
     key: "parse",
     value: function parse(property) {
       switch (property.value) {
-        case "left":
+        case "horizontal":
           return {
-            display: "block",
-            "margin-left": "0px",
-            "margin-right": "auto"
+            margin: "0px",
+            padding: "0px",
+            overflow: "scroll",
+            "overflow-y": "hidden",
+            "white-space": "nowrap",
+            "-webkit-overflow-scrolling": "scroll"
           };
-        case "center":
+        case "vertical":
           return {
-            display: "block",
-            "margin-left": "auto",
-            "margin-right": "auto"
+            margin: "0px",
+            padding: "0px",
+            overflow: "scroll",
+            "overflow-x": "hidden",
+            "white-space": "nowrap",
+            "-webkit-overflow-scrolling": "scroll"
           };
-        case "right":
+        case "both":
           return {
-            display: "block",
-            "margin-left": "auto",
-            "margin-right": "0px"
+            margin: "0px",
+            padding: "0px",
+            overflow: "scroll",
+            "white-space": "nowrap",
+            "-webkit-overflow-scrolling": "scroll"
           };
       }
-      return "";
     }
   }]);
 
-  return Align;
+  return Scroll;
 }();
 
-exports.default = Align;
+exports.default = Scroll;

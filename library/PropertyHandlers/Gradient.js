@@ -18,10 +18,10 @@ var Gradient = function () {
   _createClass(Gradient, [{
     key: "parse",
     value: function parse(property) {
-      var _out = "";
       var _split = property.value.split(" ");
-      _out += "background-image: linear-gradient(" + _split[0] + ", " + _split[1] + ", " + _split[2] + ");";
-      return _out;
+      return {
+        "background-image": "linear-gradient(" + _split[0] + ", " + _split[1] + ", " + _split[2] + ")"
+      };
     }
   }]);
 

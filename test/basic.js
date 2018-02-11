@@ -2,6 +2,8 @@ const { Sheet } = require("../.");
 const { drawSpacing, drawSeperator } = require("./testUtils");
 const cssbeautify = require("cssbeautify");
 
+let _pretty = true;
+
 drawSpacing(10);
 drawSeperator("Running StrCSS tests");
 
@@ -13,7 +15,7 @@ const test1 = new Sheet(`
 drawSeperator("test 1 - map");
 console.log(test1.map);
 drawSpacing(1);
-console.log(cssbeautify(test1.css));
+console.log(_pretty === true ? cssbeautify(test1.css) : test1.css);
 drawSpacing(2);
 
 const test2 = new Sheet(`
@@ -28,7 +30,7 @@ const test2 = new Sheet(`
 drawSeperator("test 2 - on");
 console.log(test2.map);
 drawSpacing(1);
-console.log(cssbeautify(test2.css));
+console.log(_pretty === true ? cssbeautify(test2.css) : test2.css);
 drawSpacing(2);
 
 const test3 = new Sheet(`
@@ -44,7 +46,7 @@ const test3 = new Sheet(`
 drawSeperator("test 3 - at");
 console.log(test3.map);
 drawSpacing(1);
-console.log(cssbeautify(test3.css));
+console.log(_pretty === true ? cssbeautify(test3.css) : test3.css);
 drawSpacing(2);
 
 const test4 = new Sheet(`
@@ -61,11 +63,10 @@ const test4 = new Sheet(`
 drawSeperator("test 4 - at/on");
 console.log(test4.map);
 drawSpacing(1);
-console.log(cssbeautify(test4.css));
+console.log(_pretty === true ? cssbeautify(test4.css) : test4.css);
 drawSpacing(2);
 
-const test5 = new Sheet(
-  `
+const test5 = new Sheet(`
   map customProperties
     #align
     align center
@@ -123,16 +124,12 @@ const test5 = new Sheet(
     rect 10 20 30
     #rect (4)
     rect 10 20 30 40
-`,
-  {
-    comments: true
-  }
-);
+`);
 
 drawSeperator("test 5 - properties");
 console.log(test5.map);
 drawSpacing(1);
-console.log(cssbeautify(test5.css));
+console.log(_pretty === true ? cssbeautify(test5.css) : test5.css);
 drawSpacing(2);
 
 const test6 = new Sheet(`
@@ -148,7 +145,7 @@ const test6 = new Sheet(`
 drawSeperator("test 6 - auto suffixer");
 console.log(test6.map);
 drawSpacing(1);
-console.log(cssbeautify(test6.css));
+console.log(_pretty === true ? cssbeautify(test6.css) : test6.css);
 drawSpacing(2);
 
 const test7 = new Sheet(`
@@ -169,5 +166,22 @@ const test7 = new Sheet(`
 drawSeperator("test 7 - nesting");
 console.log(test7.map);
 drawSpacing(1);
-console.log(cssbeautify(test7.css));
+console.log(_pretty === true ? cssbeautify(test7.css) : test7.css);
+drawSpacing(2);
+
+const test8 = new Sheet(`
+  map user
+    color red
+  map username
+    color red
+  map name
+    color red
+  map nameuser
+    color red
+`);
+
+drawSeperator("test 8 - hashing");
+console.log(test8.map);
+drawSpacing(1);
+console.log(_pretty === true ? cssbeautify(test8.css) : test8.css);
 drawSpacing(2);

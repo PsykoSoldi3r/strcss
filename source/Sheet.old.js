@@ -1,4 +1,5 @@
 import { sheetCache, uniques } from "./index";
+
 import { PropertyHandlers } from "./PropertyHandlers";
 
 export default class Sheet {
@@ -300,77 +301,6 @@ export default class Sheet {
 
     // Handle Custom Properties
     switch (styleKeyValue.key) {
-      case "depth":
-        styleKeyValue.key = "z-index";
-        break;
-      case "text-color":
-        styleKeyValue.key = "color";
-        break;
-      case "scale":
-        let scaleSplittedValues = styleKeyValue.value.split(" ");
-        styleKeyValue.key = "transform";
-        if (scaleSplittedValues.length === 2)
-          styleKeyValue.value = `scale(${scaleSplittedValues[0]}, ${
-            scaleSplittedValues[1]
-          })`;
-        else
-          styleKeyValue.value = `scale(${styleKeyValue.value}, ${
-            styleKeyValue.value
-          })`;
-        break;
-      case "image":
-        styleKeyValue.value = `url(${
-          styleKeyValue.value
-        });\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: contain`;
-        styleKeyValue.key = "background-image";
-        break;
-      case "wallpaper":
-        styleKeyValue.value = `url(${
-          styleKeyValue.value
-        });\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: cover`;
-        styleKeyValue.key = "background-image";
-        break;
-      case "frostblur":
-        styleKeyValue.value = `blur(${styleKeyValue.value})`;
-        styleKeyValue.key = "-webkit-backdrop-filter";
-        break;
-      case "scroll":
-        styleKeyValue.key = "margin";
-        switch (styleKeyValue.value) {
-          case "horizontal":
-            styleKeyValue.value = `0px;\n\tpadding: 0px;\n\toverflow: auto;\n\toverflow-y: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`;
-            break;
-          case "vertical":
-            styleKeyValue.value = `0px;\n\tpadding: 0px;\n\toverflow: scroll;\n\toverflow-x: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`;
-            break;
-          case "both":
-            styleKeyValue.value = `0px;\n\tpadding: 0px;\n\toverflow: scroll;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`;
-            break;
-        }
-        break;
-      case "size":
-        let sizeSplittedValues = styleKeyValue.value.split(" ");
-        styleKeyValue.value = `${
-          sizeSplittedValues[0]
-        };\n\theight: ${sizeSplittedValues[1] || sizeSplittedValues[0]}`;
-        styleKeyValue.key = "width";
-        break;
-      case "min-size":
-        let minSizeSplittedValues = styleKeyValue.value.split(" ");
-        styleKeyValue.value = `${
-          minSizeSplittedValues[0]
-        };\n\tmin-height: ${minSizeSplittedValues[1] ||
-          minSizeSplittedValues[0]}`;
-        styleKeyValue.key = "min-width";
-        break;
-      case "max-size":
-        let maxSizeSplittedValues = styleKeyValue.value.split(" ");
-        styleKeyValue.value = `${
-          maxSizeSplittedValues[0]
-        };\n\tmax-height: ${maxSizeSplittedValues[1] ||
-          maxSizeSplittedValues[0]}`;
-        styleKeyValue.key = "max-width";
-        break;
       case "flexy":
         if (styleKeyValue.value === "row") {
           styleKeyValue.key = "display";

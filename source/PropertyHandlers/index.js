@@ -1,10 +1,18 @@
-import Gradient from "./Gradient";
-import Shadow from "./Shadow";
 import Align from "./Align";
-import Order from "./Order";
-import Font from "./Font";
 import Alpha from "./Alpha";
+import Font from "./Font";
+import Frostblur from "./Frostblur";
+import Gradient from "./Gradient";
+import Image from "./Image";
+import MaxSize from "./MaxSize";
+import MinSize from "./MinSize";
+import Order from "./Order";
+import Scale from "./Scale";
+import Scroll from "./Scroll";
+import Shadow from "./Shadow";
+import Size from "./Size";
 import TextColor from "./TextColor";
+import Wallpaper from "./Wallpaper";
 
 export const PropertyHandlers = [
   new Gradient(),
@@ -13,5 +21,13 @@ export const PropertyHandlers = [
   new Order(),
   new Font(),
   new Alpha(),
-  new TextColor()
+  new TextColor(),
+  new Scale(),
+  new Image(),
+  new Wallpaper(),
+  new Frostblur(),
+  new Scroll(),
+  new Size(),
+  new MinSize(),
+  new MaxSize()
 ];

@@ -3,6 +3,6 @@ export default class Order {
     this.propertyKey = "order";
   }
   parse(property) {
-    return `z-index: ${property.value};`;
+    return { "z-index": property.value };
   }
 }

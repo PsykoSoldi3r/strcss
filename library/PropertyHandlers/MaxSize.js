@@ -8,25 +8,25 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/**
- * Takes any number from 0 to 1 and sets
- * it as the opacity of an element.
- */
-var Alpha = function () {
-  function Alpha() {
-    _classCallCheck(this, Alpha);
+var MaxSize = function () {
+  function MaxSize() {
+    _classCallCheck(this, MaxSize);
 
-    this.propertyKey = "alpha";
+    this.propertyKey = "max-size";
   }
 
-  _createClass(Alpha, [{
+  _createClass(MaxSize, [{
     key: "parse",
     value: function parse(property) {
-      return { opacity: property.value };
+      var _split = property.value.split(" ");
+      return {
+        "max-width": _split[0],
+        "max-height": _split[1] || _split[0]
+      };
     }
   }]);
 
-  return Alpha;
+  return MaxSize;
 }();
 
-exports.default = Alpha;
+exports.default = MaxSize;

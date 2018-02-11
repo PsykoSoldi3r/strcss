@@ -9,24 +9,29 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * Takes any number from 0 to 1 and sets
- * it as the opacity of an element.
+ * Takes a path to a file and sets it as the
+ * covering background image of the element.
  */
-var Alpha = function () {
-  function Alpha() {
-    _classCallCheck(this, Alpha);
+var Wallpaper = function () {
+  function Wallpaper() {
+    _classCallCheck(this, Wallpaper);
 
-    this.propertyKey = "alpha";
+    this.propertyKey = "wallpaper";
   }
 
-  _createClass(Alpha, [{
+  _createClass(Wallpaper, [{
     key: "parse",
     value: function parse(property) {
-      return { opacity: property.value };
+      return {
+        "background-image": "url(" + property.value + ")",
+        "background-position": "center",
+        "background-repeat": "no-repeat",
+        "background-size": "cover"
+      };
     }
   }]);
 
-  return Alpha;
+  return Wallpaper;
 }();
 
-exports.default = Alpha;
+exports.default = Wallpaper;
