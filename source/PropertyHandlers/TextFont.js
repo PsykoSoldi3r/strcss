@@ -3,9 +3,9 @@
  * font families first member with an
  * fallback to any sans font.
  */
-export default class Font {
+export default class TextFont {
   constructor() {
-    this.propertyKey = "font";
+    this.propertyKey = "text-font";
   }
   parse(property) {
     return { "font-family": `'${property.value}', sans` };
