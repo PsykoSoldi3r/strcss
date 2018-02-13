@@ -150,7 +150,6 @@ var Sheet = function () {
 
       // Hash all the classnames
       if (this.options.hash !== false) {
-        console.log(_maps);
         _maps.map(function (map) {
           var _unique = (0, _Utils.getUnique)();
           _css = _css.replace(new RegExp("\\." + map + " ", "g"), "." + _unique + " ");
