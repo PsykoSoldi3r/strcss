@@ -77,7 +77,7 @@ const test5 = new Sheet(`
     #order
     order 5
     #font
-    font lato
+    textFont lato
     #alpha
     alpha .5
     #textColor
@@ -184,4 +184,17 @@ drawSeperator("test 8 - hashing");
 console.log(test8.map);
 drawSpacing(1);
 console.log(_pretty === true ? cssbeautify(test8.css) : test8.css);
+drawSpacing(2);
+
+const test9 = new Sheet(`
+  var test 10
+  map name
+    fontSize {test}
+    zIndex {test}
+`);
+
+drawSeperator("test 9 - vars");
+console.log(test9.map);
+drawSpacing(1);
+console.log(_pretty === true ? cssbeautify(test9.css) : test9.css);
 drawSpacing(2);
