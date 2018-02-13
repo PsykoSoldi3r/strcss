@@ -13,6 +13,8 @@ import Shadow from "./Shadow";
 import Size from "./Size";
 import TextColor from "./TextColor";
 import Wallpaper from "./Wallpaper";
+import Flexy from "./Flexy";
+import Rect from "./Rect";
 
 export const PropertyHandlers = [
   new Gradient(),
@@ -29,5 +31,7 @@ export const PropertyHandlers = [
   new Scroll(),
   new Size(),
   new MinSize(),
-  new MaxSize()
+  new MaxSize(),
+  new Flexy(),
+  new Rect()
 ];

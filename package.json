@@ -1,7 +1,8 @@
 {
   "name": "strcss",
-  "version": "2.0.0-beta.1",
-  "description": "StrCSS brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍",
+  "version": "2.0.0-beta.2",
+  "description":
+    "StrCSS brings you super powers with simple, light weight, custom ruled, shorthanded, inline Sheets for styling individual components. You're welcome, you have two wishes left... 🧞‍",
   "main": "library/index.js",
   "types": "./types.d.ts",
   "scripts": {
@@ -13,13 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/jeffreylanters/strcss.git"
   },
-  "keywords": [
-    "strcss",
-    "css",
-    "inline",
-    "react",
-    "component"
-  ],
+  "keywords": ["strcss", "css", "inline", "react", "component"],
   "author": "Jeffrey Lanters",
   "license": "ISC",
   "bugs": {

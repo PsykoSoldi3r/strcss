@@ -316,41 +316,7 @@ var Sheet = function () {
 
       // Handle Custom Properties
       switch (styleKeyValue.key) {
-        case "flexy":
-          if (styleKeyValue.value === "row") {
-            styleKeyValue.key = "display";
-            styleKeyValue.value = "flex-direction: row;\n\tflex-wrap: nowrap;\n\tjustify-content: flex-start;\n\talign-content: stretch";
-          } else if (styleKeyValue.value === "column") {
-            styleKeyValue.key = "display";
-            styleKeyValue.value = "flex-direction: row;\n\tflex-wrap: nowrap;\n\tjustify-content: flex-start;\n\talign-content: stretch";
-          } else {
-            styleKeyValue.key = "order";
-            styleKeyValue.value = "0;\n\tflex: " + styleKeyValue.value + " 1 auto;\n\talign-self: auto";
-          }
-          break;
         case "rect":
-          styleKeyValue.key = "top";
-          if (styleKeyValue.value === "stretch") {
-            styleKeyValue.value = "0px;\n\tleft: 0px;\n\twidth: 100%;\n\theight: 100%";
-          } else if (styleKeyValue.value === "fit") {
-            styleKeyValue.value = "0px;\n\tright: 0px;\n\tbottom: 0px;\n\tleft: 0px";
-          } else {
-            var splittedValues = styleKeyValue.value.split(" ");
-            switch (splittedValues.length) {
-              case 1:
-                styleKeyValue.value = splittedValues[0] + ";\n\tright: " + splittedValues[0] + ";\n\tbottom: " + splittedValues[0] + ";\n\tleft: " + splittedValues[0];
-                break;
-              case 2:
-                styleKeyValue.value = splittedValues[0] + ";\n\tright: " + splittedValues[1] + ";\n\tbottom: " + splittedValues[0] + ";\n\tleft: " + splittedValues[1];
-                break;
-              case 3:
-                styleKeyValue.value = splittedValues[0] + ";\n\tright: " + splittedValues[1] + ";\n\tbottom: " + splittedValues[2] + ";\n\tleft: " + splittedValues[1];
-                break;
-              case 4:
-                styleKeyValue.value = splittedValues[0] + ";\n\tright: " + splittedValues[1] + ";\n\tbottom: " + splittedValues[2] + ";\n\tleft: " + splittedValues[3];
-                break;
-            }
-          }
           break;
       }
       return "\n\t" + styleKeyValue.key + ": " + styleKeyValue.value + ";";

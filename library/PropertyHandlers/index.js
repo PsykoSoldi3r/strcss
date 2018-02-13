@@ -65,6 +65,14 @@ var _Wallpaper = require("./Wallpaper");
 
 var _Wallpaper2 = _interopRequireDefault(_Wallpaper);
 
+var _Flexy = require("./Flexy");
+
+var _Flexy2 = _interopRequireDefault(_Flexy);
+
+var _Rect = require("./Rect");
+
+var _Rect2 = _interopRequireDefault(_Rect);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PropertyHandlers = exports.PropertyHandlers = [new _Gradient2.default(), new _Shadow2.default(), new _Align2.default(), new _Order2.default(), new _TextFont2.default(), new _Alpha2.default(), new _TextColor2.default(), new _Scale2.default(), new _Image2.default(), new _Wallpaper2.default(), new _Frostblur2.default(), new _Scroll2.default(), new _Size2.default(), new _MinSize2.default(), new _MaxSize2.default()];
+var PropertyHandlers = exports.PropertyHandlers = [new _Gradient2.default(), new _Shadow2.default(), new _Align2.default(), new _Order2.default(), new _TextFont2.default(), new _Alpha2.default(), new _TextColor2.default(), new _Scale2.default(), new _Image2.default(), new _Wallpaper2.default(), new _Frostblur2.default(), new _Scroll2.default(), new _Size2.default(), new _MinSize2.default(), new _MaxSize2.default(), new _Flexy2.default(), new _Rect2.default()];
