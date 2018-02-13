@@ -23,30 +23,30 @@ export default class Rect {
         case 1:
           return {
             top: _split[0],
-            left: _split[0],
             right: _split[0],
-            bottom: _split[0]
+            bottom: _split[0],
+            left: _split[0]
           };
         case 2:
           return {
             top: _split[0],
-            left: _split[1],
-            right: _split[0],
-            bottom: _split[1]
+            right: _split[1],
+            bottom: _split[0],
+            left: _split[1]
           };
         case 3:
           return {
             top: _split[0],
-            left: _split[1],
-            right: _split[2],
-            bottom: _split[1]
+            right: _split[1],
+            bottom: _split[2],
+            left: _split[1]
           };
         case 4:
           return {
             top: _split[0],
-            left: _split[1],
-            right: _split[2],
-            bottom: _split[3]
+            right: _split[1],
+            bottom: _split[2],
+            left: _split[3]
           };
       }
     }
