@@ -315,7 +315,7 @@ Even though you can use all the vanilla CSS properties, there are some custom pr
 | scroll     | Used to add scrollbars to elements with an content that overflows (according to the parameters given for the (size))                                                        | horizontal / vertical / both                    |
 | align      | Blocks an element and aligns it relative to its parent                                                                                                                      | left / center / right                           |
 | scale      | The scale increases or decreases the size of an element (according to the parameters given for the (size)).                                                                 | x (number) y (number) / xy (number)             |
-| font       | To use the font for an HTML element, refer to the name of the font through the font property                                                                                | name (string)                                   |
+| text-font  | To use the font for an HTML element, refer to the name of the font through the font property                                                                                | name (string)                                   |
 
 **Types:**
 
