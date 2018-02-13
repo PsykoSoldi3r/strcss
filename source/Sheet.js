@@ -141,7 +141,6 @@ export default class Sheet {
 
     // Hash all the classnames
     if (this.options.hash !== false) {
-      console.log(_maps);
       _maps.map(map => {
         let _unique = getUnique();
         _css = _css.replace(new RegExp("\\." + map + " ", "g"), `.${_unique} `);
