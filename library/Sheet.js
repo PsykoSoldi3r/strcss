@@ -64,6 +64,11 @@ var Sheet = function () {
 
       // Handle all types
       _cssLines = _rules.map(function (rule) {
+        // apply vars
+        _localVars.map(function (localVar) {
+          rule.text = rule.text.replace("{" + localVar.key + "}", localVar.value);
+        });
+
         var _out = "";
         switch (rule.type) {
           default:
@@ -85,7 +90,11 @@ var Sheet = function () {
             break;
 
           case "var":
-            // TODO
+            var _splitted = rule.text.split(" ");
+            _localVars.push({
+              key: _splitted[1],
+              value: _splitted[2]
+            });
             break;
 
           case "font":
@@ -126,6 +135,7 @@ var Sheet = function () {
         // Return what we made!
         return _out;
       });
+      console.log(_localVars);
 
       // Last escapes!
       if (_isInMap === true) _cssLines.push(" }");

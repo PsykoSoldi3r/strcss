@@ -53,6 +53,11 @@ export default class Sheet {
 
     // Handle all types
     _cssLines = _rules.map(rule => {
+      // apply vars
+      _localVars.map(localVar => {
+        rule.text = rule.text.replace(`{${localVar.key}}`, localVar.value);
+      });
+
       let _out = "";
       switch (rule.type) {
         default:
@@ -74,7 +79,11 @@ export default class Sheet {
           break;
 
         case "var":
-          // TODO
+          let _splitted = rule.text.split(" ");
+          _localVars.push({
+            key: _splitted[1],
+            value: _splitted[2]
+          });
           break;
 
         case "font":
@@ -118,6 +127,7 @@ export default class Sheet {
       // Return what we made!
       return _out;
     });
+    console.log(_localVars);
 
     // Last escapes!
     if (_isInMap === true) _cssLines.push(" }");

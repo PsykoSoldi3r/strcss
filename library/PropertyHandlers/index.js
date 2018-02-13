@@ -13,9 +13,9 @@ var _Alpha = require("./Alpha");
 
 var _Alpha2 = _interopRequireDefault(_Alpha);
 
-var _Font = require("./Font");
+var _TextFont = require("./TextFont");
 
-var _Font2 = _interopRequireDefault(_Font);
+var _TextFont2 = _interopRequireDefault(_TextFont);
 
 var _Frostblur = require("./Frostblur");
 
@@ -67,4 +67,4 @@ var _Wallpaper2 = _interopRequireDefault(_Wallpaper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PropertyHandlers = exports.PropertyHandlers = [new _Gradient2.default(), new _Shadow2.default(), new _Align2.default(), new _Order2.default(), new _Font2.default(), new _Alpha2.default(), new _TextColor2.default(), new _Scale2.default(), new _Image2.default(), new _Wallpaper2.default(), new _Frostblur2.default(), new _Scroll2.default(), new _Size2.default(), new _MinSize2.default(), new _MaxSize2.default()];
+var PropertyHandlers = exports.PropertyHandlers = [new _Gradient2.default(), new _Shadow2.default(), new _Align2.default(), new _Order2.default(), new _TextFont2.default(), new _Alpha2.default(), new _TextColor2.default(), new _Scale2.default(), new _Image2.default(), new _Wallpaper2.default(), new _Frostblur2.default(), new _Scroll2.default(), new _Size2.default(), new _MinSize2.default(), new _MaxSize2.default()];

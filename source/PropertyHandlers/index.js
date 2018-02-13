@@ -1,6 +1,6 @@
 import Align from "./Align";
 import Alpha from "./Alpha";
-import Font from "./Font";
+import TextFont from "./TextFont";
 import Frostblur from "./Frostblur";
 import Gradient from "./Gradient";
 import Image from "./Image";
@@ -19,7 +19,7 @@ export const PropertyHandlers = [
   new Shadow(),
   new Align(),
   new Order(),
-  new Font(),
+  new TextFont(),
   new Alpha(),
   new TextColor(),
   new Scale(),
