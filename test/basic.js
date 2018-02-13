@@ -198,3 +198,16 @@ console.log(test9.map);
 drawSpacing(1);
 console.log(_pretty === true ? cssbeautify(test9.css) : test9.css);
 drawSpacing(2);
+
+const test10 = new Sheet(`
+  font Lato
+  font commicSans commingSans.otf
+  font verdana regular verdanaRegular.otf
+  font verdana bold verdanaBold.otf
+`);
+
+drawSeperator("test 10 - fonts");
+console.log(test10.map);
+drawSpacing(1);
+console.log(_pretty === true ? cssbeautify(test10.css) : test10.css);
+drawSpacing(2);
