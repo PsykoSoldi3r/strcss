@@ -41,6 +41,8 @@ const test3 = new Sheet(`
     size 20
   at desktop
     size 30
+  map another
+    color red
 `);
 
 drawSeperator("test 3 - at");

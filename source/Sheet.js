@@ -99,11 +99,13 @@ export default class Sheet {
 
         case "map":
           if (_isInMap === true) _out += " } ";
+          if (_isInAt === true) _out += " } ";
           let _map = parseMap(rule);
           _out += `${_map.selector} { `;
           _lastMap = _map;
           _maps.push(_map.name);
           _isInMap = true;
+          _isInAt = false;
           break;
 
         case "property":
