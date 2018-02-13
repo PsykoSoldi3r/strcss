@@ -117,15 +117,17 @@ export function parsePropety(rule) {
  */
 export function getUnique() {
   uniqueHistory.push("id");
-  let id = `_u`;
-  id += Math.random()
-    .toString(36)
-    .substr(2, 3);
+  let id = `_loc`;
   id += uniqueHistory.length;
-  id += Math.random()
-    .toString(36)
-    .substr(2, 3);
-  return `${id}_`;
+  return id;
+  // id += Math.random()
+  //   .toString(36)
+  //   .substr(2, 3);
+  // id += uniqueHistory.length;
+  // id += Math.random()
+  //   .toString(36)
+  //   .substr(2, 3);
+  // return `${id}_`;
 }
 const uniqueHistory = [];
 

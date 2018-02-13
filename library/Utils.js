@@ -126,11 +126,17 @@ function parsePropety(rule) {
  */
 function getUnique() {
   uniqueHistory.push("id");
-  var id = "_u";
-  id += Math.random().toString(36).substr(2, 3);
+  var id = "_loc";
   id += uniqueHistory.length;
-  id += Math.random().toString(36).substr(2, 3);
-  return id + "_";
+  return id;
+  // id += Math.random()
+  //   .toString(36)
+  //   .substr(2, 3);
+  // id += uniqueHistory.length;
+  // id += Math.random()
+  //   .toString(36)
+  //   .substr(2, 3);
+  // return `${id}_`;
 }
 var uniqueHistory = [];
 

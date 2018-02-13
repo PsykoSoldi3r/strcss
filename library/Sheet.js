@@ -115,7 +115,7 @@ var Sheet = function () {
             var _map = (0, _Utils.parseMap)(rule);
             _out += _map.selector + " { ";
             _lastMap = _map;
-            _maps.push(_map.name);
+            if (_maps.indexOf(_map.name) === -1) _maps.push(_map.name);
             _isInMap = true;
             _isInAt = false;
             break;
@@ -150,6 +150,7 @@ var Sheet = function () {
 
       // Hash all the classnames
       if (this.options.hash !== false) {
+        console.log(_maps);
         _maps.map(function (map) {
           var _unique = (0, _Utils.getUnique)();
           _css = _css.replace(new RegExp("\\." + map + " ", "g"), "." + _unique + " ");
