@@ -11,6 +11,7 @@ import {
 
 import { PropertyHandlers } from "./PropertyHandlers";
 import { autoSuffix } from "./Utils/AutoSuffixer";
+import { parseFontLoader } from "./Utils/FontLoader";
 
 export default class Sheet {
   constructor(sheet, options) {
@@ -87,7 +88,8 @@ export default class Sheet {
           break;
 
         case "font":
-          // TODO
+          let _fontLoader = parseFontLoader(rule);
+          _out += _fontLoader;
           break;
 
         case "on":
@@ -127,7 +129,6 @@ export default class Sheet {
       // Return what we made!
       return _out;
     });
-    console.log(_localVars);
 
     // Last escapes!
     if (_isInMap === true) _cssLines.push(" }");

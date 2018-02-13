@@ -43,6 +43,9 @@ function getLineType(rule) {
   if (rule.substring(0, 3) === "on ") {
     return "on";
   }
+  if (rule.substring(0, 5) === "font ") {
+    return "font";
+  }
   return "property";
 }
 

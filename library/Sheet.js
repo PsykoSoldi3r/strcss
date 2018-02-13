@@ -12,6 +12,8 @@ var _PropertyHandlers = require("./PropertyHandlers");
 
 var _AutoSuffixer = require("./Utils/AutoSuffixer");
 
+var _FontLoader = require("./Utils/FontLoader");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Sheet = function () {
@@ -98,7 +100,8 @@ var Sheet = function () {
             break;
 
           case "font":
-            // TODO
+            var _fontLoader = (0, _FontLoader.parseFontLoader)(rule);
+            _out += _fontLoader;
             break;
 
           case "on":
@@ -135,7 +138,6 @@ var Sheet = function () {
         // Return what we made!
         return _out;
       });
-      console.log(_localVars);
 
       // Last escapes!
       if (_isInMap === true) _cssLines.push(" }");
