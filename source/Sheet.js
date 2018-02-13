@@ -142,9 +142,9 @@ export default class Sheet {
     // Hash all the classnames
     if (this.options.hash !== false) {
       _maps.map(map => {
-        var _regex = new RegExp("\\." + map + " ", "g");
         let _unique = getUnique();
-        _css = _css.replace(_regex, `.${_unique} `);
+        _css = _css.replace(new RegExp("\\." + map + " ", "g"), `.${_unique} `);
+        _css = _css.replace(new RegExp("\\." + map + ":", "g"), `.${_unique}:`);
         this.map[map] = _unique;
       });
     }

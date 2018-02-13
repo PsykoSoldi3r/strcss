@@ -151,9 +151,9 @@ var Sheet = function () {
       // Hash all the classnames
       if (this.options.hash !== false) {
         _maps.map(function (map) {
-          var _regex = new RegExp("\\." + map + " ", "g");
           var _unique = (0, _Utils.getUnique)();
-          _css = _css.replace(_regex, "." + _unique + " ");
+          _css = _css.replace(new RegExp("\\." + map + " ", "g"), "." + _unique + " ");
+          _css = _css.replace(new RegExp("\\." + map + ":", "g"), "." + _unique + ":");
           _this2.map[map] = _unique;
         });
       }
