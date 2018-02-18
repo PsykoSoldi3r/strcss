@@ -76,6 +76,7 @@ const test5 = new Sheet(`
     gradient 45 red green
     #shadow
     shadow 0 10
+    shadow 0 10 .5
     #order
     order 5
     #font
