@@ -1,396 +1,155 @@
-import { sheetCache, uniques } from './index'
+import {
+  applyToDocument,
+  getLineType,
+  getUnique,
+  parseAt,
+  parseMap,
+  parseOn,
+  parsePropety,
+  shift
+} from "./Utils";
 
-const reservedAppliers = [
-    'hover',
-    'visited',
-    'active',
-    'last-child',
-    'first-child' ]
+import { PropertyHandlers } from "./PropertyHandlers";
+import { autoSuffix } from "./Utils/AutoSuffixer";
+import { parseFontLoader } from "./Utils/FontLoader";
 
 export default class Sheet {
-    constructor (strcss) {
-        this.sheetText = strcss
-        this.sheetRules = this.sheetText.split ('\n')
-        this.css = ''
-        this.map = {}
+  constructor(sheet, options) {
+    this.css = "";
+    this.map = {};
+    this.options = options || {};
 
-        this.generateCSS ()
-        this.applyToDocument ()
-    }
-    
-    generateCSS () {
-        let isScoped = false
-        let isMedia = false
-        let currentScopeUniqueID = ''
-        var localVars = []
+    this.parse(sheet.split("\n"));
+    applyToDocument(this.css);
+  }
 
-        this.sheetRules.map (sheetRule => {
-            localVars.map (localVar => {
-                sheetRule = sheetRule.replace (`{${localVar.key}}`, localVar.value)})
+  get(names) {
+    let _splittedNames = names.replace(/\s+/, "").split(",");
+    let _result = "";
+    _splittedNames.map(name => {
+      if (typeof this.map[name] !== "undefined") {
+        _result += this.map[name] + " ";
+      }
+    });
+    return _result;
+  }
 
-            // comment
-            if (this.isLineComment (sheetRule) === true)
-                return
+  parse(lines) {
+    let _css = "";
+    let _rules = [];
+    let _cssLines = [];
+    let _isInMap = false;
+    let _isInAt = false;
+    let _localVars = [];
+    let _lastMap = "";
+    let _maps = [];
 
-            // empty lines
-            if (this.getLineShifted (sheetRule).length === 0)
-                return
-                
-            // fontface
-            if (this.isLineFontface (sheetRule) === true && isScoped === false) {
-                this.css += this.getLineFontface (sheetRule)
+    // Lines to rules
+    _rules = lines.map(line => {
+      return {
+        type: getLineType(shift(line)),
+        text: shift(line)
+      };
+    });
+
+    // Handle all types
+    _cssLines = _rules.map(rule => {
+      // apply vars
+      _localVars.map(localVar => {
+        rule.text = rule.text.replace(`{${localVar.key}}`, localVar.value);
+      });
+
+      let _out = "";
+      switch (rule.type) {
+        default:
+        case "spacing":
+          break;
+
+        case "comment":
+          if (this.options.comments === true) {
+            _out += `/* ${rule.text.replace("#", "")} */ `;
+          }
+          break;
+
+        case "at":
+          if (_isInAt === true) _out += " } ";
+          let _query = parseAt(rule);
+          _out += ` } ${_query} { `;
+          _out += `${_lastMap.selector} { `;
+          _isInAt = true;
+          break;
+
+        case "var":
+          let _splitted = rule.text.split(" ");
+          _localVars.push({
+            key: _splitted[1],
+            value: _splitted[2]
+          });
+          break;
+
+        case "font":
+          let _fontLoader = parseFontLoader(rule);
+          _out += _fontLoader;
+          break;
+
+        case "on":
+          let _onName = parseOn(rule);
+          _out += `} ${_lastMap.selector}:${_onName} { `;
+          break;
+
+        case "map":
+          if (_isInMap === true) _out += " } ";
+          if (_isInAt === true) _out += " } ";
+          let _map = parseMap(rule);
+          _out += `${_map.selector} { `;
+          _lastMap = _map;
+          if (_maps.indexOf(_map.name) === -1) _maps.push(_map.name);
+          _isInMap = true;
+          _isInAt = false;
+          break;
+
+        case "property":
+          let _property = parsePropety(rule);
+          let _usedPropertyHandler = false;
+          _property = autoSuffix(_property);
+          PropertyHandlers.map(propertyHandler => {
+            if (propertyHandler.propertyKey === _property.key) {
+              _usedPropertyHandler = true;
+              let _parsedProperies = propertyHandler.parse(_property);
+              for (var _parsedPropetyKey in _parsedProperies) {
+                _out += `${_parsedPropetyKey}: ${
+                  _parsedProperies[_parsedPropetyKey]
+                }; `;
+              }
             }
+          });
+          if (_usedPropertyHandler === false)
+            _out += `${_property.key}: ${_property.value};`;
+          break;
+      }
 
-            // var
-            else if (this.isLineVar (sheetRule) === true && isScoped === false) {
-                localVars.push (this.getLineVar (sheetRule))
-            }
+      // Return what we made!
+      return _out;
+    });
 
-            // media
-            else if (this.isLineMedia (sheetRule) === true) {
-                if (isScoped === true)
-                    this.css += ' }'
-                if (isMedia === true)
-                    this.css += ' }'
-                
-                let media = this.getLineMedia (sheetRule)
+    // Last escapes!
+    if (_isInMap === true) _cssLines.push(" }");
+    if (_isInAt === true) _cssLines.push(" }");
 
-                this.css += `\n${media}`
+    // Join to single string
+    _css = _cssLines.join(" ");
 
-                if (isScoped === true) {
-                    this.css += ''
-                    this.css += `\n.${currentScopeUniqueID} {`
-                }
-
-                isMedia = true
-            }
-            
-            // applier
-            else if (this.isLineApplier (sheetRule) === true && isScoped === true) {
-                let parsedApplier = this.getParsedApplier (sheetRule)
-                    
-                this.css += ' }'
-                this.css += `\n.${currentScopeUniqueID}${parsedApplier} {`
-            }
-
-            // target
-            else if (this.isLineTarget (sheetRule) === true) {
-                if (isScoped === true)
-                    this.css += ' }'
-                if (isMedia === true) {
-                    this.css += ' }'
-                    isMedia = false
-                }
-
-                let uniqueID = this.getUniqueID ()
-                let targetName = this.getTargetName (sheetRule)
-
-                if (typeof this.map[targetName] !== 'undefined')
-                    uniqueID = this.map[targetName]
-
-                currentScopeUniqueID = uniqueID
-                isScoped = true
-
-                this.css += `\n.${uniqueID} { /* ${targetName} */ `
-                this.map[targetName] = uniqueID
-            }
-
-            // style
-            else if (isScoped === true) {
-                let styleKeyValue = this.getStyleKeyValue (sheetRule)
-                let parsedStyle = this.getParsedStyle (styleKeyValue)
-
-                this.css += parsedStyle
-            }
-        })
-
-        if (isScoped === true)
-            this.css += ' }'
+    // Hash all the classnames
+    if (this.options.hash !== false) {
+      _maps.map(map => {
+        let _unique = getUnique();
+        _css = _css.replace(new RegExp("\\." + map + " ", "g"), `.${_unique} `);
+        _css = _css.replace(new RegExp("\\." + map + ":", "g"), `.${_unique}:`);
+        this.map[map] = _unique;
+      });
     }
 
-    isLineFontface (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 5) === 'font '
-    }
-
-    isLineTarget (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 4) === 'map '
-    }
-
-    isLineApplier (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 3) === 'on '
-    }
-
-    isLineVar (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 4) === 'var '
-    }
-
-    isLineComment (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted[0] === '#'
-    }
-
-    isLineMedia (sheetRule) {
-        let lineShifted = this.getLineShifted (sheetRule)
-        return lineShifted.substring (0, 3) === 'at '
-    }
-
-    getLineVar (sheetRule) {
-        sheetRule = sheetRule.replace ('var ', '')
-        let key = this.getLineShifted (sheetRule).split (' ')[0]
-        let value = this.getLineShifted (sheetRule.replace (key, ''))
-        return { key: key, value: value }
-    }
-
-    getLineMedia (sheetRule) {
-        let mediaName = this.getLineShifted (this.getLineShifted (sheetRule).replace ('at ', ''))
-        let media = `@media only screen and `
-
-        switch (mediaName) {
-            case 'mobile':
-                media += '(max-width: 767px)'
-                break;
-            case 'tablet':
-                media += '(min-width: 768px) and (max-width: 991px)'
-                break;
-            case 'desktop':
-                media += '(min-width: 992px) and (max-width: 1199px)'
-                break;
-        }
-
-        media += ` { /* ${mediaName} */`
-        return media
-    }
-
-    getParsedApplier (sheetRule) {
-        let applier = this.getLineShifted (this.getLineShifted (sheetRule).replace ('on ', ''))
-        if (reservedAppliers.includes (applier))
-            return `:${applier}`
-        return `.${applier}`
-    }
-
-    getTargetName (sheetRules) {
-        return this.getLineShifted (sheetRules).replace ('map ', '')
-    }
-
-    getLineShifted (sheetRules) {
-        return sheetRules.slice (sheetRules.search(/\S|$/), sheetRules.length)
-    }
-
-    getUniqueID () {
-        uniques.push ('id')
-        let id = `_u`
-        for (var i = 0; i < 3; i++)
-            id += `${Math.random().toString(36).substr(2, 5)}${(uniques.length * (i + 1))}`
-        return `${id}_`
-    }
-
-    getStyleKeyValue (sheetText) {
-        let key = this.getLineShifted (sheetText).split (' ')[0]
-        let value = this.getLineShifted (sheetText.replace (key, ''))
-        return {
-            key: key,
-            value: value
-        }
-    }
-
-    getLineFontface (sheetText) {
-        let splittedSheetText = this.getLineShifted (sheetText).split (' ')
-        if (splittedSheetText.length === 2) {
-            return `\n@import url('https://fonts.googleapis.com/css?family=${splittedSheetText[1]}');`
-        }
-        else if (splittedSheetText.length === 3) {
-            return `\n@font-face {\n\tfont-family: '${splittedSheetText[1]}';\n\tfont-weight: normal;\n\tsrc: url(${splittedSheetText[2]}); }`
-        }
-        else if (splittedSheetText.length === 4) {
-            return `\n@font-face {\n\tfont-family: '${splittedSheetText[1]}';\n\tfont-weight: ${splittedSheetText[2]};\n\tsrc: url(${splittedSheetText[3]}); }`
-        }
-        return ''
-    }
-
-    addNumericEndings (styleKeyValue, suffix) {
-        let parsedString = ''
-        let valueSplits = styleKeyValue.value.split (' ')
-        valueSplits.map (valueSplit => {
-            let rgx = /^((\d+)?(\.\d+)?\d)$/g
-            let matches = rgx.exec(valueSplit)
-
-            if (matches !== null) {
-                valueSplit = valueSplit.replace (
-                    matches[1],
-                    `${matches[1]}${suffix}`)
-            }
-            parsedString += `${valueSplit} `
-        })
-        styleKeyValue.value = parsedString.substr(0, parsedString.length - 1)
-    }
-
-    addSpaceSeperators (styleKeyValue, seperator) {
-        let parsedString = ''
-        let valueSplits = styleKeyValue.value.split (' ')
-        valueSplits.map (valueSplit => {
-            parsedString += `${valueSplit}${seperator} `
-        })
-        styleKeyValue.value = parsedString.substr(0, parsedString.length - (seperator.length + 1))
-    }
-
-    applyToDocument () {
-        if (typeof document === 'undefined '|| typeof window === 'undefined')
-            return
-
-        console.log (this.css)
-
-        let htmlStyleTag = document.createElement ("style");
-        htmlStyleTag.type = "text/css";
-        htmlStyleTag.innerHTML = this.css;
-        document.head.appendChild (htmlStyleTag);
-    }
-
-    getParsedStyle (styleKeyValue) {
-        switch (styleKeyValue.key) {
-            case 'depth':
-            case 'order':
-            case 'z-index':
-            case 'opacity':
-            case 'alpha':
-            case 'scale':
-            case 'transform':
-            case 'flex':
-            case 'font-weight':
-                break
-            case 'gradient':
-            case 'background-image':
-                this.addNumericEndings (styleKeyValue, 'deg')
-                break
-            case 'transition':
-            case 'transition-duration':
-            case 'animation':
-            case 'animation-duration':
-                this.addNumericEndings (styleKeyValue, 's')
-                break
-            default:
-                this.addNumericEndings (styleKeyValue, 'px')
-                break
-        }
-        switch (styleKeyValue.key) {
-            case 'gradient':
-                this.addSpaceSeperators (styleKeyValue, ',')
-                styleKeyValue.key = 'background-image'
-                styleKeyValue.value = `linear-gradient(${styleKeyValue.value})`
-                break
-            case 'shadow':
-                styleKeyValue.key = 'box-shadow'
-                styleKeyValue.value = `0px 0px ${styleKeyValue.value} rgba(0,0,0,0.5)`
-                break
-            case 'align':
-                styleKeyValue.key = 'display'
-                switch (styleKeyValue.value) {
-                    case 'left':
-                        styleKeyValue.value = 'block;\n\tmargin-left: 0px;\n\tmargin-right: auto'
-                        break
-                    case 'center':
-                        styleKeyValue.value = 'block;\n\tmargin-left: auto;\n\tmargin-right: auto'
-                        break
-                    case 'right':
-                        styleKeyValue.value = 'block;\n\tmargin-left: auto;\n\tmargin-right: 0px'
-                        break
-                }
-                break
-            case 'order':
-                styleKeyValue.key = 'z-index'
-                break
-            case 'font':
-                styleKeyValue.key = 'font-family'
-                styleKeyValue.value = `'${styleKeyValue.value}', sans`
-                break
-            case 'alpha':
-                styleKeyValue.key = 'opacity'
-                break
-            case 'depth':
-                styleKeyValue.key = 'z-index'
-                break
-            case 'text-color':
-                styleKeyValue.key = 'color'
-                break
-            case 'scale':
-                let scaleSplittedValues = styleKeyValue.value.split (' ')
-                styleKeyValue.key = 'transform'
-                if (scaleSplittedValues.length === 2)
-                    styleKeyValue.value = `scale(${scaleSplittedValues[0]}, ${scaleSplittedValues[1]})`
-                else
-                    styleKeyValue.value = `scale(${styleKeyValue.value}, ${styleKeyValue.value})`
-                break
-            case 'image':
-                styleKeyValue.value = `url(${styleKeyValue.value});\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: contain`
-                styleKeyValue.key = 'background-image'
-                break
-            case 'wallpaper':
-                styleKeyValue.value = `url(${styleKeyValue.value});\n\tbackground-position: center;\n\tbackground-repeat: no-repeat;\n\tbackground-size: cover`
-                styleKeyValue.key = 'background-image'
-                break
-            case 'frostblur':
-                styleKeyValue.value = `blur(${styleKeyValue.value})`
-                styleKeyValue.key = '-webkit-backdrop-filter'
-                break
-            case 'scroll':
-                styleKeyValue.key = 'margin'
-                switch (styleKeyValue.value) {
-                    case 'horizontal':
-                        styleKeyValue.value = `0px;\n\tpadding: 0px\n\toverflow: auto;\n\toverflow-y: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
-                        break
-                    case 'vertical':
-                        styleKeyValue.value = `0px;\n\tpadding: 0px\n\toverflow: scroll;\n\toverflow-x: hidden;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
-                        break
-                    case 'both':
-                        styleKeyValue.value = `0px;\n\tpadding: 0px\n\toverflow: scroll;\n\twhite-space: nowrap;\n\t-webkit-overflow-scrolling: touch`
-                        break
-                }
-                break
-            case 'size':
-                let sizeSplittedValues = styleKeyValue.value.split (' ')
-                styleKeyValue.value = `${sizeSplittedValues[0]};\n\theight: ${sizeSplittedValues[1] || sizeSplittedValues[0]}`
-                styleKeyValue.key = 'width'
-                break
-            case 'min-size':
-                let minSizeSplittedValues = styleKeyValue.value.split (' ')
-                styleKeyValue.value = `${minSizeSplittedValues[0]};\n\tmin-height: ${minSizeSplittedValues[1] || minSizeSplittedValues[0]}`
-                styleKeyValue.key = 'min-width'
-                break
-            case 'max-size':
-                let maxSizeSplittedValues = styleKeyValue.value.split (' ')
-                styleKeyValue.value = `${maxSizeSplittedValues[0]};\n\tmax-height: ${maxSizeSplittedValues[1] || maxSizeSplittedValues[0]}`
-                styleKeyValue.key = 'max-width'
-                break
-            case 'rect':
-                styleKeyValue.key = 'top'
-                if (styleKeyValue.value === 'stretch') {
-                    styleKeyValue.value = '0px;\n\tleft: 0px;\n\twidth: 100%;\n\theight: 100%'
-                } 
-                else if (styleKeyValue.value === 'fit') {
-                    styleKeyValue.value = '0px;\n\tright: 0px;\n\tbottom: 0px;\n\tleft: 0px'
-                }
-                else {
-                    let splittedValues = styleKeyValue.value.split (' ')
-                    switch (splittedValues.length) {
-                        case 1:
-                            styleKeyValue.value = `${splittedValues[0]};\n\tright: ${splittedValues[0]};\n\tbottom: ${splittedValues[0]};\n\tleft: ${splittedValues[0]}`
-                            break
-                        case 2:
-                            styleKeyValue.value = `${splittedValues[0]};\n\tright: ${splittedValues[1]};\n\tbottom: ${splittedValues[0]};\n\tleft: ${splittedValues[1]}`
-                            break
-                        case 3:
-                            styleKeyValue.value = `${splittedValues[0]};\n\tright: ${splittedValues[1]};\n\tbottom: ${splittedValues[2]};\n\tleft: ${splittedValues[1]}`
-                            break
-                        case 4:
-                            styleKeyValue.value = `${splittedValues[0]};\n\tright: ${splittedValues[1]};\n\tbottom: ${splittedValues[2]};\n\tleft: ${splittedValues[3]}`
-                            break
-                    }
-                }
-                break
-        }
-        return `\n\t${styleKeyValue.key}: ${styleKeyValue.value};`
-    }
+    // Thanks for coming
+    this.css = _css;
+  }
 }
