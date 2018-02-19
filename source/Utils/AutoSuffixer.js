@@ -10,6 +10,8 @@ export function autoSuffix(property) {
     case "flex":
     case "flexy":
     case "font-weight":
+    case "flex-shrink":
+    case "flex-grow":
       break;
     case "gradient":
     case "background-image":
